@@ -1,20 +1,20 @@
-<a href="https://github.com/camaraproject/§repo_name§/commits/" title="Last Commit"><img src="https://img.shields.io/github/last-commit/camaraproject/§repo_name§?style=plastic"></a>
-<a href="https://github.com/camaraproject/§repo_name§/issues" title="Open Issues"><img src="https://img.shields.io/github/issues/camaraproject/§repo_name§?style=plastic"></a>
-<a href="https://github.com/camaraproject/§repo_name§/pulls" title="Open Pull Requests"><img src="https://img.shields.io/github/issues-pr/camaraproject/§repo_name§?style=plastic"></a>
-<a href="https://github.com/camaraproject/§repo_name§/graphs/contributors" title="Contributors"><img src="https://img.shields.io/github/contributors/camaraproject/§repo_name§?style=plastic"></a>
-<a href="https://github.com/camaraproject/§repo_name§" title="Repo Size"><img src="https://img.shields.io/github/repo-size/camaraproject/§repo_name§?style=plastic"></a>
-<a href="https://github.com/camaraproject/§repo_name§/blob/main/LICENSE" title="License"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg?style=plastic"></a>
+<a href="https://github.com/camaraproject/ConnectivityInsights/commits/" title="Last Commit"><img src="https://img.shields.io/github/last-commit/camaraproject/ConnectivityInsights?style=plastic"></a>
+<a href="https://github.com/camaraproject/ConnectivityInsights/issues" title="Open Issues"><img src="https://img.shields.io/github/issues/camaraproject/ConnectivityInsights?style=plastic"></a>
+<a href="https://github.com/camaraproject/ConnectivityInsights/pulls" title="Open Pull Requests"><img src="https://img.shields.io/github/issues-pr/camaraproject/ConnectivityInsights?style=plastic"></a>
+<a href="https://github.com/camaraproject/ConnectivityInsights/graphs/contributors" title="Contributors"><img src="https://img.shields.io/github/contributors/camaraproject/ConnectivityInsights?style=plastic"></a>
+<a href="https://github.com/camaraproject/ConnectivityInsights" title="Repo Size"><img src="https://img.shields.io/github/repo-size/camaraproject/ConnectivityInsights?style=plastic"></a>
+<a href="https://github.com/camaraproject/ConnectivityInsights/blob/main/LICENSE" title="License"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg?style=plastic"></a>
 
-# §repo_name§
-Repository to describe, develop, document and test the §repo_name§ API family
+# Connectivity Insights
+Repository to describe, develop, document and test the Connectivity Insights API family
 
 ## Scope
-* Service APIs for “§repo_name§” (see APIBacklog.md)  
+* Service APIs for “Connectivity Insights” (see APIBacklog.md)  
 * It provides the customer with the ability to:  
-  * §API family description§.
+  * define intents in the form of policy thresholds for QoS metrics against the device and the application service. The API service will alert the consumers if and when the policy has breached.
   * NOTE: The scope of this API family should be limited (at least at a first stage) to 4G and 5G.  
 * Describe, develop, document and test the APIs (with 1-2 Telcos)  
-* Started: §start date§
+* Started: November 2023
 * Location: virtually  
 
 ## Meetings
@@ -23,5 +23,5 @@ Repository to describe, develop, document and test the §repo_name§ API family
 * Meeting link: tbd
 
 ## Contributorship and mailing list
-* To subscribe / unsubscribe to the mailing list of this Sub Project and thus be / resign as Contributor please visit <https://lists.camaraproject.org/g/sp-§api_family_abbreviation§>.
-* A message to all Contributors of this Sub Project can be sent using <sp-§api_family_abbreviation§@lists.camaraproject.org>.
+* To subscribe / unsubscribe to the mailing list of this Sub Project and thus be / resign as Contributor please visit <https://lists.camaraproject.org/g/sp-coi>.
+* A message to all Contributors of this Sub Project can be sent using <sp-coi@lists.camaraproject.org>.
