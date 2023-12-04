@@ -19,8 +19,8 @@ Repository to describe, develop, document and test the Connectivity Insights API
 
 ## Meetings
 * Meetings are held virtually
-* Schedule: tbd
-* Meeting link: tbd
+* Schedule: weekly on wednesdays till end of this year(12/27). TBD post that.
+* Meeting link: https://verizon.webex.com/verizon/j.php?MTID=m6daf93460a3b360aebddc23192ff106a
 
 ## Contributorship and mailing list
 * To subscribe / unsubscribe to the mailing list of this Sub Project and thus be / resign as Contributor please visit <https://lists.camaraproject.org/g/sp-coi>.
