@@ -11,7 +11,7 @@
           default: http://localhost:9091
           description: API root
         basePath:
-          default: coi/v0
+          default: connectivity-insights/v0
           description: Base path for the Connectivity Insights API
 
     tags:
