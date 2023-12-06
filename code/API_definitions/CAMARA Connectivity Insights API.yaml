@@ -3,7 +3,7 @@
     info:
       title: Connectivity Insights API
       description: Find out the likelihood of the network meeting the networking requirements of your application for a given user session,.
-      version: '0.1.1'
+      version: '0.1.0-wip'
     servers:
     - url: "{apiRoot}/{basePath}"
       variables:
@@ -12,7 +12,7 @@
           description: API root
         basePath:
           default: coi/v0
-          description: Base path for the Conenctivity Insights API
+          description: Base path for the Connectivity Insights API
 
     tags:
     - name: Network Monitoring Policy Management
