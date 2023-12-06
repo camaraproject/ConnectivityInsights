@@ -3,7 +3,7 @@
     info:
       title: Connectivity Insights API
       description: Find out the likelihood of the network meeting the networking requirements of your application for a given user session,.
-      version: '0.1.0'
+      version: '0.1.1'
     servers:
     - url: "{apiRoot}/{basePath}"
       variables:
