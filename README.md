@@ -19,7 +19,7 @@ Repository to describe, develop, document and test the Connectivity Insights API
 
 ## Meetings
 * Meetings are held virtually
-* Schedule: weekly on wednesdays till end of this year(12/27). TBD post that.
+* Schedule: weekly on wednesdays, 9-10am CST. This schedule is planned until end of this year. schedule for next year will be discussed with the team and published later.
 * Meeting link: https://verizon.webex.com/verizon/j.php?MTID=m6daf93460a3b360aebddc23192ff106a
 
 ## Contributorship and mailing list
