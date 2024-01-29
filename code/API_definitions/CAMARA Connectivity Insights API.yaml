@@ -9,9 +9,9 @@
         name: Apache 2.0
         url: https://www.apache.org/licenses/LICENSE-2.0.html
       description: |
-        Connectivity Insights API provides programmable interface for developers and other users (capabilities consumers) with the much needed visibility into the network performance data in the form of an easy to understand and use intent based API.
-        <br>This empowers the developers to take critical decisions to ensure their end users are able to get the best experience while using the application. 
-        Decisions could include either fine tunig the network based on the application needs by taking advantage of APIs like QoD or applying specific changes on the application side e.g. adjusting the resolution of the video stream.
+        The Connectivity Insights API allows an application developer to ask the network the likelihood that an application's networking requirements can be met for a given end user session.
+        <br>This information helps a developer ensure their end users are able to get the best experience while using the application over their current network. 
+        Depending on the answer the network gives, the developer may decide to request a network boost (via the CAMARA QoD API) , and/or apply specific changes on the application side e.g. adjusting the resolution of the video stream upwards or downwards.
         
         # Introduction
 
@@ -364,7 +364,7 @@
       securitySchemes:
         openId:
           type: openIdConnect
-          openIdConnectUrl: .well-known/openid-configuration
+          openIdConnectUrl: https://example.com/.well-known/openid-configuration
           description: Link to OpenID configuration
         
       schemas:
