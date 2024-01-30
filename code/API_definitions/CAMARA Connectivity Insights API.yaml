@@ -2,13 +2,42 @@
     openapi: 3.0.3
     info:
       title: Connectivity Insights API
-      description: Find out the likelihood of the network meeting the networking requirements of your application for a given user session,.
       version: '0.3.0-wip'
       contact: 
        email: sp-coi@lists.camaraproject.org
       license:
         name: Apache 2.0
         url: https://www.apache.org/licenses/LICENSE-2.0.html
+      description: |
+        The Connectivity Insights API allows an application developer to ask the network the likelihood that an application's networking requirements can be met for a given end user session.
+        <br>This information helps a developer ensure their end users are able to get the best experience while using the application over their current network. 
+        Depending on the answer the network gives, the developer may decide to request a network boost (via the CAMARA QoD API) , and/or apply specific changes on the application side e.g. adjusting the resolution of the video stream upwards or downwards.
+        
+        # Introduction
+
+
+        # Relevant terms and definitions
+
+        * **Identifier for the device**:
+        At least one identifier for the device (user equipment) out of four options: IPv4 address, IPv6 address, Phone number, or Network Access Identifier assigned by the mobile network operator for the device.
+
+        * **Identifier for the application server**:
+        IPv4 and/or IPv6 address of the application server (application backend)
+
+        * **Notification URL and token**:
+        Developers may provide a callback URL on which notifications can be received from the service provider. This is an optional parameter.
+
+        # API functionality
+
+    
+        Following diagram shows the interaction between different components
+        
+        documentation/API_documentation/sequenceDiagram.v1.png
+        
+        # Further info and support
+
+        (FAQs will be added in a later version of the documentation)
+        
     servers:
     - url: "{apiRoot}/{basePath}"
       variables:
@@ -335,7 +364,7 @@
       securitySchemes:
         openId:
           type: openIdConnect
-          openIdConnectUrl: .well-known/openid-configuration
+          openIdConnectUrl: https://example.com/.well-known/openid-configuration
           description: Link to OpenID configuration
         
       schemas:
