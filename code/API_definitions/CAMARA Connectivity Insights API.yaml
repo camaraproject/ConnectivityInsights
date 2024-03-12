@@ -717,6 +717,8 @@
           properties:
             device:
               $ref: "#/components/schemas/Device"
+            policyId:
+              $ref: "#/components/schemas/PolicyId"
             type:
               $ref: "#/components/schemas/SubscriptionCreationEventType"
           required:
@@ -726,9 +728,9 @@
         SubscriptionCreationEventType:
           type: string
           description: |
-            area-entered - Event triggered when the device enters the given area
+            policy-not-met - Event triggered when network performance is not able to meet applicaiton requirements
             
-            area-left - Event triggered when the device leaves the given area
+            policy-met - Event triggered when network performance meets the requirements of the application.
           enum:
             - org.camaraproject.connectivityinsights.v0.policy-not-met
             - org.camaraproject.connectivityinsights.v0.policy-met
@@ -1080,6 +1082,8 @@
                 subscriptionId: 987654321
                 device:
                   phoneNumber: 123456789
+                networkInsightsStatus:
+                  $ref: "#/components/schemas/NetworkInsightsStatus"  
                 terminationReason: SUBSCRIPTION_EXPIRED
           
           POLICY_MET:
@@ -1096,5 +1100,7 @@
                 subscriptionId: 987654321
                 device:
                   phoneNumber: 123456789
+                networkInsightsStatus:
+                $ref: "#/components/schemas/NetworkInsightsStatus"  
                 terminationReason: SUBSCRIPTION_EXPIRED
 
