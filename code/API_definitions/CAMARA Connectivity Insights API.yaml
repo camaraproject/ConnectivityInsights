@@ -31,9 +31,12 @@
 
     
         Following diagram shows the interaction between different components
-        
-        documentation/API_documentation/sequenceDiagram.v1.png
-        
+        ![Sequence Diagram](https://github.com/camaraproject/ConnectivityInsights/blob/main/documentation/API_documentation/sequenceDiagram.v1.png)
+        # Authorization and authentication
+
+        CAMARA guidelines defines a set of authorization flows which can grant API clients access to the API functionality, as outlined in the document [CAMARA-API-access-and-user-consent.md](https://github.com/camaraproject/IdentityAndConsentManagement/blob/main/documentation/CAMARA-API-access-and-user-consent.md). Which specific authorization flows are to be used will be determined during onboarding process, happening between the API Client and the Telco Operator exposing the API, taking into account the declared purpose for accessing the API, while also being subject to the prevailing legal framework dictated by local legislation.
+
+        It is important to remark that in cases where personal user data is processed by the API, and users can exercise their rights through mechanisms such as opt-in and/or opt-out, the use of 3-legged access tokens becomes mandatory. This measure ensures that the API remains in strict compliance with user privacy preferences and regulatory obligations, upholding the principles of transparency and user-centric data control.
         # Further info and support
 
         (FAQs will be added in a later version of the documentation)
@@ -61,7 +64,8 @@
       /network-monitoring/policy:
         post:
           security:
-          - openId: []
+          - openId: 
+            - connectivity_insights:policy:write
           tags:
           - Network Monitoring Policy Management
           summary: create a policy which represents an application's networking demands. 
@@ -87,7 +91,8 @@
       /network-monitoring/policy/{policyId}:
         put:
           security:
-          - openId: []        
+            - openId: 
+              - connectivity_insights:policy:write       
           parameters:
             - name: policyId
               in: path
@@ -119,7 +124,8 @@
                       $ref: '#/components/schemas/PolicySubscriptionResponse'
         get:
           security:
-          - openId: []        
+          - openId:
+            - connectivity_insights:policy:read       
           tags:
           - Network Monitoring Policy Management
           summary: Read an existing application networking policy
@@ -144,7 +150,8 @@
                       $ref: '#/components/schemas/NetworkMonitoringPolicy'
         delete:
           security:
-          - openId: []           
+          - openId: 
+            - connectivity_insights:policy:write            
           tags:
           - Network Monitoring Policy Management
           summary: Delete an application networking policy
@@ -167,7 +174,8 @@
       /network-insight/device:
         post:
           security:
-          - openId: []           
+          - openId:
+            - connectivity_insights:read          
           tags:
           - Connectivity Insights
           summary: View the level of confidence the network has to meet the application's demands (as requested in the policy) for a given device 
@@ -357,7 +365,7 @@
               $ref: "#/components/responses/Generic503"
           security:
             - openId:
-                - connectivity_insights:subscriptions:delete
+                - connectivity_insights:subscriptions:write
 
 
     components:
