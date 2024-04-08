@@ -20,7 +20,7 @@ Repository to describe, develop, document and test the Connectivity Insights API
 ## Meetings
 * Meetings are held virtually
 * Schedule: bi-weekly on wednesdays, 9-10am CST.
-* Meeting link: https://verizon.webex.com/verizon/j.php?MTID=ma58c7e3ff9ce05aaa4dd2d758734ef9c
+* Meeting link: https://zoom-lfx.platform.linuxfoundation.org/meeting/92345695827?password=35dff2b2-058d-44de-bd7e-67d08c9e9f9d
 
 ## Contributorship and mailing list
 * To subscribe / unsubscribe to the mailing list of this Sub Project and thus be / resign as Contributor please visit <https://lists.camaraproject.org/g/sp-coi>.
