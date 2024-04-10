@@ -774,8 +774,8 @@
               type: string
               description: Detailed error description
 
-            
-    responses:
+          
+      responses:
         Generic400:
           description: Invalid argument
           content:
