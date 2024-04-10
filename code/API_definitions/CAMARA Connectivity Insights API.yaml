@@ -755,3 +755,101 @@
              subscriptionId:
                type: string
                format: uuid
+               
+        ErrorInfo:
+          type: object
+          description: Error information  
+          required:
+            - status
+            - code
+            - message
+          properties:
+            status:
+              type: integer
+              description: HTTP status code returned along with this error response
+            code:
+              type: string
+              description: Code given to this error
+            message:
+              type: string
+              description: Detailed error description
+
+            
+    responses:
+        Generic400:
+          description: Invalid argument
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfo"
+              example:
+                status: 400
+                code: INVALID_ARGUMENT
+                message: "Invalid argument"
+        
+        Generic401:
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfo"
+              example:
+                status: 401
+                code: UNAUTHENTICATED
+                message: "Authorization failed: ..."
+        
+        Generic403:
+          description: Permission denied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfo"
+              example:
+                status: 403
+                code: PERMISSION_DENIED
+                message: "Operation not allowed: ..."
+        
+        Generic404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfo"
+              example:
+                status: 404
+                code: NOT_FOUND
+                message: "The specified resource is not found"
+        
+        Generic409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfo"
+              example:
+                status: 409
+                code: Conflict
+                message: "There is conflict in the request"
+        
+        Generic500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfo"
+              example:
+                status: 500
+                code: INTERNAL
+                message: "Internal server error"
+        
+        Generic503:
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfo"
+              example:
+                status: 503
+                code: UNAVAILABLE
+                message: "Service unavailable"
+                
