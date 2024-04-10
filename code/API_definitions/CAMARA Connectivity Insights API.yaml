@@ -1,17 +1,19 @@
----
     openapi: 3.0.3
     info:
       title: Connectivity Insights API
-      version: '0.3.0-wip'
-      contact: 
-       email: sp-coi@lists.camaraproject.org
-      license:
-        name: Apache 2.0
-        url: https://www.apache.org/licenses/LICENSE-2.0.html
       description: |
-        The Connectivity Insights API allows an application developer to ask the network the likelihood that an application's networking requirements can be met for a given end user session.
-        <br>This information helps a developer ensure their end users are able to get the best experience while using the application over their current network. 
-        Depending on the answer the network gives, the developer may decide to request a network boost (via the CAMARA QoD API) , and/or apply specific changes on the application side e.g. adjusting the resolution of the video stream upwards or downwards.
+        The Connectivity Insights API allows an application developer to ask
+         the network the likelihood that an application's networking
+         requirements can be met for a given end user session.
+        
+        This information helps a developer ensure their end users are able to
+         get the best experience while using the application over their current
+          network.
+          
+        Depending on the answer the network gives, the developer may decide to
+         request a network boost (via the CAMARA QoD API) , and/or apply
+          specific changes on the application side e.g. adjusting the
+          resolution of the video stream upwards or downwards.
         
         # Introduction
 
@@ -19,28 +21,43 @@
         # Relevant terms and definitions
 
         * **Identifier for the device**:
-        At least one identifier for the device (user equipment) out of four options: IPv4 address, IPv6 address, Phone number, or Network Access Identifier assigned by the mobile network operator for the device.
+        At least one identifier for the device (user equipment) out of four
+         options: IPv4 address, IPv6 address, Phone number, or Network Access
+          Identifier assigned by the mobile network operator for the device.
 
         * **Identifier for the application server**:
         IPv4 and/or IPv6 address of the application server (application backend)
 
         * **Notification URL and token**:
-        Developers may provide a callback URL on which notifications can be received from the service provider. This is an optional parameter.
+        Developers may provide a callback URL on which notifications can be
+         received from the service provider. This is an optional parameter.
 
         # API functionality
 
     
-        Following diagram shows the interaction between different components
+        Following diagram shows the interaction between different components (**editor note replace with Mermaid**)
         ![Sequence Diagram](https://github.com/camaraproject/ConnectivityInsights/blob/main/documentation/API_documentation/sequenceDiagram.v1.png)
+        
         # Authorization and authentication
 
-        CAMARA guidelines defines a set of authorization flows which can grant API clients access to the API functionality, as outlined in the document [CAMARA-API-access-and-user-consent.md](https://github.com/camaraproject/IdentityAndConsentManagement/blob/main/documentation/CAMARA-API-access-and-user-consent.md). Which specific authorization flows are to be used will be determined during onboarding process, happening between the API Client and the Telco Operator exposing the API, taking into account the declared purpose for accessing the API, while also being subject to the prevailing legal framework dictated by local legislation.
+        CAMARA guidelines defines a set of authorization flows which can grant API
+        clients access to the API functionality, as outlined in the document
+        [CAMARA-API-access-and-user-consent.md]
+        (https://github.com/camaraproject/IdentityAndConsentManagement/blob/main/documentation/CAMARA-API-access-and-user-consent.md).
+        Which specific authorization flows are to be used will be determined during
+        onboarding process, happening between the API Client and the Telco Operator
+        exposing the API, taking into account the declared purpose for accessing
+        the API, while also being subject to the prevailing legal framework
+        dictated by local legislation.
 
-        It is important to remark that in cases where personal user data is processed by the API, and users can exercise their rights through mechanisms such as opt-in and/or opt-out, the use of 3-legged access tokens becomes mandatory. This measure ensures that the API remains in strict compliance with user privacy preferences and regulatory obligations, upholding the principles of transparency and user-centric data control.
-        # Further info and support
+        It is important to remark that in cases where personal user data is
+        processed by the API, and users can exercise their rights through
+        mechanisms such as opt-in and/or opt-out, the use of 3-legged access tokens
+        becomes mandatory. This measure ensures that the API remains in strict
+        compliance with user privacy preferences and regulatory obligations,
+        upholding the principles of transparency and user-centric data control.
+      version: '0.3.0-wip'
 
-        (FAQs will be added in a later version of the documentation)
-        
     servers:
     - url: "{apiRoot}/{basePath}"
       variables:
@@ -52,89 +69,69 @@
           description: Base path for the Connectivity Insights API
 
     tags:
-    - name: Network Monitoring Policy Management
-      description: Define KPIs for key network metrics as required for the application to ensure the end users of the application are getting the optimal user experience. KPIs such as latency, jitter, packetloss, throughput etc
     - name: Connectivity Insights
-      description: Read the network's level of confidence that it can meet an application's performance demands, for a given end user device. 
-    - name: Connectivity Insights Subscriptions
-      description: Subscribe to be notified of changes in the  network's ability to meet the application's demands, for a given device.
+      description: Read information about the network the client is currently attached to.
+    - name: Quality Insights
+      description: Read the network's level of confidence that it can meet the quality thresholds for a given application profile and end user device.
+    - name: Application Profiles
+      description: Operations to define, read and manage an application's thresholds for network quality (latency, jitter, loss, throughput)
+    - name: Notifications Management
+      description: Create and manage a subscription to receive periodic connectivity insights
    
    
     paths:
-      /network-monitoring/policy:
+      /network-info/insights:
         post:
           security:
-          - openId: 
-            - connectivity_insights:policy:write
+          - openId:
+            - connectivity_insights:network_info:read
           tags:
-          - Network Monitoring Policy Management
-          summary: create a policy which represents an application's networking demands. 
-          description: Define network monitoring intents for optimal end user application experience
+          - Connectivity Insights
+          description: Determine the type of network the given device is connected to, and if it is a cellular network, the network identity and connectivity type (3G/4G/5G)
+          responses:
+            "200":
+              description: OK
+              content:
+                application/json:
+                  schema:
+                      $ref: '#/components/schemas/NetworkQualityInsight'
+                      
+      /network-quality/insights:
+        post:
+          security:
+          - openId:
+            - connectivity_insights:network_quality_insight:write
+          tags:
+          - Quality Insights
+          description: Create an insight. The response shows the network's current level of confidence that it can meet an application profile's quality thresholds for a given end user device. An `insightId` is included to support polling via the GET operation, or to requrest callbacks via the Notification Management operations.
           operationId: createPolicy
           requestBody:
-            description: List of user object
+            description: An `ApplicationProfileId` and one or more device identifiers. Together these allow the network to calculate whether the thresholds defined in the application profile can be met for the particular connected device.
             content:
               '*/*':
                 schema:
-                  $ref: '#/components/schemas/NetworkMonitoringPolicy'
+                  $ref: '#/components/schemas/NetworkQualityInsightRequest'
             required: true
           responses:
             "200":
-              description: good
+              description: OK
               content:
                 application/json:
                   schema:
-                      $ref: '#/components/schemas/PolicySubscriptionResponse'
-
-
-
-      /network-monitoring/policy/{policyId}:
-        put:
-          security:
-            - openId: 
-              - connectivity_insights:policy:write       
-          parameters:
-            - name: policyId
-              in: path
-              description: subscription Id
-              required: true
-              style: simple
-              explode: false
-              schema:
-                type: string
-                format: uuid
-          tags:
-          - Network Monitoring Policy Management
-          summary: Update an application networking policy
-          description: update network monitoring intents for optimal end user application experience
-          operationId: updatePolicy
-          requestBody:
-            description: List of user object
-            content:
-              '*/*':
-                schema:
-                  $ref: '#/components/schemas/NetworkMonitoringPolicy'
-            required: true
-          responses:
-            "200":
-              description: good
-              content:
-                application/json:
-                  schema:
-                      $ref: '#/components/schemas/PolicySubscriptionResponse'
+                      $ref: '#/components/schemas/NetworkQualityInsight'
+                      
+      /network-quality/insights/{insightId}:
         get:
           security:
           - openId:
-            - connectivity_insights:policy:read       
+            - connectivity_insights:network_quality_insight:read
           tags:
-          - Network Monitoring Policy Management
-          summary: Read an existing application networking policy
-          description: View the network monitoring intents
-          operationId: readPolicy
+          - Quality Insights
+          description: Read an insight. This allows for polling to see if the network's level of confidence to meet the application profile has changed, alternatively, use the Notifications Management operations to receive callbacks.
           parameters:
-            - name: policyId
+            - name: insightId
               in: path
-              description: subscription Id
+              description: Identifier for an insight
               required: true
               style: simple
               explode: false
@@ -143,22 +140,123 @@
                 format: uuid
           responses:
             "200":
-              description: good
+              description: OK
               content:
                 application/json:
                   schema:
-                      $ref: '#/components/schemas/NetworkMonitoringPolicy'
+                      $ref: '#/components/schemas/NetworkQualityInsight'
+                      
         delete:
           security:
-          - openId: 
-            - connectivity_insights:policy:write            
+          - openId:
+            - connectivity_insights:network_quality_insight:write
           tags:
-          - Network Monitoring Policy Management
-          summary: Delete an application networking policy
-          description: delete
-          operationId: deletePolicy
+          - Quality Insights
+          description: Delete an insight
           parameters:
-            - name: policyId
+            - name: insightId
+              in: path
+              description: Identifier for a
+              required: true
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          responses:
+            "200":
+              description: policy has been deleted
+                      
+      /application-profiles:
+        post:
+          security:
+          - openId:
+            - connectivity_insights:application_profile:write
+          tags:
+          - Application Profiles
+          description: Define the network quality thresholds that the application needs to deliver an acceptable user experience.
+          requestBody:
+            description: List of network quality thresholds that the application needs to deliver an acceptable user experience.
+            content:
+              '*/*':
+                schema:
+                  $ref: '#/components/schemas/CreateApplicationProfile'
+            required: true
+          responses:
+            "201":
+              description: Created
+              content:
+                application/json:
+                  schema:
+                      $ref: '#/components/schemas/ApplicationProfile'
+
+
+
+      /application-profiles/{applicationProfileId}:
+        put:
+          security:
+          - openId:
+            - connectivity_insights:application_profile:write
+          tags:
+          - Application Profiles
+          description: Update the network quality thresholds for an application that ensure good end user experience
+          parameters:
+            - name: applicationProfileId
+              in: path
+              description: Identifier for the Aplpication Profile
+              required: true
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          requestBody:
+            description: Update the network quality thresholds that the application needs to deliver an acceptable user experience.
+            content:
+              '*/*':
+                schema:
+                  $ref: '#/components/schemas/ApplicationProfile'
+            required: true
+          responses:
+            "200":
+              description: OK
+              content:
+                application/json:
+                  schema:
+                      $ref: '#/components/schemas/ApplicationProfile'
+        get:
+          security:
+          - openId:
+            - connectivity_insights:application_profile:read
+          tags:
+          - Application Profiles
+          description: Read an Application Profile
+          parameters:
+            - name: applicationProfileId
+              in: path
+              description: Identifier for the Application Profile
+              required: true
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uuid
+          responses:
+            "200":
+              description: OK
+              content:
+                application/json:
+                  schema:
+                      $ref: '#/components/schemas/ApplicationProfile'
+        delete:
+          security:
+          - openId:
+            - connectivity_insights:application_profile:write
+          tags:
+          - Application Profiles
+          description: delete
+          parameters:
+            - name: applicationProfileId
               in: path
               description: subscription Id
               required: true
@@ -171,22 +269,54 @@
             "200":
               description: policy has been deleted
 
-      /network-insight/device:
+      /subscriptions:
         post:
           security:
           - openId:
-            - connectivity_insights:read          
+            - connectivity_insights:subscription:write
           tags:
-          - Connectivity Insights
-          summary: View the level of confidence the network has to meet the application's demands (as requested in the policy) for a given device 
-          description: View the level of confidence the network has to meet the application's demands (as requested in the policy) for a given device
-          operationId: requestNetworkInsight
+          - Notifications Management
+          description: Subscription for monitoring network condition against specific intents for an individual device.
           requestBody:
             description: List of user object
             content:
               '*/*':
                 schema:
-                  $ref: '#/components/schemas/UserNetworkInsight'
+                  $ref: '#/components/schemas/user_subscription'
+            required: true
+          responses:
+            "201":
+              description: Created
+              content:
+                application/json:
+                  schema:
+                      $ref: '#/components/schemas/user_subscription_response'
+
+
+      /subscriptions/{subscriptionId}:
+        put:
+          security:
+          - openId:
+            - connectivity_insights:subscription:write
+          tags:
+          - Notifications Management
+          description: Subscription for monitoring network condition of individual device.
+          parameters:
+          - name: subscriptionId
+            in: path
+            description: subscription Id
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+              format: uuid
+          requestBody:
+            description: List of user object
+            content:
+              '*/*':
+                schema:
+                  $ref: '#/components/schemas/user_subscription'
             required: true
           responses:
             "200":
@@ -194,207 +324,74 @@
               content:
                 application/json:
                   schema:
-                      $ref: '#/components/schemas/NetworkInsightsStatus'
-
-      /subscriptions:
-        post:
+                      $ref: '#/components/schemas/user_subscription_response'
+        get:
+          security:
+          - openId:
+            - connectivity_insights:subscription:read
           tags:
-            - Connectivity Insights Subscriptions
-          description: "Create a Connectivity insights subscription for a device"
-          summary: "Create a Connectivity insights subscription for a device"
-          operationId: createSubscription
-          requestBody:
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/CreateSubscription"
+          - Notifications Management
+          description: get the user subscription
+          parameters:
+          - name: subscriptionId
+            in: path
+            description: subscription Id
             required: true
-          callbacks:
-            eventNotifications:
-              "{$request.body#/webhook/notificationUrl}":
-                post:
-                  summary: "Subscription notification callback"
-                  description: |
-                    Important: this endpoint is to be implemented by the API consumer.
-                    The Connectivity Insights server will call this endpoint whenever a connectivity event occurs that changes the netowrk's ability to meet the application's demands for a given device.
-                  operationId: postNotification
-                  requestBody:
-                    required: true
-                    content:
-                      application/cloudevents+json:
-                        schema:
-                          $ref: "#/components/schemas/CloudEvent"
-                        examples:
-                          POLICY_NOT_MET:
-                            $ref: "#/components/examples/POLICY_NOT_MET"
-                          POLICY_MET:
-                            $ref: "#/components/examples/POLICY_MET"
-                          SUBSCRIPTION_ENDS:
-                            $ref: "#/components/examples/SUBSCRIPTION_ENDS"
-                  responses:
-                    "204":
-                      description: Successful notification
-                    "400":
-                      $ref: "#/components/responses/Generic400"
-                    "401":
-                      $ref: "#/components/responses/Generic401"
-                    "403":
-                      $ref: "#/components/responses/Generic403"
-                    "500":
-                      $ref: "#/components/responses/Generic500"
-                    "503":
-                      $ref: "#/components/responses/Generic503"
-                  security:
-                    - {}
-                    - notificationsBearerAuth: []
-          responses:
-            "201":
-              description: Created (Successful creation of subscription)
-              content:
-                application/json:
-                  schema:
-                    $ref: "#/components/schemas/SubscriptionInfo"
-            "400":
-              $ref: "#/components/responses/Generic400"
-            "401":
-              $ref: "#/components/responses/Generic401"
-            "403":
-              $ref: "#/components/responses/Generic403"
-            "409":
-              $ref: "#/components/responses/Generic409"
-            "500":
-              $ref: "#/components/responses/Generic500"
-            "503":
-              $ref: "#/components/responses/Generic503"
-          security:
-            - openId:
-                - connectivity_insights:subscriptions:write
-        get:
-          tags:
-            - Connectivity Insights Subscriptions
-          summary: "Operation to retrieve a list of subscriptions."
-          operationId: getSubscriptionList
-          description: Operation to list subscriptions authorized to be retrieved by the provided access token.
+            style: simple
+            explode: false
+            schema:
+              type: string
+              format: uuid
           responses:
             "200":
-              description: The list of subscriptions is retrieved.
+              description: OK
               content:
                 application/json:
                   schema:
-                    type: array
-                    minItems: 0
-                    items:
-                      $ref: "#/components/schemas/SubscriptionInfo"
-            "400":
-              $ref: "#/components/responses/Generic400"
-            "401":
-              $ref: "#/components/responses/Generic401"
-            "403":
-              $ref: "#/components/responses/Generic403"
-            "500":
-              $ref: "#/components/responses/Generic500"
-            "503":
-              $ref: "#/components/responses/Generic503"
-          security:
-            - openId:
-                - connectivity_insights:subscriptions:read
-
-      /subscriptions/{subscriptionsId}:
-        get:
-          tags:
-            - Connectivity Insights Subscriptions
-          summary: "Operation to retrieve a subscription based on the provided ID"
-          operationId: getSubscription
-          description: Retrieve a given subscription by ID
-          parameters:
-            - name: subscriptionsId
-              in: path
-              description: Subscription identifier that was obtained from the create event subscription operation
-              required: true
-              schema:
-                type: string
-          responses:
-            "200":
-              description: Contains information about Subscriptions
-              content:
-                application/json:
-                  schema:
-                    $ref: "#/components/schemas/SubscriptionInfo"
-            "400":
-              $ref: "#/components/responses/Generic400"
-            "401":
-              $ref: "#/components/responses/Generic401"
-            "403":
-              $ref: "#/components/responses/Generic403"
-            "404":
-              $ref: "#/components/responses/Generic404"
-            "500":
-              $ref: "#/components/responses/Generic500"
-            "503":
-              $ref: "#/components/responses/Generic503"
-          security:
-            - openId:
-                - connectivity_insights:subscriptions:read
+                      $ref: '#/components/schemas/user_subscription'
         delete:
-          tags:
-            - Connectivity Insights Subscriptions
-          summary: "Operation to delete a subscription"
-          operationId: deleteSubscription
-          description: Delete a given subscription by ID
-          parameters:
-            - name: subscriptionsId
-              in: path
-              description: subscription identifier
-              required: true
-              schema:
-                type: string
-          responses:
-            "204":
-              description: Event subscription deleted
-            "400":
-              $ref: "#/components/responses/Generic400"
-            "401":
-              $ref: "#/components/responses/Generic401"
-            "403":
-              $ref: "#/components/responses/Generic403"
-            "404":
-              $ref: "#/components/responses/Generic404"
-            "500":
-              $ref: "#/components/responses/Generic500"
-            "503":
-              $ref: "#/components/responses/Generic503"
           security:
-            - openId:
-                - connectivity_insights:subscriptions:write
-
+          - openId:
+            - connectivity_insights:subscription:write
+          tags:
+          - Notifications Management
+          description: delete
+          parameters:
+          - name: subscriptionId
+            in: path
+            description: subscription Id
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+              format: uuid
+          responses:
+            "200":
+              description: OK
 
     components:
       securitySchemes:
         openId:
           type: openIdConnect
-          openIdConnectUrl: https://example.com/.well-known/openid-configuration
-          description: Link to OpenID configuration
+          openIdConnectUrl: .well-known/openid-configuration
         
       schemas:
         Duration:
           type: object
-          description: a measure of time from the start of an event to the end. The time metric and value must both be provided.  
           properties:
             value:
               type: integer
               example: 12
               format: int32
               minimum: 1
-              description: the integer value of the specified time unit.
             unit:
-              description: enumeration of valid time units.
               allOf:
                 - $ref: "#/components/schemas/TimeUnitEnum"
                 - example: Minutes
-      
+    
         TimeUnitEnum:
           type: string
-          description: enumeration of valid time units.
           enum:
             - Days
             - Hours
@@ -406,11 +403,9 @@
           
         Rate:
           type: object
-          description: throughput of packets per second, represented as a number of a specified throughput metric.
           properties:
             value:
               type: integer
-              description: the value of the specified rate unit.
               example: 10
               format: int32
               minimum: 0
@@ -420,7 +415,6 @@
               
         RateUnitEnum:
           type: string
-          description: enumeration of valid rate (packet throughput) units.
           enum:
             - bps
             - kbps
@@ -428,7 +422,7 @@
             - Gbps
             - Tbps
         
-        PacketDelayBudget:
+        packetDelayBudget:
           description: |
             The packet delay budget is the maximum allowable one-way latency between the customer's device
             and the gateway from the operator's network to other networks. By limiting the delay, the network
@@ -439,7 +433,7 @@
           allOf:
             - $ref: "#/components/schemas/Duration"
             
-        PacketErrorLossRate:
+        packetErrorLossRate:
           type: integer
           description: |
             The exponential power of the allowable error loss rate 10^(-N).
@@ -459,7 +453,7 @@
           maximum: 10
           example: 3
           
-        Jitter:
+        jitter:
           description: |
             The jitter requirement aims to limit the maximum variation in round-trip
             packet delay for the 99th percentile of traffic, following ITU Y.1540
@@ -468,27 +462,25 @@
             using TCP). This requirement helps maintain consistent latency, essential
             for real-time applications such as VoIP, video calls, and gaming.
           allOf:
-            - $ref: "#/components/schemas/Duration"          
+            - $ref: "#/components/schemas/Duration"
           
-        TargetMinDownstreamRate:
+        targetMinDownstreamRate:
           description: |
             This is the target minimum downstream rate.
           allOf:
             - $ref: "#/components/schemas/Rate"
             
-        TargetMinUpstreamRate:
+        targetMinUpstreamRate:
           description: |
             This is the target minimum upstream rate.
           allOf:
-            - $ref: "#/components/schemas/Rate"            
+            - $ref: "#/components/schemas/Rate"
           
-        AdditionalKPIs:
+        additionalKPIs:
           type: object
-          description: Further network information regargin
           properties:
             signalStrength:
               type: string
-              description: a description of the relative signal strength of a terminal connected to the network.
               enum:
                 - excellent
                 - good
@@ -497,81 +489,80 @@
                 - no signal
             connectivityType:
               type: string
-              description: a common name for the network access. Currently includes a choice of well-known cellular radio technologies.
               enum:
               - 5G
               - 4G
               - 3G
 
-        NetworkMonitoringPolicy:
+        CreateApplicationProfile:
          type: object
-         description: the minimum network performance that an application can tolerate before user expereicen degrades. Composed of packet delay (latency), packet delay variation (jitter), upstream throughput (from terminal to network), downstream throughput (from network to terminal), packet loss.
+         properties:
+          networkQualityThresholds:
+             $ref: "#/components/schemas/NetworkQualityThresholds"
+             
+        ApplicationProfile:
+         type: object
+         properties:
+          applicationProfileId:
+             type: string
+             format: uuid
+          networkQualityThresholds:
+             $ref: "#/components/schemas/NetworkQualityThresholds"
+
+        NetworkQualityThresholds:
+         type: object
          properties:
            packetDelayBudget:
-             $ref: '#/components/schemas/PacketDelayBudget'
+             $ref: '#/components/schemas/packetDelayBudget'
            targetMinDownstreamRate:
-             $ref: '#/components/schemas/TargetMinDownstreamRate'
+             $ref: '#/components/schemas/targetMinDownstreamRate'
            targetMinUpstreamRate:
-             $ref: '#/components/schemas/TargetMinUpstreamRate'          
+             $ref: '#/components/schemas/targetMinUpstreamRate'
            packetlossErrorRate:
-             $ref: '#/components/schemas/PacketErrorLossRate'
+             $ref: '#/components/schemas/packetErrorLossRate'
            jitter:
-             $ref: '#/components/schemas/Jitter'
-         
+             $ref: '#/components/schemas/jitter'
              
-        NetworkInsightsStatus:
+        NetworkQualityInsight:
           type: object
-          description: the network's confidence level at being able to meet the network demands of a given policy for a given terminal device. 
+          properties:
+            applicationProfileId:
+              type: string
+              format: uuid
+            packetDelayBudget:
+               $ref: '#/components/schemas/thresholdFulfillmentConfidence'
+            targetMinDownstreamRate:
+               $ref: '#/components/schemas/thresholdFulfillmentConfidence'
+            targetMinUpstreamRate:
+               $ref: '#/components/schemas/thresholdFulfillmentConfidence'
+            packetlossErrorRate:
+               $ref: '#/components/schemas/thresholdFulfillmentConfidence'
+            jitter:
+               $ref: '#/components/schemas/thresholdFulfillmentConfidence'
+            additionalKPIs:
+               $ref: '#/components/schemas/additionalKPIs'
+               
+        thresholdFulfillmentConfidence:
+          type: string
+          enum:
+            - good
+            - bad
+
+        policy_subscription_response:
+          type: object
           properties:
             policyId:
               type: string
-              description: Identifier for the policy
               format: uuid
-            packetDelayBudget:
-               $ref: '#/components/schemas/PolicyFulfillmentConfidence'
-            targetMinDownstreamRate:
-               $ref: '#/components/schemas/PolicyFulfillmentConfidence'
-            targetMinUpstreamRate:
-               $ref: '#/components/schemas/PolicyFulfillmentConfidence'          
-            packetlossErrorRate:
-               $ref: '#/components/schemas/PolicyFulfillmentConfidence'
-            jitter:
-               $ref: '#/components/schemas/PolicyFulfillmentConfidence'
-            additionalKPIs:
-               $ref: '#/components/schemas/AdditionalKPIs'                    
-               
-        PolicyFulfillmentConfidence:
-          type: string
-          description: a plain-language indicator of how confident the network is to meet a given network demand.
-          enum:
-            - good
-            - bad                    
 
-        PolicySubscriptionResponse:
-          type: object
-          description: a policy identifier
-          properties:
-            policyId:
-              $ref: "#/components/schemas/PolicyId"
-              
-        PolicyId:
-          type: string
-          description: identifier for the policy
-          format: uuid
-          
-
-        UserNetworkInsight:
+        NetworkQualityInsightRequest:
            type: object
-           description: object used to request whether a specific applicaiton policy can be met for a spoecific device.
            properties:
+            applicationProfileId:
+              $ref: "#/components/schemas/ApplicationProfileId"
             device:
               $ref: "#/components/schemas/Device"
-            applicationServer:
-              $ref: "#/components/schemas/ApplicationServer"
-            policyId:
-              $ref: "#/components/schemas/PolicyId"
             monitoringDataAggregation:
-              description: time interval between the network's measurement of the network performance data. 
               enum:
                 - FIFTEEN_MIN
                 - HOURLY
@@ -579,10 +570,47 @@
             monitoringTimeStamp:
               type: string
               format: date-time
-              description: this is a optinal input parameter. A future data and time can be provided for predictive data. If no value is provided then the current date and
+              description: this is a optional input parameter. A future data and time can be provided for predictive data. If no value is provided then the current date and
                 time is used and network data for the monitoring data aggregation is used to check network performance against the policy defined.
+   
+        ApplicationProfileId:
+          type: string
+          format: uuid
 
+        user_subscription:
+           type: object
+           properties:
+            device:
+              $ref: "#/components/schemas/Device"
+            applicationServer:
+              $ref: "#/components/schemas/ApplicationServer"
+            policyId:
+              type: string
+              format: uuid
+            monitoringFrequency:
+              enum:
+                - FIFTEEN_MIN
+                - HOURLY
+                - DAILY
+            notificationExpiry:
+              $ref: "#/components/schemas/notificationExpiry"
+            notificationUrl:
+              $ref: "#/components/schemas/notificationUrl"
 
+        notificationExpiry:
+          type: object
+          minProperties: 1
+          properties:
+            expiryTime:
+              description: Date and time when this subscription will be expired. This parameter is mutually exclusive with the maximumNumberOfNotifications parameter. Either maximumNumberOfNotifications or expiryTime must be provided.
+              type: string
+              format: date-time
+              nullable: true
+            maximumNumberOfNotifications:
+              description: Identifies the maximum number of event notifications to be sent. This parameter is mutually exclusive with the expiryTime parameter. Either maximumNumberOfNotifications or expiryTime must be provided.
+              type: integer
+              format: int32
+              nullable: true
         
         Device:
           description: |
@@ -703,412 +731,22 @@
           minimum: 0
           maximum: 65535
 
-        Webhook:
+        notificationUrl:
           type: object
-          description: Detail for event channel
           properties:
-            notificationUrl:
-              $ref: "#/components/schemas/NotificationUrl"
+            callback_url:
+              type: string
+              format: uri
+              example: "https://application-server.com"
+              description: Allows asynchronous delivery of session related events
             notificationAuthToken:
-              $ref: "#/components/schemas/NotificationAuthToken"
-          required:
-            - notificationUrl
-    
-        SubscriptionId:
-          type: string
-          format: uuid
-          description: Identifier of the event subscription - This attribute must not be present in the POST request as it is provided by API server
-    
-        SubscriptionDetail:
-          type: object
-          description: Subscription detail
-          properties:
-            device:
-              $ref: "#/components/schemas/Device"
-            policyId:
-              $ref: "#/components/schemas/PolicyId"
-            type:
-              $ref: "#/components/schemas/SubscriptionCreationEventType"
-          required:
-            - device
-            - type
-    
-        SubscriptionCreationEventType:
-          type: string
-          description: |
-            policy-not-met - Event triggered when network performance is not able to meet applicaiton requirements
-            
-            policy-met - Event triggered when network performance meets the requirements of the application.
-          enum:
-            - org.camaraproject.connectivityinsights.v0.policy-not-met
-            - org.camaraproject.connectivityinsights.v0.policy-met
-    
-        SubscriptionEventType:
-          type: string
-          description: |
-            policy-not-met : Event triggered when the application's network performance policy is no longer met for a given device.
-            
-            policy-met : Event triggered when the application's network performance policy is now met for a given device.
-            
-            subscription-ends - Event triggered when the subscription ends
-          enum:
-            - org.camaraproject.connectivity-insights.v0.policy-not-met
-            - org.camaraproject.connectivity-insights.v0.policy-met
-            - org.camaraproject.connectivity-insights.v0.subscription-ends
-    
-        NotificationUrl:
-          type: string
-          example: "https://application-server.com"
-          description: https callback address where the event notification must be POST-ed
-    
-        NotificationAuthToken:
-          type: string
-          example: "c8974e592c2fa383d4a3960714"
-          description: "OAuth2 token to be used by the callback API endpoint. It MUST be indicated within HTTP Authorization header e.g. Authorization: Bearer $notificationAuthToken"
-    
-        CreateSubscription:
-          description: The request for creating a Connectivy Insights  subscription
-          type: object
-          properties:
-            webhook:
-              $ref: "#/components/schemas/Webhook"
-            subscriptionDetail:
-              $ref: "#/components/schemas/SubscriptionDetail"
-            subscriptionExpireTime:
               type: string
-              format: date-time         
-              description: The date time when the subscription has to be terminated. 
-                It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone. 
-                Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ (i.e. which allows 2023-07-03T14:27:08.312+02:00 or 2023-07-03T12:27:08.312Z)
-          required:
-            - webhook
-            - subscriptionDetail
-    
-        SubscriptionInfo:
-          description: Represents a Connectivity Insight event subscription.
-          type: object
-          allOf:
-            - $ref: "#/components/schemas/CreateSubscription"
-            - type: object
-              properties:
-                subscriptionId:
-                  $ref: "#/components/schemas/SubscriptionId"
-                startsAt:
-                  type: string
-                  format: date-time
-                  description: The date time when the subscription started.
-                    It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone. 
-                    Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ (i.e. which allows 2023-07-03T14:27:08.312+02:00 or 2023-07-03T12:27:08.312Z)
-                expiresAt:
-                  type: string
-                  format: date-time
-                  description: The date time when the subscription will expire or expired.                
-                    It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone. 
-                    Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ (i.e. which allows 2023-07-03T14:27:08.312+02:00 or 2023-07-03T12:27:08.312Z)
-              required:
-                - subscriptionId   
-    
-        EventTime:
-          format: date-time
-          type: string
-          description: |
-            Timestamp of when the occurrence happened. 
-            If the time of the occurrence cannot be determined then this attribute MAY be set to some other time (such as the current time) by the CloudEvents producer, 
-            however all producers for the same source MUST be consistent in this respect. In other words, 
-            either they all use the actual time of the occurrence or they all use the same algorithm to determine the value used. 
-            It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone. 
-            Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ (i.e. which allows 2023-07-03T14:27:08.312+02:00 or 2023-07-03T12:27:08.312Z)
-    
-        CloudEvent:
-          description: The Cloud-Event used for the callback.
-          type: object
-          required:
-            - id
-            - source
-            - type
-            - specversion
-            - time
-          properties:
-            id:
-              description: Identifier of this event, that must be unique in the source context.
-              type: string
-            source:
-              $ref: "#/components/schemas/Source"
-            type:
-              $ref: "#/components/schemas/SubscriptionEventType"
-            specversion:
-              description: Version of the specification to which this event conforms (must be 1.0 if it conforms to cloudevents 1.0.2 version)
-              type: string
-              enum:
-                - "1.0"
-            datacontenttype:
-              description: 'media-type that describes the event payload encoding, must be "application/json" for CAMARA APIs'
-              type: string
-              enum:
-                - application/json
-            time:
-              $ref: "#/components/schemas/EventTime"
-          discriminator:
-            propertyName: "type"
-            mapping:
-              org.camaraproject.connectivityinsights.v0.policy-not-met: "#/components/schemas/EventPolicyNotMet"
-              org.camaraproject.connectivityinsights.v0.policy-met: "#/components/schemas/EventPolicyMet"
-              org.camaraproject.connectivityinsights.v0.subscription-ends: "#/components/schemas/EventSubscriptionEnds"
-    
-        EventPolicyNotMet:
-          description: event structure for event when the device leaves the area
-          allOf:
-            - $ref: "#/components/schemas/CloudEvent"
-            - type: object
-              required:
-                - data
-              properties:
-                data:
-                  $ref: "#/components/schemas/PolicyNotMet"
-                  
-        EventPolicyMet:
-          description: event structure for event when the device leaves the area
-          allOf:
-            - $ref: "#/components/schemas/CloudEvent"
-            - type: object
-              required:
-                - data
-              properties:
-                data:
-                  $ref: "#/components/schemas/PolicyMet"
-                  
-        PolicyNotMet:
-          description: Event detail structure for POLICY_NOT_MET  event
-          type: object
-          required:
-            - device
-            - networkInsightsStatus
-            - subscriptionId
-          properties:
-            device:
-              $ref: "#/components/schemas/Device"
-            policyId:
-              $ref: "#/components/schemas/PolicyId"
-            networkInsightsStatus:
-              $ref: "#/components/schemas/NetworkInsightsStatus"
-            subscriptionId:
-              $ref: "#/components/schemas/SubscriptionId"
+              example: "c8974e592c2fa383d4a3960714"
+              description: Authentication token for callback API
 
-        PolicyMet:
-          description: Event detail structure for POLICY_MET event
-          type: object
-          required:
-            - device
-            - networkInsightsStatus
-            - subscriptionId
-          properties:
-            device:
-              $ref: "#/components/schemas/Device"
-            policyId:
-              $ref: "#/components/schemas/PolicyId"
-            networkInsightsStatus:
-              $ref: "#/components/schemas/NetworkInsightsStatus"
-            subscriptionId:
-              $ref: "#/components/schemas/SubscriptionId"
-    
-        EventSubscriptionEnds:
-          description: event structure for event subscription ends
-          allOf:
-            - $ref: "#/components/schemas/CloudEvent"
-            - type: object
-              required:
-                - data
-              properties:
-                data:
-                  $ref: "#/components/schemas/SubscriptionEnds"
-        Source:
-          type: string
-          format: uri-reference
-          minLength: 1
-          description: |
-            Identifies the context in which an event happened, as a non-empty `URI-reference` like:
-            - URI with a DNS authority:
-              * https://github.com/cloudevents
-              * mailto:cncf-wg-serverless@lists.cncf.io
-            - Universally-unique URN with a UUID:
-              * urn:uuid:6e8bc430-9c3a-11d9-9669-0800200c9a66
-            - Application-specific identifier:
-              * /cloudevents/spec/pull/123
-              * 1-555-123-4567
-          example: "https://notificationSendServer12.supertelco.com"
-          
-        SubscriptionEnds:
-          description: Event detail structure for SUBSCRIPTION_ENDS event
-          type: object
-          required:
-            - device
-            - area
-            - terminationReason
-            - subscriptionId
-          properties:
-            device:
-              $ref: "#/components/schemas/Device"
-            policyId:
-              $ref: "#/components/schemas/PolicyId"
-            terminationReason:
-              $ref: "#/components/schemas/TerminationReason"
-            subscriptionId:
-              $ref: "#/components/schemas/SubscriptionId"
-    
-        TerminationReason:
-          type: string
-          description: |
-            NETWORK_TERMINATED - API server stopped sending notification
-            SUBSCRIPTION_EXPIRED - Subscription expire time (required by the requester) has been reached
-          enum:
-            - NETWORK_TERMINATED
-            - SUBSCRIPTION_EXPIRED
-            
-        ErrorInfo:
-          type: object
-          description: Error information  
-          required:
-            - status
-            - code
-            - message
-          properties:
-            status:
-              type: integer
-              description: HTTP status code returned along with this error response
-            code:
-              type: string
-              description: Code given to this error
-            message:
-              type: string
-              description: Detailed error description
-
-            
-      responses:
-        Generic400:
-          description: Invalid argument
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorInfo"
-              example:
-                status: 400
-                code: INVALID_ARGUMENT
-                message: "Invalid argument"
-        
-        Generic401:
-          description: Unauthenticated
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorInfo"
-              example:
-                status: 401
-                code: UNAUTHENTICATED
-                message: "Authorization failed: ..."
-        
-        Generic403:
-          description: Permission denied
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorInfo"
-              example:
-                status: 403
-                code: PERMISSION_DENIED
-                message: "Operation not allowed: ..."
-        
-        Generic404:
-          description: Not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorInfo"
-              example:
-                status: 404
-                code: NOT_FOUND
-                message: "The specified resource is not found"
-        
-        Generic409:
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorInfo"
-              example:
-                status: 409
-                code: Conflict
-                message: "There is conflict in the request"
-        
-        Generic500:
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorInfo"
-              example:
-                status: 500
-                code: INTERNAL
-                message: "Internal server error"
-        
-        Generic503:
-          description: Service unavailable
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorInfo"
-              example:
-                status: 503
-                code: UNAVAILABLE
-                message: "Service unavailable"
-                
-      examples:
-          SUBSCRIPTION_ENDS:
-            description: example of subscription ending
-            value:
-              id: 123655
-              source: https://notificationSendServer12.supertelco.com
-              type: org.camaraproject.connectivityinsights.v0.subscription-ends
-              specversion: "1.0"
-              datacontenttype: application/json
-              time: 2023-03-22T05:40:23.682Z
-              data:
-                subscriptionId: 987654321
-                device:
-                  phoneNumber: 123456789
-                terminationReason: SUBSCRIPTION_EXPIRED
-          POLICY_NOT_MET:
-            # TODO update per PolicyNotMetevent object
-            description: example of a change in network performance from meeting the policy, to not meeting it.
-            value:
-              id: 123655
-              source: https://notificationSendServer12.supertelco.com
-              type: org.camaraproject.connectivityinsights.v0.subscription-ends
-              specversion: "1.0"
-              datacontenttype: application/json
-              time: 2023-03-22T05:40:23.682Z
-              data:
-                subscriptionId: 987654321
-                device:
-                  phoneNumber: 123456789
-                networkInsightsStatus:
-                  $ref: "#/components/schemas/NetworkInsightsStatus"  
-                terminationReason: SUBSCRIPTION_EXPIRED
-          
-          POLICY_MET:
-            # TODO update per PolicyNotMet event object
-            description: example of a change in network performance from not meeting the policy, to meeting it.
-            value:
-              id: 123655
-              source: https://notificationSendServer12.supertelco.com
-              type: org.camaraproject.connectivityinsights.v0.subscription-ends
-              specversion: "1.0"
-              datacontenttype: application/json
-              time: 2023-03-22T05:40:23.682Z
-              data:
-                subscriptionId: 987654321
-                device:
-                  phoneNumber: 123456789
-                networkInsightsStatus:
-                $ref: "#/components/schemas/NetworkInsightsStatus"  
-                terminationReason: SUBSCRIPTION_EXPIRED
-
+        user_subscription_response:
+           type: object
+           properties:
+             subscriptionId:
+               type: string
+               format: uuid
