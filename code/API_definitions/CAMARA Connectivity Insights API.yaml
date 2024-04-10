@@ -1,6 +1,12 @@
     openapi: 3.0.3
     info:
       title: Connectivity Insights API
+     version: '0.3.0-wip'
+       contact: 
+        email: sp-coi@lists.camaraproject.org
+       license:
+         name: Apache 2.0
+         url: https://www.apache.org/licenses/LICENSE-2.0.html
       description: |
         The Connectivity Insights API allows an application developer to ask
          the network the likelihood that an application's networking
@@ -56,7 +62,6 @@
         becomes mandatory. This measure ensures that the API remains in strict
         compliance with user privacy preferences and regulatory obligations,
         upholding the principles of transparency and user-centric data control.
-      version: '0.3.0-wip'
 
     servers:
     - url: "{apiRoot}/{basePath}"
