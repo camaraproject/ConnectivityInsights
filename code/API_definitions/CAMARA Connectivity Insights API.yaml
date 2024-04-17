@@ -99,7 +99,7 @@
               content:
                 application/json:
                   schema:
-                      $ref: '#/components/schemas/NetworkQualityInsight'
+                      $ref: '#/components/schemas/NetworkInfoInsight'
                       
       /network-quality/insights:
         post:
@@ -528,6 +528,61 @@
            jitter:
              $ref: '#/components/schemas/jitter'
              
+        NetworkInfoInsight:
+           oneOf:
+            - $ref: '#/components/schemas/CellularNetwork'
+            - $ref: '#/components/schemas/WiFiNetwork'            
+            - $ref: '#/components/schemas/FixedNetwork'
+            - $ref: '#/components/schemas/SatelliteNetwork'                 
+
+        CellularNetwork:
+          type: object
+          properties:
+            type:
+              type: string
+              pattern: 'cellular'
+            name: 
+              type: string
+              example: 'exmaple telecom'
+            mcc:
+               type: integer
+               minimum: 200
+               maximum: 999
+               example: 234
+            mnc:
+               type: integer
+               minimum: 01
+               maximum: 999
+               example: 15
+            connectivity:
+              type: string
+              enum:
+                - 5G
+                - 4G
+                - SMS
+              
+        WiFiNetwork:
+          type: object
+          properties:
+            type:
+              type: string
+              pattern: 'wifi'
+              
+        FixedNetwork:
+          type: object
+          properties:
+            type:
+              type: string
+              pattern: 'fixed'  
+              
+        SatelliteNetwork:
+          type: object
+          properties:
+            type:
+              type: string
+              pattern: 'fixed'                   
+         
+              
         NetworkQualityInsight:
           type: object
           properties:
@@ -587,11 +642,8 @@
            properties:
             device:
               $ref: "#/components/schemas/Device"
-            applicationServer:
-              $ref: "#/components/schemas/ApplicationServer"
-            policyId:
-              type: string
-              format: uuid
+            applicationProileId:
+              $ref: "#/components/schemas/ApplicationProfileId"
             monitoringFrequency:
               enum:
                 - FIFTEEN_MIN
