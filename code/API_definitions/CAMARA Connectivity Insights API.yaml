@@ -81,7 +81,7 @@
       description: Read the network's level of confidence that it can meet the quality thresholds for a given application profile and end user device.
     - name: Application Profiles
       description: Operations to define, read and manage an application's thresholds for network quality (latency, jitter, loss, throughput)
-    - name: Notifications Management
+    - name: Connectivity Insights Subscriptions
       description: Create and manage a subscription to receive periodic connectivity insights
    
    
@@ -126,82 +126,7 @@
                 application/json:
                   schema:
                       $ref: '#/components/schemas/NetworkQualityInsight'
-                      
-      /network-quality/insights/{insightId}:
-        get:
-          security:
-          - openId:
-            - connectivity_insights:network_quality_insight:read
-          tags:
-          - Quality Insights
-          description: Read an insight. This allows for polling to see if the network's level of confidence to meet the application profile has changed, alternatively, use the Notifications Management operations to receive callbacks.
-          operationId: readNetworkQualityInsight
-          parameters:
-            - name: insightId
-              in: path
-              description: Identifier for an insight
-              required: true
-              style: simple
-              explode: false
-              schema:
-                type: string
-                format: uuid
-          responses:
-            "200":
-              description: OK
-              content:
-                application/json:
-                  schema:
-                      $ref: '#/components/schemas/NetworkQualityInsight'
-                      
-        delete:
-          security:
-          - openId:
-            - connectivity_insights:network_quality_insight:write
-          tags:
-          - Quality Insights
-          description: Delete an insight
-          operationId: deleteNetworkQualityInsight
-          parameters:
-            - name: insightId
-              in: path
-              description: Identifier for a
-              required: true
-              style: simple
-              explode: false
-              schema:
-                type: string
-                format: uuid
-          responses:
-            "200":
-              description: policy has been deleted
-                      
-      /application-profiles:
-        post:
-          security:
-          - openId:
-            - connectivity_insights:application_profile:write
-          tags:
-          - Application Profiles
-          operationId: createApplicationProfile
-          description: Define the network quality thresholds that the application needs to deliver an acceptable user experience.
-          requestBody:
-            description: List of network quality thresholds that the application needs to deliver an acceptable user experience.
-            content:
-              '*/*':
-                schema:
-                  $ref: '#/components/schemas/CreateApplicationProfile'
-            required: true
-          responses:
-            "201":
-              description: Created
-              content:
-                application/json:
-                  schema:
-                      $ref: '#/components/schemas/ApplicationProfile'
-
-
-
+                     
       /application-profiles/{applicationProfileId}:
         put:
           security:
@@ -282,107 +207,176 @@
             "200":
               description: policy has been deleted
 
-      /subscriptions:
+      /network-quality/insights/subscriptions:
         post:
-          security:
-          - openId:
-            - connectivity_insights:subscription:write
           tags:
-          - Notifications Management
-          description: Subscription for monitoring network condition against specific intents for an individual device.
+            - Connectivity Insights Subscriptions
+          description: "Create a Connectivity insights subscription for a device"
+          summary: "Create a Connectivity insights subscription for a device"
+          operationId: createSubscription
           requestBody:
-            description: List of user object
             content:
-              '*/*':
+              application/json:
                 schema:
-                  $ref: '#/components/schemas/user_subscription'
+                  $ref: "#/components/schemas/CreateSubscription"
             required: true
+          callbacks:
+            eventNotifications:
+              "{$request.body#/webhook/notificationUrl}":
+                post:
+                  summary: "Subscription notification callback"
+                  description: |
+                    Important: this endpoint is to be implemented by the API consumer.
+                    The Connectivity Insights server will call this endpoint whenever a connectivity event occurs that changes the netowrk's ability to meet the application's demands for a given device.
+                  operationId: postNotification
+                  requestBody:
+                    required: true
+                    content:
+                      application/cloudevents+json:
+                        schema:
+                          $ref: "#/components/schemas/CloudEvent"
+                        examples:
+                          POLICY_NOT_MET:
+                            $ref: "#/components/examples/POLICY_NOT_MET"
+                          POLICY_MET:
+                            $ref: "#/components/examples/POLICY_MET"
+                          SUBSCRIPTION_ENDS:
+                            $ref: "#/components/examples/SUBSCRIPTION_ENDS"
+                  responses:
+                    "204":
+                      description: Successful notification
+                    "400":
+                      $ref: "#/components/responses/Generic400"
+                    "401":
+                      $ref: "#/components/responses/Generic401"
+                    "403":
+                      $ref: "#/components/responses/Generic403"
+                    "500":
+                      $ref: "#/components/responses/Generic500"
+                    "503":
+                      $ref: "#/components/responses/Generic503"
+                  security:
+                    - {}
+                    - notificationsBearerAuth: []
           responses:
             "201":
-              description: Created
+              description: Created (Successful creation of subscription)
               content:
                 application/json:
                   schema:
-                      $ref: '#/components/schemas/user_subscription_response'
-
-
-      /subscriptions/{subscriptionId}:
-        put:
+                    $ref: "#/components/schemas/SubscriptionInfo"
+            "400":
+              $ref: "#/components/responses/Generic400"
+            "401":
+              $ref: "#/components/responses/Generic401"
+            "403":
+              $ref: "#/components/responses/Generic403"
+            "409":
+              $ref: "#/components/responses/Generic409"
+            "500":
+              $ref: "#/components/responses/Generic500"
+            "503":
+              $ref: "#/components/responses/Generic503"
           security:
-          - openId:
-            - connectivity_insights:subscription:write
-          tags:
-          - Notifications Management
-          description: Subscription for monitoring network condition of individual device.
-          parameters:
-          - name: subscriptionId
-            in: path
-            description: subscription Id
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: uuid
-          requestBody:
-            description: List of user object
-            content:
-              '*/*':
-                schema:
-                  $ref: '#/components/schemas/user_subscription'
-            required: true
-          responses:
-            "200":
-              description: OK
-              content:
-                application/json:
-                  schema:
-                      $ref: '#/components/schemas/user_subscription_response'
+            - openId:
+                - connectivity_insights:subscriptions:write
         get:
-          security:
-          - openId:
-            - connectivity_insights:subscription:read
           tags:
-          - Notifications Management
-          description: get the user subscription
-          parameters:
-          - name: subscriptionId
-            in: path
-            description: subscription Id
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: uuid
+            - Connectivity Insights Subscriptions
+          summary: "Operation to retrieve a list of subscriptions."
+          operationId: getSubscriptionList
+          description: Operation to list subscriptions authorized to be retrieved by the provided access token.
           responses:
             "200":
-              description: OK
+              description: The list of subscriptions is retrieved.
               content:
                 application/json:
                   schema:
-                      $ref: '#/components/schemas/user_subscription'
-        delete:
+                    type: array
+                    minItems: 0
+                    items:
+                      $ref: "#/components/schemas/SubscriptionInfo"
+            "400":
+              $ref: "#/components/responses/Generic400"
+            "401":
+              $ref: "#/components/responses/Generic401"
+            "403":
+              $ref: "#/components/responses/Generic403"
+            "500":
+              $ref: "#/components/responses/Generic500"
+            "503":
+              $ref: "#/components/responses/Generic503"
           security:
-          - openId:
-            - connectivity_insights:subscription:write
+            - openId:
+                - connectivity_insights:subscriptions:read
+
+      /network-quality/insights/subscriptions/{subscriptionsId}:
+        get:
           tags:
-          - Notifications Management
-          description: delete
+            - Connectivity Insights Subscriptions
+          summary: "Operation to retrieve a subscription based on the provided ID"
+          operationId: getSubscription
+          description: Retrieve a given subscription by ID
           parameters:
-          - name: subscriptionId
-            in: path
-            description: subscription Id
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: uuid
+            - name: subscriptionsId
+              in: path
+              description: Subscription identifier that was obtained from the create event subscription operation
+              required: true
+              schema:
+                type: string
           responses:
             "200":
-              description: OK
-
+              description: Contains information about Subscriptions
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/SubscriptionInfo"
+            "400":
+              $ref: "#/components/responses/Generic400"
+            "401":
+              $ref: "#/components/responses/Generic401"
+            "403":
+              $ref: "#/components/responses/Generic403"
+            "404":
+              $ref: "#/components/responses/Generic404"
+            "500":
+              $ref: "#/components/responses/Generic500"
+            "503":
+              $ref: "#/components/responses/Generic503"
+          security:
+            - openId:
+                - connectivity_insights:subscriptions:read
+        delete:
+          tags:
+            - Connectivity Insights Subscriptions
+          summary: "Operation to delete a subscription"
+          operationId: deleteSubscription
+          description: Delete a given subscription by ID
+          parameters:
+            - name: subscriptionsId
+              in: path
+              description: subscription identifier
+              required: true
+              schema:
+                type: string
+          responses:
+            "204":
+              description: Event subscription deleted
+            "400":
+              $ref: "#/components/responses/Generic400"
+            "401":
+              $ref: "#/components/responses/Generic401"
+            "403":
+              $ref: "#/components/responses/Generic403"
+            "404":
+              $ref: "#/components/responses/Generic404"
+            "500":
+              $ref: "#/components/responses/Generic500"
+            "503":
+              $ref: "#/components/responses/Generic503"
+          security:
+            - openId:
+                - connectivity_insights:subscriptions:write
     components:
       securitySchemes:
         openId:
