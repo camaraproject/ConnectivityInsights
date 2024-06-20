@@ -1,0 +1,218 @@
+---
+    openapi: 3.0.3
+    info:
+      title: Network Information Insights API
+      version: 'wip'
+      contact:
+       email: sp-coi@lists.camaraproject.org
+      license:
+         name: Apache 2.0
+         url: https://www.apache.org/licenses/LICENSE-2.0.html
+      description: |
+        Provide network info insights
+    servers:
+    - url: "{apiRoot}/{basePath}"
+      variables:
+        apiRoot:
+          default: http://localhost:9091
+          description: API root
+        basePath:
+          default: connectivity-insights/v0
+          description: Base path for the Connectivity Insights API
+
+    tags:
+    - name: Network Information
+      description: Read information about the network the client is currently attached to.
+   
+    paths:
+      /network-info/insights:
+        get:
+          security:
+          - openId:
+            - connectivity_insights:network_info:read
+          tags:
+          - Connectivity Insights
+          description: Determine the type of network the given device is connected to, and if it is a cellular network, the network identity and connectivity type (3G/4G/5G-SA/5G-NSA)
+          operationId: readNetworkInfoInsight
+          responses:
+            "200":
+              description: OK
+              content:
+                application/json:
+                  schema:
+                      $ref: '#/components/schemas/NetworkInfoInsight'
+            "400":
+              $ref: "#/components/responses/Generic400"
+            "401":
+              $ref: "#/components/responses/Generic401"
+            "403":
+              $ref: "#/components/responses/Generic403"
+            "404":
+              $ref: "#/components/responses/Generic404"
+            "409":
+              $ref: "#/components/responses/Generic409"
+            "500":
+              $ref: "#/components/responses/Generic500"
+            "503":
+              $ref: "#/components/responses/Generic503"
+
+
+    components:
+      securitySchemes:
+        openId:
+          type: openIdConnect
+          openIdConnectUrl: .well-known/openid-configuration
+        
+      schemas:
+    
+        NetworkInfoInsight:
+           oneOf:
+            - $ref: '#/components/schemas/CellularNetwork'
+            - $ref: '#/components/schemas/WiFiNetwork'
+            - $ref: '#/components/schemas/FixedNetwork'
+            - $ref: '#/components/schemas/SatelliteNetwork'
+
+        CellularNetwork:
+          type: object
+          properties:
+            type:
+              type: string
+              pattern: 'cellular'
+            name:
+              type: string
+              example: 'example telecom'
+            mcc:
+               type: integer
+               minimum: 200
+               maximum: 999
+               example: 234
+            mnc:
+               type: integer
+               minimum: 01
+               maximum: 999
+               example: 15
+            connectivity:
+              type: string
+              enum:
+                - 5G-SA
+                - 5G-NSA
+                - 4G
+                - SMS
+              
+        WiFiNetwork:
+          type: object
+          properties:
+            type:
+              type: string
+              pattern: 'wifi'
+              
+        FixedNetwork:
+          type: object
+          properties:
+            type:
+              type: string
+              pattern: 'fixed'
+              
+        SatelliteNetwork:
+          type: object
+          properties:
+            type:
+              type: string
+              pattern: 'fixed'
+            
+        ErrorInfo:
+          type: object
+          description: Error information  
+          required:
+            - status
+            - code
+            - message
+          properties:
+            status:
+              type: integer
+              description: HTTP status code returned along with this error response
+            code:
+              type: string
+              description: Code given to this error
+            message:
+              type: string
+              description: Detailed error description
+
+          
+      responses:
+        Generic400:
+          description: Invalid argument
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfo"
+              example:
+                status: 400
+                code: INVALID_ARGUMENT
+                message: "Invalid argument"
+        
+        Generic401:
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfo"
+              example:
+                status: 401
+                code: UNAUTHENTICATED
+                message: "Authorization failed: ..."
+        
+        Generic403:
+          description: Permission denied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfo"
+              example:
+                status: 403
+                code: PERMISSION_DENIED
+                message: "Operation not allowed: ..."
+        
+        Generic404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfo"
+              example:
+                status: 404
+                code: NOT_FOUND
+                message: "The specified resource is not found"
+        
+        Generic409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfo"
+              example:
+                status: 409
+                code: Conflict
+                message: "There is conflict in the request"
+        
+        Generic500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfo"
+              example:
+                status: 500
+                code: INTERNAL
+                message: "Internal server error"
+        
+        Generic503:
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfo"
+              example:
+                status: 503
+                code: UNAVAILABLE
+                message: "Service unavailable"
