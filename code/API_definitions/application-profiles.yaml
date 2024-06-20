@@ -34,7 +34,7 @@
           - Application Profiles
           summary: create a profile which represents an application's networking demands.
           description: Define network monitoring intents for optimal end user application experience
-          operationId: createPolicy
+          operationId: createProfile
           requestBody:
             description: List of user object
             content:
