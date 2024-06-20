@@ -2,7 +2,7 @@
     openapi: 3.0.3
     info:
       title: Network Information Insights API
-      version: '0.3.0-wip'
+      version: 'wip'
       contact:
        email: sp-coi@lists.camaraproject.org
       license:
