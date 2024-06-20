@@ -21,7 +21,7 @@
           description: Base path for the Connectivity Insights API
 
     tags:
-    - name: Connectivity Insights
+    - name: Network Information
       description: Read information about the network the client is currently attached to.
    
     paths:
