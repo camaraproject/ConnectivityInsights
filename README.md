@@ -32,5 +32,5 @@ Repository to describe, develop, document and test the Connectivity Insights API
     * Minutes: Access [meeting minutes](https://wiki.camaraproject.org/x/UAKeAQ)
 * Mailing List
     <!-- Note: the $api-family-mailinglist$ is not necessery the $repo-name$, if the repository is belonging to an API Family  -->
-    * Subscribe / Unsubscribe to the mailing list of this Sub Project <https://lists.camaraproject.org/g/sp-coi@lists.camaraproject.org>.
+    * Subscribe / Unsubscribe to the mailing list of this Sub Project <https://lists.camaraproject.org/g/sp-coi>.
     * A message to the community of this Sub Project can be sent using <sp-coi@lists.camaraproject.org>.
