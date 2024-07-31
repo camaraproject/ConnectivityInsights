@@ -64,7 +64,7 @@
         upholding the principles of transparency and user-centric data control.
 
     servers:
-    - url: "{apiRoot}/connectivity-insights/v01"
+    - url: "{apiRoot}/connectivity-insights/v0.3"
       variables:
         apiRoot:
           default: http://localhost:9091
