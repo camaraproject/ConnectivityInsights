@@ -11,7 +11,7 @@
       x-camara-commonalities: 0.4.0
       
     servers:
-    - url: "{apiRoot}/connectivity-insights/v0.3"
+    - url: "{apiRoot}/application-profiles/v0.3"
       variables:
         apiRoot:
           default: http://localhost:9091
