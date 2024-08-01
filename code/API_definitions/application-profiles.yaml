@@ -1,24 +1,21 @@
 ---
     openapi: 3.0.3
     info:
-      title: Connectivity Insights API
-      version: '0.3.0-wip'
-      contact:
-       email: sp-coi@lists.camaraproject.org
+      title: Connectivity Insights - Application Profiles
+      version: wip
       license:
          name: Apache 2.0
          url: https://www.apache.org/licenses/LICENSE-2.0.html
       description: |
         Application profiles allows application developers to share all the information about their application which would be relavant in network/CAMARA APIs related decision making.  //todo
+      x-camara-commonalities: 0.4.0
+      
     servers:
-    - url: "{apiRoot}/{basePath}"
+    - url: "{apiRoot}/application-profiles/v0.3"
       variables:
         apiRoot:
           default: http://localhost:9091
           description: API root
-        basePath:
-          default: connectivity-insights/v0
-          description: Base path for the Connectivity Insights API
 
     tags:
     - name: Application Profiles
