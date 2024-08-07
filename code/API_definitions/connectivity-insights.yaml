@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Connectivity Insights
-  version: "0.3.0-rc.1"
+  version: "0.4.0-rc.1"
   x-camara-commonalities: 0.4.0
   description: |
     The Connectivity Insights API allows an application developer to ask
@@ -68,7 +68,7 @@ externalDocs:
   url: https://github.com/camaraproject/ConnectivityInsights
 
 servers:
-  - url: "{apiRoot}/connectivity-insights/v0.3rc1"
+  - url: "{apiRoot}/connectivity-insights/v0.4rc1"
     variables:
       apiRoot:
         default: http://localhost:9091
