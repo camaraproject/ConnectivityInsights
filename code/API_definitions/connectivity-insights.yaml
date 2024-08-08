@@ -3,7 +3,7 @@ info:
   title: Connectivity Insights
   version: "0.4.0-rc.1"
   contact:
-       email: sp-coi@lists.camaraproject.org
+    email: sp-coi@lists.camaraproject.org
   x-camara-commonalities: 0.4.0
   description: |
     With CAMARA Connectivity Insights, application developers gain essential
@@ -891,7 +891,7 @@ components:
         demands of a given policy for a given terminal device.
       properties:
         papplicationProfileId:
-              $ref: "#/components/schemas/ApplicationProfileId"
+          $ref: "#/components/schemas/ApplicationProfileId"
         packetDelayBudget:
           $ref: "#/components/schemas/PolicyFulfillmentConfidence"
         targetMinDownstreamRate:
