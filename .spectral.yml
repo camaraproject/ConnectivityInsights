@@ -1,9 +1,6 @@
 # CAMARA Project - linting ruleset - documentation avaialable here:
 # https://github.com/camaraproject/Commonalities/blob/main/documentation/Linting-rules.md
-# Changelog:
-# - 31.01.2024: Initial version
-# - 19.03.2024: Corrected camara-http-methods rule
-
+# 31.01.2024 - initial version
 
 extends: "spectral:oas"
 functions:
@@ -111,7 +108,7 @@ rules:
     then:
       function: pattern
       functionOptions:
-        match: "^(get|put|post|delete|patch|options|parameters)$"
+        match: "^(get|put|post|delete|patch|options)$"
     recommended: true  # Set to true/false to enable/disable this rule
 
   camara-get-no-request-body:
@@ -159,7 +156,7 @@ rules:
       field: description
       function: truthy
     recommended: true  # Set to true/false to enable/disable this rule
-    
+
   camara-parameters-descriptions:
     message: "Parameter description is missing or empty: {{error}}"
     severity: warn
@@ -171,7 +168,7 @@ rules:
       field: description
       function: truthy
     recommended: true  # Set to true/false to enable/disable this rule
-    
+
   camara-response-descriptions:
     message: "Parameter description is missing or empty: {{error}}"
     severity: warn
@@ -196,7 +193,7 @@ rules:
       field: description
       function: truthy
     recommended: true  # Set to true/false to enable/disable this rule
-    
+
   camara-operation-summary:
     message: "Operation Summary Warning: Each operation should include a short summary for better understanding."
     severity: warn
