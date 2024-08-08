@@ -3,7 +3,7 @@ Feature: Application Profiles API automated test
 
   Background:
     Given an environment at "apiRoot"
-     And the resource "{path_resource}"                                                     |
+    And the resource "{path_resource}"
     And the header "Content-Type" is set to "application/json"
     And the header "Authorization" is set to a valid access token
     And the header "x-correlator" is set to a UUID value
