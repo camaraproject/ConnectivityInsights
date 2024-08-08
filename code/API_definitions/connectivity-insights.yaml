@@ -6,7 +6,9 @@ info:
        email: sp-coi@lists.camaraproject.org
   x-camara-commonalities: 0.4.0
   description: |
-    With CAMARA Connectivity Insights, application developers gain essential visibility into network quality. This enables them to make informed decisions that enhance the end-user experience for their applications.
+    With CAMARA Connectivity Insights, application developers gain essential
+    visibility into network quality. This enables them to make informed
+    decisions that enhance the end-user experience for their applications.
 
     # Introduction
       The Connectivity Insights API allows an application developer to ask
@@ -31,7 +33,8 @@ info:
           Identifier assigned by the mobile network operator for the device.
 
       * **Identifier for the application server**:
-        IPv4 and/or IPv6 address of the application server (application backend)
+        IPv4 and/or IPv6 address of the application server
+        (application backend)
 
       * **Notification URL and token**:
         Developers may provide a callback URL on which notifications can be
@@ -45,18 +48,33 @@ info:
 
     ### Notification callback
 
-      This endpoint describes the event notification received on subscription listener side when the event occurred. As for subscription, detailed description of the event notification is provided in the CAMARA API design guideline document.
+      This endpoint describes the event notification received on subscription
+      listener side when the event occurred. As for subscription, detailed
+      description of the event notification is provided in the CAMARA API design guideline document.
 
-      **WARNING**: This callback endpoint must be exposed on the listener side as `POST /{$request.body#/sink}`will be posted by the connectivity insights resource server to the webhook url provided by notification
-      listener.
+      **WARNING**: This callback endpoint must be exposed on the listener
+      side as `POST /{$request.body#/sink}`will be posted by the
+      connectivity insights resource server to the webhook url provided
+      by notification listener.
 
     # Authorization and Authentication
 
-      [Camara Security and Interoperability Profile](https://github.com/camaraproject/IdentityAndConsentManagement/blob/main/documentation/CAMARA-Security-Interoperability.md) provides details on how a client requests an access token.
+      [Camara Security and Interoperability Profile](https://github.com/camaraproject/IdentityAndConsentManagement/blob/main/documentation/
+      CAMARA-Security-Interoperability.md) provides details on how a client requests an access token.
 
-      Which specific authorization flows are to be used will be determined during onboarding process, happening between the API Client and the Telco Operator exposing the API, taking into account the declared purpose for accessing the API, while also being subject to the prevailing legal framework dictated by local legislation.
+      Which specific authorization flows are to be used will be determined
+      during onboarding process, happening between the API Client and the Telco
+      Operator exposing the API, taking into account the declared purpose for
+      accessing the API, while also being subject to the prevailing legal
+      framework dictated by local legislation.
 
-      It is important to remark that in cases where personal user data is processed by the API, and users can exercise their rights through mechanisms such as opt-in and/or opt-out, the use of 3-legged access tokens becomes mandatory. This measure ensures that the API remains in strict compliance with user privacy preferences and regulatory obligations, upholding the principles of transparency and user-centric data control.
+      It is important to remark that in cases where personal user data is
+      processed by the API, and users can exercise their rights through
+      mechanisms such as opt-in and/or opt-out, the use of 3-legged access
+      tokens becomes mandatory. This measure ensures that the API remains in
+      strict compliance with user privacy preferences and regulatory
+      obligations, upholding the principles of transparency and user-centric
+      data control.
 
   license:
     name: Apache 2.0
@@ -850,7 +868,8 @@ components:
 
     NetworkQualityInsightResponse:
       type: object
-      description: the network's confidence level at being able to meet the network demands of a given policy for a given terminal device.
+      description: the network's confidence level at being able to meet the
+        network demands of a given policy for a given terminal device.
       properties:
         packetDelayBudget:
           $ref: '#/components/schemas/PolicyFulfillmentConfidence'
