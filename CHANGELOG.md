@@ -42,7 +42,9 @@ The API definition(s) are based on
   - [View it on Swagger Editor]
     - [connectivity-insights.yaml]((https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights.yaml))
       - [application-profiles.yaml]((https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/application-profiles.yaml))
-  - OpenAPI [YAML spec file]
+  - OpenAPI
+    -  [connectivity-insights.yaml](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights.yaml)
+    -  [application-profiles.yaml](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/application-profiles.yaml)
 
 ### Added
   - Gherkin `.feature` file in Test_definitions
