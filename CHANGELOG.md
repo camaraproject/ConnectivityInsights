@@ -4,7 +4,7 @@ NOTE:
 
 ## Table of contents
 
-- [r1.1 - rc]
+- **[r1.1 - rc](#r11---rc)**
 
 **Please be aware that the project will have frequent updates to the main branch. There are no compatibility guarantees associated with code in any branch, including main, until it has been released. For example, changes may be reverted before a release is published. For the best results, use the latest published release.**
 
@@ -14,7 +14,7 @@ The below sections record the changes for each API version in each (pre-)release
 * for subsequent alpha or release-candidate API versions, the delta with respect to the previous pre-release
 * for a public API version, the consolidated changes since the release of the previous public API version
 
-
+# r1.1 - rc
 ## Release Notes
 
 This release contains the definition and documentation of
@@ -24,7 +24,6 @@ This release contains the definition and documentation of
 The API definition(s) are based on
 * Commonalities v0.4.0-rc.1
 * Identity and Consent Management v0.2.0-rc.1
-
 
 ## Connectivity Insights API v0.4.0-rc.1
 
