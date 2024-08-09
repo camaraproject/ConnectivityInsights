@@ -35,7 +35,10 @@ The API definition(s) are based on
 - This version is primarily to align with the changes to Commonalities 0.4-rc.1 and Identity and Consent Management v0.2.0-rc.1.
 
 - API definition **with inline documentation**:
-  - [View it on ReDoc]
+  - View it on ReDoc:
+    - [connectivity-insights.yaml](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights.yaml&nocors)
+    
+    - [application-profiles.yaml](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/application-profiles.yaml&nocors)
   - [View it on Swagger Editor]
   - OpenAPI [YAML spec file]
 
