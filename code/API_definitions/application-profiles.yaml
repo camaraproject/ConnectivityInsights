@@ -9,7 +9,7 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   description: |
     Application profiles allows application developers to share all the
-    information about their application which would be relavant for network/
+    information about their application which would be relevant for network/
     CAMARA APIs related decision making.
   x-camara-commonalities: 0.4.0
 
