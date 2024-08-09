@@ -22,7 +22,7 @@ This release contains the definition and documentation of
 * Application Profiles API
 
 The API definition(s) are based on
-* Commonalities v0.4.0
+* Commonalities v0.4.0-rc.1
 * Identity and Consent Management v0.2.0
 
 
