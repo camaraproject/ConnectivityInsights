@@ -2,13 +2,15 @@ openapi: 3.0.3
 info:
   title: Connectivity Insights - Application Profiles
   version: 0.3.0-rc.1
+  contact:
+    email: sp-coi@lists.camaraproject.org
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   description: |
     Application profiles allows application developers to share all the
-    information about their application which would be relavant in
-    network/CAMARA APIs related decision making.  //todo
+    information about their application which would be relevant for network/
+    CAMARA APIs related decision making.
   x-camara-commonalities: 0.4.0
 
 servers:
@@ -49,7 +51,7 @@ paths:
         required: true
       responses:
         "200":
-          description: good
+          description: OK
           content:
             application/json:
               schema:

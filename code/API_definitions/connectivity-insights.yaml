@@ -2,63 +2,80 @@ openapi: 3.0.3
 info:
   title: Connectivity Insights
   version: "0.4.0-rc.1"
+  contact:
+    email: sp-coi@lists.camaraproject.org
   x-camara-commonalities: 0.4.0
   description: |
-    The Connectivity Insights API allows an application developer to ask
-     the network the likelihood that an application's networking
-     requirements can be met for a given end user session.
-
-    This information helps a developer ensure their end users are able to
-     get the best experience while using the application over their current
-      network.
-
-    Depending on the answer the network gives, the developer may decide to
-     request a network boost (via the CAMARA QoD API) , and/or apply
-      specific changes on the application side e.g. adjusting the
-      resolution of the video stream upwards or downwards.
+    With CAMARA Connectivity Insights, application developers gain essential
+    visibility into network quality. This enables them to make informed
+    decisions that enhance the end-user experience for their applications.
 
     # Introduction
+      The Connectivity Insights API allows an application developer to ask
+      the network the likelihood that an application's networking
+      requirements can be met for a given end user session.
+
+      This information helps a developer ensure their end users are able to
+      get the best experience while using the application over their current
+      network.
+
+      Depending on the answer the network gives, the developer may decide to
+      request a network boost (via the CAMARA QoD API) , and/or apply
+      specific changes on the application side e.g. adjusting the
+      resolution of the video stream upwards or downwards.
 
 
     # Relevant terms and definitions
 
-    * **Identifier for the device**:
-    At least one identifier for the device (user equipment) out of four
-     options: IPv4 address, IPv6 address, Phone number, or Network Access
-      Identifier assigned by the mobile network operator for the device.
+      * **Identifier for the device**:
+        At least one identifier for the device (user equipment) out of four
+         options: IPv4 address, IPv6 address, Phone number, or Network Access
+          Identifier assigned by the mobile network operator for the device.
 
-    * **Identifier for the application server**:
-    IPv4 and/or IPv6 address of the application server (application backend)
+      * **Identifier for the application server**:
+        IPv4 and/or IPv6 address of the application server
+        (application backend)
 
-    * **Notification URL and token**:
-    Developers may provide a callback URL on which notifications can be
-     received from the service provider. This is an optional parameter.
+      * **Notification URL and token**:
+        Developers may provide a callback URL on which notifications can be
+         received from the service provider. This is an optional parameter.
 
     # API functionality
 
 
-    Following diagram shows the interaction between different components
-    (**editor note paths need to be updated**)
-    ![Sequence Diagram](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/main/documentation/API_documentation/sequenceDiagram.v1.png)
+      Following diagram shows the interaction between different components
+      ![Sequence Diagram](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/main/documentation/API_documentation/ConnectivityInsights-SequenceDiagram.png)
 
-    # Authorization and authentication
+    ### Notification callback
 
-    CAMARA guidelines defines a set of authorization flows which can grant API
-    clients access to the API functionality, as outlined in the document
-    [CAMARA-API-access-and-user-consent.md]
-    (https://github.com/camaraproject/IdentityAndConsentManagement/blob/main/documentation/CAMARA-API-access-and-user-consent.md).
-    Which specific authorization flows are to be used will be determined during
-    onboarding process, happening between the API Client and the Telco Operator
-    exposing the API, taking into account the declared purpose for accessing
-    the API, while also being subject to the prevailing legal framework
-    dictated by local legislation.
+      This endpoint describes the event notification received on subscription
+      listener side when the event occurred. As for subscription, detailed
+      description of the event notification is provided in the CAMARA API design guideline document.
 
-    It is important to remark that in cases where personal user data is
-    processed by the API, and users can exercise their rights through
-    mechanisms such as opt-in and/or opt-out, the use of 3-legged access tokens
-    becomes mandatory. This measure ensures that the API remains in strict
-    compliance with user privacy preferences and regulatory obligations,
-    upholding the principles of transparency and user-centric data control.
+      **WARNING**: This callback endpoint must be exposed on the listener
+      side as `POST /{$request.body#/sink}`will be posted by the
+      connectivity insights resource server to the webhook url provided
+      by notification listener.
+
+    # Authorization and Authentication
+
+      [Camara Security and Interoperability Profile](https://github.com/camaraproject/IdentityAndConsentManagement/blob/main/documentation/
+      CAMARA-Security-Interoperability.md) provides details on how a client requests an access token.
+
+      Which specific authorization flows are to be used will be determined
+      during onboarding process, happening between the API Client and the Telco
+      Operator exposing the API, taking into account the declared purpose for
+      accessing the API, while also being subject to the prevailing legal
+      framework dictated by local legislation.
+
+      It is important to remark that in cases where personal user data is
+      processed by the API, and users can exercise their rights through
+      mechanisms such as opt-in and/or opt-out, the use of 3-legged access
+      tokens becomes mandatory. This measure ensures that the API remains in
+      strict compliance with user privacy preferences and regulatory
+      obligations, upholding the principles of transparency and user-centric
+      data control.
+
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -109,17 +126,20 @@ paths:
           defined in the application profile can be met for the particular
           connected device.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/NetworkQualityInsightRequest"
         required: true
       responses:
         "200":
           description: OK
+          headers:
+            x-correlator:
+              $ref: "#/components/headers/x-correlator"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/NetworkQualityInsight"
+                $ref: "#/components/schemas/NetworkQualityInsightResponse"
 
   /network-quality/insights/subscriptions:
     post:
@@ -430,7 +450,7 @@ components:
             type: string
         config:
           $ref: "#/components/schemas/Config"
-        id:
+        subscriptionId:
           type: string
           description: |
             The unique identifier of the subscription in the scope of the
@@ -492,7 +512,7 @@ components:
         (Creation or Deletion)
       type: object
       properties:
-        id:
+        subscriptionId:
           $ref: "#/components/schemas/SubscriptionId"
 
     SubscriptionId:
@@ -846,16 +866,32 @@ components:
         config:
           $ref: "#/components/schemas/Config"
 
+    NetworkQualityInsightResponse:
+      type: object
+      description: the network's confidence level at being able to meet the
+        network demands of a given policy for a given terminal device.
+      properties:
+        packetDelayBudget:
+          $ref: '#/components/schemas/PolicyFulfillmentConfidence'
+        targetMinDownstreamRate:
+          $ref: '#/components/schemas/PolicyFulfillmentConfidence'
+        targetMinUpstreamRate:
+          $ref: '#/components/schemas/PolicyFulfillmentConfidence'
+        packetlossErrorRate:
+          $ref: '#/components/schemas/PolicyFulfillmentConfidence'
+        jitter:
+          $ref: '#/components/schemas/PolicyFulfillmentConfidence'
+        additionalKPIs:
+          $ref: '#/components/schemas/AdditionalKpis'
+
     NetworkQualityInsight:
       type: object
       description: |
         the network's confidence level at being able to meet the network
         demands of a given policy for a given terminal device.
       properties:
-        policyId:
-          type: string
-          description: Identifier for the policy
-          format: uuid
+        papplicationProfileId:
+          $ref: "#/components/schemas/ApplicationProfileId"
         packetDelayBudget:
           $ref: "#/components/schemas/PolicyFulfillmentConfidence"
         targetMinDownstreamRate:
