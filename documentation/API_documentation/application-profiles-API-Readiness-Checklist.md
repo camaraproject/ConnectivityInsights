@@ -14,7 +14,7 @@ Checklist for application-profile v0.3.0-rc.1
 |  8 | Enhanced API test cases & documentation      |   O   |         O         |    O    |    M   | N    |  |
 |  9 | Test result statement                        |   O   |         O         |    O    |    M   | N    |      |
 | 10 | API release numbering convention applied     |   M   |         M         |    M    |    M   | Y    |      |
-| 11 | Change log updated                           |   M   |         M         |    M    |    M   | tbd  |  |
+| 11 | Change log updated                           |   M   |         M         |    M    |    M   | Y  |  |
 | 12 | Previous public release was certified        |   O   |         O         |    O    |    M   | N    |      |
 
 To fill the checklist:

@@ -44,7 +44,7 @@ info:
 
 
       Following diagram shows the interaction between different components
-      ![Sequence Diagram](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/main/documentation/API_documentation/ConnecitvityInsights-SequenceDiagram.png)
+      ![Sequence Diagram](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/main/documentation/API_documentation/ConnectivityInsights-SequenceDiagram.png)
 
     ### Notification callback
 
