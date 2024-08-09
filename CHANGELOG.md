@@ -40,6 +40,8 @@ The API definition(s) are based on
     
     - [application-profiles.yaml](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/application-profiles.yaml&nocors)
   - [View it on Swagger Editor]
+    - [connectivity-insights.yaml]((https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights.yaml))
+      - [application-profiles.yaml]((https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/application-profiles.yaml))
   - OpenAPI [YAML spec file]
 
 ### Added
