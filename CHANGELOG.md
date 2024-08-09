@@ -18,7 +18,7 @@ The below sections record the changes for each API version in each (pre-)release
 ## Release Notes
 
 This release contains the definition and documentation of
-* Connecitvity Insights API
+* Connectivity Insights API
 * Application Profiles API
 
 The API definition(s) are based on
