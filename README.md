@@ -21,9 +21,9 @@ Repository to describe, develop, document and test the Connectivity Insights API
 ## Release Information
 <!-- Use/uncomment one or multiple the following options -->
 <!-- The sub project has no (pre)releases yet, work in progress is within the main branch -->
-<!-- Pre-releases of this sub project are available in https://github.com/camaraproject/§repo_name§/releases -->
+ Pre-releases of this sub project are available in https://github.com/camaraproject/ConnectivityInsights/releases
 <!-- The latest public release is available here: https://github.com/camaraproject/§repo_name§/releases/latest -->
-<!-- For changes see [CHANGELOG.md](https://github.com/camaraproject/§repo_name§/blob/main/CHANGELOG.md) -->
+For changes see [CHANGELOG.md](https://github.com/camaraproject/ConnectivityInsights/blob/main/CHANGELOG.md)
 
 ## Contributing
 * Meetings <!-- for new API families request a meeting link from the LF admin team or replace the information with the existing meeting information (of the API family) -->
