@@ -37,13 +37,13 @@ The API definition(s) are based on
   - View it on ReDoc:
     - [connectivity-insights.yaml](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights.yaml&nocors)
     
-    - [application-profiles.yaml](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/application-profiles.yaml&nocors)
-  - [View it on Swagger Editor]
-    - [connectivity-insights.yaml]((https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights.yaml))
-      - [application-profiles.yaml]((https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/application-profiles.yaml))
+
+  - View it on Swagger Editor
+    - [connectivity-insights.yaml](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights.yaml)
+
   - OpenAPI
     -  [connectivity-insights.yaml](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights.yaml)
-    -  [application-profiles.yaml](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/application-profiles.yaml)
+
 
 ### Added
   - Gherkin `.feature` file in Test_definitions
@@ -55,3 +55,37 @@ The API definition(s) are based on
   - Compliance with DeviceIdentifier schema
   - Error model alignment, including device identifier-related errors
   - Updated the API Readiness Checklist to the new format
+
+## Application Profiles API 0.3.0-rc.1
+
+
+
+** 0.3.0-rc.1 is the first release-candidate version for application profile.**
+
+
+
+### Main changes
+
+- This version is primarily to align with the changes to Commonalities 0.4-rc.1 and Identity and Consent Management v0.2.0-rc.1.
+
+- API definition **with inline documentation**:
+  - View it on ReDoc:
+    - [application-profiles.yaml](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/application-profiles.yaml&nocors)
+
+  - View it on Swagger Editor
+    - [application-profiles.yaml](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/application-profiles.yaml)
+
+  - OpenAPI
+    -  [application-profiles.yaml](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/application-profiles.yaml)
+
+### Added
+
+- Gherkin 
+`.feature` file in Test_definitions
+
+### Changed
+
+- Aligned the network monitoring KPIs to match with Quality on Demand CAMARA API.
+- update the end points to make it more developer friendly based on the discussion in the API working group.
+- Updated the API Readiness Checklist to the new format
+
