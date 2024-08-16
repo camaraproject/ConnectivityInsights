@@ -18,8 +18,9 @@ The below sections record the changes for each API version in each (pre-)release
 ## Release Notes
 
 This release contains the definition and documentation of
-* Connectivity Insights API
-* Application Profiles API
+* Connectivity Insights API v0.4.0
+* Connectivity Insights Subscriptions API v0.4.0
+* Application Profiles API v0.3.0
 
 The API definition(s) are based on
 * Commonalities v0.4.0-rc.1
@@ -28,15 +29,13 @@ The API definition(s) are based on
 ## Connectivity Insights API v0.4.0-rc.1
 
 ** 0.4.0-rc.1 is the first release-candidate version for connectivity insights**
-
-
-### Main changes
 - This version is primarily to align with the changes to Commonalities 0.4-rc.1 and Identity and Consent Management v0.2.0-rc.1.
+- This is the first release of the API.
 
 - API definition **with inline documentation**:
   - View it on ReDoc:
     - [connectivity-insights.yaml](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights.yaml&nocors)
-    
+
 
   - View it on Swagger Editor
     - [connectivity-insights.yaml](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights.yaml)
@@ -56,17 +55,42 @@ The API definition(s) are based on
   - Error model alignment, including device identifier-related errors
   - Updated the API Readiness Checklist to the new format
 
+## Connectivity Insights Subscriptions API v0.4.0-rc.1
+
+** 0.4.0-rc.1 is the first release-candidate version for connectivity insights subscriptions API**
+- This version is primarily to align with the changes to Commonalities 0.4-rc.1 and Identity and Consent Management v0.2.0-rc.1.
+- This is the first release of the API.
+
+- API definition **with inline documentation**:
+  - View it on ReDoc:
+    - [connectivity-insights-subscriptions.yaml](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)
+
+
+  - View it on Swagger Editor
+    - [connectivity-insights-subscriptions.yaml](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights-subscriptions.yaml)
+
+  - OpenAPI
+    -  [connectivity-insights-subscriptions.yaml](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights-subscriptions.yaml)
+
+
+### Added
+  - Gherkin `.feature` file in Test_definitions
+  - Implementation of ICM consent guidelines
+  - Addition of `x-camara-commonalities` object to YAML
+  - Documentation: added warning about use of `networkAccessIdentifier`, added User Story
+
+### Changed
+  - Compliance with DeviceIdentifier schema
+  - Error model alignment, including device identifier-related errors
+  - Updated the API Readiness Checklist to the new format
+
 ## Application Profiles API 0.3.0-rc.1
 
 
 
 ** 0.3.0-rc.1 is the first release-candidate version for application profile.**
-
-
-
-### Main changes
-
 - This version is primarily to align with the changes to Commonalities 0.4-rc.1 and Identity and Consent Management v0.2.0-rc.1.
+- This is the first release of the API.
 
 - API definition **with inline documentation**:
   - View it on ReDoc:
@@ -80,7 +104,7 @@ The API definition(s) are based on
 
 ### Added
 
-- Gherkin 
+- Gherkin
 `.feature` file in Test_definitions
 
 ### Changed
@@ -88,4 +112,3 @@ The API definition(s) are based on
 - Aligned the network monitoring KPIs to match with Quality on Demand CAMARA API.
 - update the end points to make it more developer friendly based on the discussion in the API working group.
 - Updated the API Readiness Checklist to the new format
-
