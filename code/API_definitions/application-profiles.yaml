@@ -33,7 +33,7 @@ paths:
     post:
       security:
         - openId:
-            - connectivity_insights:policy:write
+            - application-profile:write
       tags:
         - Application Profiles
       summary: |
@@ -45,47 +45,47 @@ paths:
       requestBody:
         description: List of user-defined network quality thresholds
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/NetworkQualityThresholds"
         required: true
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Created
+          headers:
+            x-correlator:
+              $ref: "#/components/headers/x-correlator"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApplicationProfileId"
+                $ref: "#/components/schemas/ApplicationProfile"
         "400":
           $ref: "#/components/responses/Generic400"
         "401":
           $ref: "#/components/responses/Generic401"
         "403":
           $ref: "#/components/responses/Generic403"
-        "404":
-          $ref: "#/components/responses/Generic404"
-        "409":
-          $ref: "#/components/responses/Generic409"
         "500":
           $ref: "#/components/responses/Generic500"
         "503":
           $ref: "#/components/responses/Generic503"
 
   /application-profiles/{applicationProfileId}:
-    put:
+    patch:
       security:
         - openId:
-            - connectivity_insights:application_profile:write
+            - application-profile:write
       tags:
         - Application Profiles
       description: |
-        Update the network quality thresholds for an application that ensure
-        good end user experience
+        Update the complete set of network quality thresholds for an
+        application with the new set of thresholds to ensure good
+        end user experience
       operationId: updateApplicationProfile
       parameters:
         - name: applicationProfileId
           in: path
-          description: Identifier for the Aplpication Profile
+          description: Identifier for the Application Profile
           required: true
           style: simple
           explode: false
@@ -94,10 +94,10 @@ paths:
             format: uuid
       requestBody:
         description: |
-          Update the network quality thresholds that the application needs to
-          deliver an acceptable user experience.
+          network monitoring intents for optimal end user application
+          experience.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ApplicationProfile"
         required: true
@@ -116,7 +116,7 @@ paths:
           $ref: "#/components/responses/Generic403"
         "404":
           $ref: "#/components/responses/Generic404"
-        "409":
+        "405":
           $ref: "#/components/responses/Generic409"
         "500":
           $ref: "#/components/responses/Generic500"
@@ -126,7 +126,7 @@ paths:
     get:
       security:
         - openId:
-            - connectivity_insights:application_profile:read
+            - application-profile:read
       tags:
         - Application Profiles
       description: Read an Application Profile
@@ -166,7 +166,7 @@ paths:
     delete:
       security:
         - openId:
-            - connectivity_insights:application_profile:write
+            - application-profile:delete
       tags:
         - Application Profiles
       description: delete
@@ -202,9 +202,14 @@ paths:
 components:
   securitySchemes:
     openId:
+      description: OpenID Provider Configuration Information
       type: openIdConnect
-      openIdConnectUrl: .well-known/openid-configuration
-
+      openIdConnectUrl: https://example.com/.well-known/openid-configuration
+  headers:
+    x-correlator:
+      description: Correlation id for the different services
+      schema:
+        type: string
   schemas:
     Duration:
       type: object
@@ -312,6 +317,9 @@ components:
 
     ApplicationProfile:
       type: object
+      required:
+        - applicationProfileId
+        - networkQualityThresholds
       properties:
         applicationProfileId:
           type: string
@@ -333,10 +341,6 @@ components:
         jitter:
           $ref: "#/components/schemas/jitter"
 
-    ApplicationProfileId:
-      type: string
-      format: uuid
-
     ErrorInfo:
       type: object
       description: Error information
@@ -357,78 +361,150 @@ components:
 
   responses:
     Generic400:
-      description: Invalid argument
+      description: Bad Request
+      headers:
+        x-correlator:
+          $ref: "#/components/headers/x-correlator"
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorInfo"
-          example:
-            status: 400
-            code: INVALID_ARGUMENT
-            message: "Invalid argument"
-
+          examples:
+            GENERIC_400_INVALID_ARGUMENT:
+              description: Invalid Argument. Generic Syntax Exception
+              value:
+                status: 400
+                code: INVALID_ARGUMENT
+                message: Client specified an invalid argument, request body or query param.
+            GENERIC_400_OUT_OF_RANGE:
+              description: Out of Range. Specific Syntax Exception used when a given field has a pre-defined range or a invalid filter criteria combination is requested
+              value:
+                status: 400
+                code: OUT_OF_RANGE
+                message: Client specified an invalid range.
     Generic401:
-      description: Unauthenticated
+      description: Unauthorized
+      headers:
+        x-correlator:
+          $ref: "#/components/headers/x-correlator"
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorInfo"
-          example:
-            status: 401
-            code: UNAUTHENTICATED
-            message: "Authorization failed: ..."
-
+          examples:
+            GENERIC_401_UNAUTHENTICATED:
+              description: Request cannot be authenticated
+              value:
+                status: 401
+                code: UNAUTHENTICATED
+                message: Request not authenticated due to missing, invalid, or expired credentials.
+            GENERIC_401_AUTHENTICATION_REQUIRED:
+              description: New authentication is needed, authentication is no longer valid
+              value:
+                status: 401
+                code: AUTHENTICATION_REQUIRED
+                message: New authentication is required.
     Generic403:
-      description: Permission denied
+      description: Forbidden
+      headers:
+        x-correlator:
+          $ref: "#/components/headers/x-correlator"
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorInfo"
-          example:
-            status: 403
-            code: PERMISSION_DENIED
-            message: "Operation not allowed: ..."
-
+          examples:
+            GENERIC_403_PERMISSION_DENIED:
+              description: Permission denied. OAuth2 token access does not have the required scope or when the user fails operational security
+              value:
+                status: 403
+                code: PERMISSION_DENIED
+                message: Client does not have sufficient permissions to perform this action.
+            GENERIC_403_INVALID_TOKEN_CONTEXT:
+              description: Reflect some inconsistency between information in some field of the API and the related OAuth2 Token
+              value:
+                status: 403
+                code: INVALID_TOKEN_CONTEXT
+                message: "{{field}} is not consistent with access token."
     Generic404:
       description: Not found
+      headers:
+        x-correlator:
+          $ref: "#/components/headers/x-correlator"
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorInfo"
-          example:
-            status: 404
-            code: NOT_FOUND
-            message: "The specified resource is not found"
-
+          examples:
+            GENERIC_404_NOT_FOUND:
+              description: Resource is not found
+              value:
+                status: 404
+                code: NOT_FOUND
+                message: The specified resource is not found.
+            GENERIC_404_DEVICE_NOT_FOUND:
+              description: Device identifier not found
+              value:
+                status: 404
+                code: DEVICE_NOT_FOUND
+                message: Device identifier not found.
     Generic409:
       description: Conflict
+      headers:
+        x-correlator:
+          $ref: "#/components/headers/x-correlator"
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorInfo"
-          example:
-            status: 409
-            code: Conflict
-            message: "There is conflict in the request"
-
+          examples:
+            GENERIC_409_ABORTED:
+              description: Concurreny of processes of the same nature/scope
+              value:
+                status: 409
+                code: ABORTED
+                message: Concurrency conflict.
+            GENERIC_409_ALREADY_EXISTS:
+              description: Trying to create an existing resource
+              value:
+                status: 409
+                code: ALREADY_EXISTS
+                message: The resource that a client tried to create already exists.
+            GENERIC_409_CONFLICT:
+              description: Duplication of an existing resource
+              value:
+                status: 409
+                code: CONFLICT
+                message: A specified resource duplicate entry found.
     Generic500:
-      description: Internal server error
+      description: Internal Server Error
+      headers:
+        x-correlator:
+          $ref: "#/components/headers/x-correlator"
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorInfo"
-          example:
-            status: 500
-            code: INTERNAL
-            message: "Internal server error"
-
+          examples:
+            GENERIC_500_INTERNAL:
+              description: Problem in Server side. Regular Server Exception
+              value:
+                status: 500
+                code: INTERNAL
+                message: Unknown server error. Typically a server bug.
     Generic503:
-      description: Service unavailable
+      description: Service Unavailable
+      headers:
+        x-correlator:
+          $ref: "#/components/headers/x-correlator"
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorInfo"
-          example:
-            status: 503
-            code: UNAVAILABLE
-            message: "Service unavailable"
+          examples:
+            GENERIC_503_UNAVAILABLE:
+              description: Service is not available. Temporary situation usually related to maintenance process in the server side
+              value:
+                status: 503
+                code: UNAVAILABLE
+                message: Service Unavailable.
