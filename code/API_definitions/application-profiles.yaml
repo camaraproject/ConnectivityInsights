@@ -67,7 +67,7 @@ paths:
       description: |
         Define network monitoring intents for optimal end user application
         experience.
-      operationId: createProfile
+      operationId: createApplicationProfile
       requestBody:
         description: List of user-defined network quality thresholds
         content:
