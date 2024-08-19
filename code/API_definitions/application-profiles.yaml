@@ -73,7 +73,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/NetworkQualityThresholds"
+              $ref: "#/components/schemas/ApplicationProfileRequest"
         required: true
       responses:
         "201":
@@ -205,7 +205,7 @@ paths:
             format: uuid
       responses:
         "200":
-          description: policy has been deleted
+          description: application profile has been deleted
         "400":
           $ref: "#/components/responses/Generic400"
         "401":
@@ -344,6 +344,14 @@ components:
         applicationProfileId:
           type: string
           format: uuid
+        networkQualityThresholds:
+          $ref: "#/components/schemas/NetworkQualityThresholds"
+
+    ApplicationProfileRequest:
+      type: object
+      required:
+        - networkQualityThresholds
+      properties:
         networkQualityThresholds:
           $ref: "#/components/schemas/NetworkQualityThresholds"
 
