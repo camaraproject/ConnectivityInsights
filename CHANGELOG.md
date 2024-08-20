@@ -10,9 +10,12 @@ NOTE:
 
 The below sections record the changes for each API version in each (pre-)release as follows:
 
-* for the first alpha or release-candidate API version, all changes since the release of the previous public API version
-* for subsequent alpha or release-candidate API versions, the delta with respect to the previous pre-release
-* for a public API version, the consolidated changes since the release of the previous public API version
+* for the first alpha or release-candidate API version, all changes since the
+release of the previous public API version
+* for subsequent alpha or release-candidate API versions, the delta with
+respect to the previous pre-release
+* for a public API version, the consolidated changes since the release of the
+previous public API version
 
 # r1.1 - rc
 ## Release Notes
@@ -28,9 +31,8 @@ The API definition(s) are based on
 
 ## Connectivity Insights API v0.4.0-rc.1
 
-** 0.4.0-rc.1 is the first release-candidate version for connectivity insights**
-- This version is primarily to align with the changes to Commonalities 0.4-rc.1 and Identity and Consent Management v0.2.0-rc.1.
-- This is the first release of the API.
+0.4.0-rc.1 is the first release of the API. The version is aligned with
+Commonalities 0.4.0-rc.2 and Identity and Consent Management v0.2.0-rc.2.
 
 - API definition **with inline documentation**:
   - View it on ReDoc:
@@ -57,9 +59,8 @@ The API definition(s) are based on
 
 ## Connectivity Insights Subscriptions API v0.4.0-rc.1
 
-** 0.4.0-rc.1 is the first release-candidate version for connectivity insights subscriptions API**
-- This version is primarily to align with the changes to Commonalities 0.4-rc.1 and Identity and Consent Management v0.2.0-rc.1.
-- This is the first release of the API.
+0.4.0-rc.1 is the first release of the API. The version is aligned with
+Commonalities 0.4.0-rc.2 and Identity and Consent Management v0.2.0-rc.2.
 
 - API definition **with inline documentation**:
   - View it on ReDoc:
@@ -88,9 +89,8 @@ The API definition(s) are based on
 
 
 
-** 0.3.0-rc.1 is the first release-candidate version for application profile.**
-- This version is primarily to align with the changes to Commonalities 0.4-rc.1 and Identity and Consent Management v0.2.0-rc.1.
-- This is the first release of the API.
+0.3.0-rc.1 is the first release of the API. The version is aligned with
+Commonalities 0.4.0-rc.2 and Identity and Consent Management v0.2.0-rc.2.
 
 - API definition **with inline documentation**:
   - View it on ReDoc:
