@@ -203,7 +203,7 @@ components:
             provided for predictive data. If no value is provided then the
             current date and time is used and network data for the monitoring
             data aggregation is used to check network performance against the
-            policy defined.
+            application profile defined.
 
     NetworkQualityInsightResponse:
       type: object
