@@ -283,7 +283,7 @@ paths:
       description: Delete a given subscription by ID
       security:
         - openId:
-            - connectivity-insights:subscriptions:write
+            - connectivity-insights-subscriptions:delete
       parameters:
         - $ref: "#/components/parameters/SubscriptionId"
         - $ref: "#/components/parameters/x-correlator"
