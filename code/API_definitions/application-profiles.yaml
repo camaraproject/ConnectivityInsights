@@ -100,7 +100,7 @@ paths:
     patch:
       security:
         - openId:
-            - application-profile:write
+            - application-profiles:update
       tags:
         - Application Profiles
       description: |
