@@ -248,7 +248,7 @@ paths:
       description: Retrieve a given subscription by ID
       security:
         - openId:
-            - connectivity-insights:subscriptions:read
+            - connectivity-insights-subscriptions:read
       parameters:
         - $ref: "#/components/parameters/SubscriptionId"
         - $ref: "#/components/parameters/x-correlator"
