@@ -150,7 +150,7 @@ paths:
     get:
       security:
         - openId:
-            - application-profile:read
+            - application-profiles:read
       tags:
         - Application Profiles
       description: Read an Application Profile
