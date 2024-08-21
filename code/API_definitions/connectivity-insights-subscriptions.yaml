@@ -949,10 +949,9 @@ components:
         event-type - Event triggered when an event-type event occurred
         subscription-ends: Event triggered when the subscription ends
       enum:
-        - org.camaraproject.connectivityinsights.v0.networkQuality-met
-        - org.camaraproject.connectivityinsights.v0.networkQuality-not-met
-        - org.camaraproject.connectivityinsights.v0.subscription-ends
-
+        - org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-met
+        - org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-not-met
+        - org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ends
     ErrorInfo:
       type: object
       description: Error information
