@@ -111,7 +111,9 @@ paths:
         - $ref: "#/components/parameters/x-correlator"
       security:
         - openId:
-            - connectivity-insights-subscriptions:create
+            - connectivity-insights-subscriptions:org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-met:create
+            - connectivity-insights-subscriptions:org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-not-met:create
+
       requestBody:
         content:
           application/json:
