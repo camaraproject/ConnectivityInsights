@@ -888,14 +888,24 @@ components:
           org.camaraproject.connectivityinsights.v0.eventSubscriptionEnds:
             "#/components/schemas/EventSubscriptionEnds"
 
-    NetworkQualityTypeEvent:
-      description: event structure for event-type event
+  EventNetworkQualityMet:
+      description: event structure for Network Quality met
       allOf:
         - $ref: "#/components/schemas/CloudEvent"
         - type: object
           properties:
             data:
               $ref: "#/components/schemas/NetworkQualityInsight"
+              
+  EventNetworkQualityNotMet:
+      description: event structure for Network Quality not met
+      allOf:
+        - $ref: "#/components/schemas/CloudEvent"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/NetworkQualityInsight"              
+              
 
     EventSubscriptionEnds:
       description: event structure for event subscription ends
