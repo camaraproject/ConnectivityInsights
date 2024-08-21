@@ -790,9 +790,7 @@ components:
           type: array
           items:
             type: string
-            example: camaraproject.connectivityinsights.v0.
-              networkQuality-event,org.camaraproject.connectivityinsights.
-              v0.eventSubscriptionEnd
+            example: org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-met
         config:
           $ref: "#/components/schemas/Config"
 
