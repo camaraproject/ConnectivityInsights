@@ -59,7 +59,7 @@ paths:
     post:
       security:
         - openId:
-            - application-profile:write
+            - application-profiles:create
       tags:
         - Application Profiles
       summary: |
