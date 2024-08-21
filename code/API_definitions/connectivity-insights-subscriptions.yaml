@@ -214,7 +214,7 @@ paths:
         - $ref: "#/components/parameters/x-correlator"
       security:
         - openId:
-            - connectivity-insights:subscriptions:read
+            - connectivity-insights-subscriptions:read
       responses:
         "200":
           description: List of event subscription details
