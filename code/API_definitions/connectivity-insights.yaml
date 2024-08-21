@@ -2,6 +2,8 @@ openapi: 3.0.3
 info:
   title: Connectivity Insights
   version: 0.4.0-rc.1
+  contact:
+    email: sp-coi@lists.camaraproject.org
   x-camara-commonalities: 0.4.0
   description: |
     With CAMARA Connectivity Insights, application developers gain essential
@@ -38,7 +40,8 @@ info:
       3. Optional: use the `connectivity-insights-subscriptions` API to receive
       notifications of network quality.
 
-    todo: sequence diagram
+    Following diagram shows the interaction between different components
+      ![Sequence Diagram](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/main/documentation/API_documentation/ConnectivityInsights-SequenceDiagram.png)
 
     # Identifying the device
 
@@ -70,26 +73,13 @@ info:
     be explicitly documented in the guidelines.
 
 
-    # Authorization and Authentication
+    ### Authorization and authentication
 
-      [Camara Security and Interoperability Profile](https://github.com/
-      camaraproject/IdentityAndConsentManagement/blob/r0.2.0-rc.2/
-      documentation/CAMARA-Security-Interoperability.md) provides details on
-      how a client requests an access token.
+    The "Camara Security and Interoperability Profile" provides details on how a client requests an access token. Please refer to Identify and Consent Management (https://github.com/camaraproject/IdentityAndConsentManagement/) for the released version of the Profile.
 
-      Which specific authorization flows are to be used will be determined
-      during onboarding process, happening between the API Client and the Telco
-      Operator exposing the API, taking into account the declared purpose for
-      accessing the API, while also being subject to the prevailing legal
-      framework dictated by local legislation.
+    Which specific authorization flows are to be used will be determined during onboarding process, happening between the API Client and the Telco Operator exposing the API, taking into account the declared purpose for accessing the API, while also being subject to the prevailing legal framework dictated by local legislation.
 
-      It is important to remark that in cases where personal user data is
-      processed by the API, and users can exercise their rights through
-      mechanisms such as opt-in and/or opt-out, the use of 3-legged access
-      tokens becomes mandatory. This measure ensures that the API remains in
-      strict compliance with user privacy preferences and regulatory
-      obligations, upholding the principles of transparency and user-centric
-      data control.
+    It is important to remark that in cases where personal user data is processed by the API, and users can exercise their rights through mechanisms such as opt-in and/or opt-out, the use of 3-legged access tokens becomes mandatory. This measure ensures that the API remains in strict compliance with user privacy preferences and regulatory obligations, upholding the principles of transparency and user-centric data control.
 
   license:
     name: Apache 2.0

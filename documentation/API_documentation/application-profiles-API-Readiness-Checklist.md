@@ -1,6 +1,6 @@
 # API Readiness Checklist
 
-Checklist for application-profile v0.3.0-rc.1
+Checklist for application-profiles v0.3.0-rc.1
 
 | Nr | API release assets  | alpha | release-candidate |  initial<br>public | stable<br> public | Status | Comments |
 |----|----------------------------------------------|:-----:|:-----------------:|:-------:|:------:|:----:|----|

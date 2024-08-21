@@ -26,8 +26,8 @@ This release contains the definition and documentation of
 * Application Profiles API v0.3.0
 
 The API definition(s) are based on
-* Commonalities v0.4.0-rc.1
-* Identity and Consent Management v0.2.0-rc.1
+* Commonalities v0.4.0-rc.2
+* Identity and Consent Management v0.2.0-rc.2
 
 ## Connectivity Insights API v0.4.0-rc.1
 

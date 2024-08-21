@@ -2,6 +2,8 @@ openapi: 3.0.3
 info:
   title: Connectivity Insights
   version: 0.4.0-rc.1
+  contact:
+    email: sp-coi@lists.camaraproject.org
   x-camara-commonalities: 0.4.0
   description: |
     With CAMARA Connectivity Insights, application developers gain essential
@@ -55,26 +57,13 @@ info:
       connectivity insights resource server to the webhook url provided
       by notification listener.
 
-    # Authorization and Authentication
+    ### Authorization and authentication
 
-      [Camara Security and Interoperability Profile](https://github.com/
-      camaraproject/IdentityAndConsentManagement/blob/r0.2.0-rc.2/
-      documentation/CAMARA-Security-Interoperability.md) provides details on
-      how a client requests an access token.
+    The "Camara Security and Interoperability Profile" provides details on how a client requests an access token. Please refer to Identify and Consent Management (https://github.com/camaraproject/IdentityAndConsentManagement/) for the released version of the Profile.
 
-      Which specific authorization flows are to be used will be determined
-      during onboarding process, happening between the API Client and the Telco
-      Operator exposing the API, taking into account the declared purpose for
-      accessing the API, while also being subject to the prevailing legal
-      framework dictated by local legislation.
+    Which specific authorization flows are to be used will be determined during onboarding process, happening between the API Client and the Telco Operator exposing the API, taking into account the declared purpose for accessing the API, while also being subject to the prevailing legal framework dictated by local legislation.
 
-      It is important to remark that in cases where personal user data is
-      processed by the API, and users can exercise their rights through
-      mechanisms such as opt-in and/or opt-out, the use of 3-legged access
-      tokens becomes mandatory. This measure ensures that the API remains in
-      strict compliance with user privacy preferences and regulatory
-      obligations, upholding the principles of transparency and user-centric
-      data control.
+    It is important to remark that in cases where personal user data is processed by the API, and users can exercise their rights through mechanisms such as opt-in and/or opt-out, the use of 3-legged access tokens becomes mandatory. This measure ensures that the API remains in strict compliance with user privacy preferences and regulatory obligations, upholding the principles of transparency and user-centric data control.
 
   license:
     name: Apache 2.0
@@ -861,7 +850,7 @@ components:
         source:
           $ref: "#/components/schemas/Source"
         type:
-          $ref: "#/components/schemas/Event-typeNotification"
+          $ref: "#/components/schemas/EventTypeNotification"
         specversion:
           type: string
           description: |
@@ -885,12 +874,12 @@ components:
         mapping:
           org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-met:
             "#/components/schemas/EventNetworkQualityMet"
-           org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-not-met:
+          org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-not-met:
             "#/components/schemas/EventNetworkQualityNotMet"
           org.camaraproject.connectivityinsights.v0.eventSubscriptionEnds:
             "#/components/schemas/EventSubscriptionEnds"
 
-  EventNetworkQualityMet:
+    EventNetworkQualityMet:
       description: event structure for Network Quality met
       allOf:
         - $ref: "#/components/schemas/CloudEvent"
@@ -898,16 +887,16 @@ components:
           properties:
             data:
               $ref: "#/components/schemas/NetworkQualityInsight"
-              
-  EventNetworkQualityNotMet:
+
+    EventNetworkQualityNotMet:
       description: event structure for Network Quality not met
       allOf:
         - $ref: "#/components/schemas/CloudEvent"
         - type: object
           properties:
             data:
-              $ref: "#/components/schemas/NetworkQualityInsight"              
-              
+              $ref: "#/components/schemas/NetworkQualityInsight"
+
 
     EventSubscriptionEnds:
       description: event structure for event subscription ends
