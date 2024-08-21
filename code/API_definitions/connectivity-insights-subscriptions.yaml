@@ -883,8 +883,10 @@ components:
       discriminator:
         propertyName: "type"
         mapping:
-          org.camaraproject.connectivityinsights.v0.networkQuality-event:
-            "#/components/schemas/NetworkQualityTypeEvent"
+          org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-met:
+            "#/components/schemas/EventNetworkQualityMet"
+           org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-not-met:
+            "#/components/schemas/EventNetworkQualityNotMet"
           org.camaraproject.connectivityinsights.v0.eventSubscriptionEnds:
             "#/components/schemas/EventSubscriptionEnds"
 
