@@ -12,7 +12,7 @@ Feature: Application Profiles API automated test
   Scenario: Create application profile
     Given the API Client makes a POST request to the {path_resource}
     When Create request with valid request body
-    Then Response code is 200 OK
+    Then Response code is 201 Created
     And The response body complies with ApplicationProfileId object
 
    @applicationProfile_retrieveById_1_success
@@ -24,7 +24,7 @@ Feature: Application Profiles API automated test
 
     @applicationProfile_updateApplicationProfileById_1_success
   Scenario: Update details based on specific ApplicationProfileId
-    Given the API Client makes a PUT request to the {path_resource}
+    Given the API Client makes a PATCH request to the {path_resource}
     When Create request with valid request body
     Then Response code is 200 OK
     And The response body complies with ApplicationProfile object
