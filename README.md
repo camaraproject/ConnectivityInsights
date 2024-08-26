@@ -10,20 +10,37 @@
 Repository to describe, develop, document and test the Connectivity Insights API family
 
 ## Scope
-* Service APIs for “Connectivity Insights” (see APIBacklog.md)  
-* It provides the customer with the ability to:  
+* Service APIs for “Connectivity Insights” (see APIBacklog.md)
+* It provides the customer with the ability to:
   * define intents in the form of policy thresholds for QoS metrics against the device and the application service. The API service will alert the consumers if and when the policy has breached.
-  * NOTE: The scope of this API family should be limited (at least at a first stage) to 4G and 5G.  
-* Describe, develop, document and test the APIs (with 1-2 Telcos)  
+  * NOTE: The scope of this API family should be limited (at least at a first stage) to 4G and 5G.
+* Describe, develop, document and test the APIs (with 1-2 Telcos)
 * Started: November 2023
-* Location: virtually  
+* Location: virtually
 
 ## Release Information
-<!-- Use/uncomment one or multiple the following options -->
-<!-- The sub project has no (pre)releases yet, work in progress is within the main branch -->
- Pre-releases of this sub project are available in https://github.com/camaraproject/ConnectivityInsights/releases
-<!-- The latest public release is available here: https://github.com/camaraproject/§repo_name§/releases/latest -->
-For changes see [CHANGELOG.md](https://github.com/camaraproject/ConnectivityInsights/blob/main/CHANGELOG.md)
+
+* Note: Please be aware that the project will have frequent updates to the main branch. There are no compatibility guarantees associated with code in any branch, including main, until a new release is created. For example, changes may be reverted before a release is created. **For best results, use the latest available release**.
+
+*  **The latest public release of connectivity insights is [r1.1](https://github.com/camaraproject/ConnectivityInsights/tree/r1.1) with the following API definitions:**
+
+    *  **Connectivity Insights API v0.4.0**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights.yaml&nocors)
+    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights.yaml)
+
+    *  **Connectivity Insights Subscriptions API v0.4.0**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)
+    [View it on Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights-subscriptions.yaml)
+    [OpenAPI](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/connectivity-insights-subscriptions.yaml)
+
+    *  **Application Profiles API 0.3.0**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/application-profiles.yaml&nocors)
+    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/application-profiles.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.1/code/API_definitions/application-profiles.yaml)
+
+  * Pre-releases of this sub project are available in https://github.com/camaraproject/ConnectivityInsights/releases
+  * For changes see [CHANGELOG.md](https://github.com/camaraproject/ConnectivityInsights/blob/main/CHANGELOG.md)
 
 ## Contributing
 * Meetings <!-- for new API families request a meeting link from the LF admin team or replace the information with the existing meeting information (of the API family) -->

@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Connectivity Insights
-  version: 0.4.0-rc.1
+  version: 0.4.0
   contact:
     email: sp-coi@lists.camaraproject.org
   x-camara-commonalities: 0.4.0
@@ -74,7 +74,7 @@ externalDocs:
   url: https://github.com/camaraproject/ConnectivityInsights
 
 servers:
-  - url: "{apiRoot}/connectivity-insights-subscriptions/v0.4rc1/check-network-quality"
+  - url: "{apiRoot}/connectivity-insights-subscriptions/v0.4/check-network-quality"
     variables:
       apiRoot:
         default: http://localhost:9091
@@ -100,8 +100,7 @@ paths:
         - $ref: "#/components/parameters/x-correlator"
       security:
         - openId:
-            - connectivity-insights-subscriptions:org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-met:create
-            - connectivity-insights-subscriptions:org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-not-met:create
+            - connectivity-insights-subscriptions:org.camaraproject.connectivity-insights-subscriptions.v0.network-quality:create
 
       requestBody:
         content:
@@ -779,7 +778,7 @@ components:
           type: array
           items:
             type: string
-            example: org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-met
+            example: org.camaraproject.connectivity-insights-subscriptions.v0.network-quality
         config:
           $ref: "#/components/schemas/Config"
 
@@ -872,31 +871,19 @@ components:
       discriminator:
         propertyName: "type"
         mapping:
-          org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-met:
-            "#/components/schemas/EventNetworkQualityMet"
-          org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-not-met:
-            "#/components/schemas/EventNetworkQualityNotMet"
+          org.camaraproject.connectivity-insights-subscriptions.v0.network-quality:
+            "#/components/schemas/EventNetworkQuality"
           org.camaraproject.connectivityinsights.v0.eventSubscriptionEnds:
             "#/components/schemas/EventSubscriptionEnds"
 
-    EventNetworkQualityMet:
-      description: event structure for Network Quality met
+    EventNetworkQuality:
+      description: event structure for Network Quality
       allOf:
         - $ref: "#/components/schemas/CloudEvent"
         - type: object
           properties:
             data:
               $ref: "#/components/schemas/NetworkQualityInsight"
-
-    EventNetworkQualityNotMet:
-      description: event structure for Network Quality not met
-      allOf:
-        - $ref: "#/components/schemas/CloudEvent"
-        - type: object
-          properties:
-            data:
-              $ref: "#/components/schemas/NetworkQualityInsight"
-
 
     EventSubscriptionEnds:
       description: event structure for event subscription ends
@@ -950,8 +937,7 @@ components:
         event-type - Event triggered when an event-type event occurred
         subscription-ends: Event triggered when the subscription ends
       enum:
-        - org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-met
-        - org.camaraproject.connectivity-insights-subscriptions.v0.network-quality-not-met
+        - org.camaraproject.connectivity-insights-subscriptions.v0.network-quality
         - org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ends
     ErrorInfo:
       type: object
