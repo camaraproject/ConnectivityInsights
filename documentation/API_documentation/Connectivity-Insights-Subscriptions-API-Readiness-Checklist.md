@@ -1,6 +1,6 @@
 # Connectivity Insights Subscriptions API Readiness minimum criteria checklist
 
-Checklist for connectivity-insights-subscriptions v0.4.0 in r1.1
+Checklist for connectivity-insights-subscriptions v0.4.0 in r1.2
 
 | Nr | API release assets  | alpha | release-candidate |  initial<br>public | stable<br> public | Status | Comments |
 |----|----------------------------------------------|:-----:|:-----------------:|:-------:|:------:|:----:|----|
