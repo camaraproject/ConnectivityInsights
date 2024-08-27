@@ -31,7 +31,7 @@ The API definition(s) are based on
 
 ## Connectivity Insights API v0.4.0
 
-0.4.0-rc.1 is the first release of the API. The version is aligned with
+0.4.0 is the first release of the API. The version is aligned with
 Commonalities 0.4.0 and Identity and Consent Management v0.2.0
 
 - API definition **with inline documentation**:
