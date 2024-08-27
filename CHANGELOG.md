@@ -76,7 +76,7 @@ Commonalities 0.4.0 and Identity and Consent Management v0.2.0
 
 
 
-0.3.0-rc.1 is the first release of the API. The version is aligned with
+0.3.0 is the first release of the API. The version is aligned with
 Commonalities 0.4.0 and Identity and Consent Management v0.2.0
 
 - API definition **with inline documentation**:
