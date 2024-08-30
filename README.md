@@ -22,7 +22,7 @@ Repository to describe, develop, document and test the Connectivity Insights API
 
 * Note: Please be aware that the project will have frequent updates to the main branch. There are no compatibility guarantees associated with code in any branch, including main, until a new release is created. For example, changes may be reverted before a release is created. **For best results, use the latest available release**.
 
-*  **The latest public release of connectivity insights is [r1.2](https://github.com/camaraproject/ConnectivityInsights/tree/r1.2) with the following API definitions:**
+*  **[r1.2](https://github.com/camaraproject/ConnectivityInsights/tree/r1.2) is the first public release of connectivity insights with the following API definitions:**
 
     *  **Connectivity Insights API v0.4.0**
     [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.2/code/API_definitions/connectivity-insights.yaml&nocors)
@@ -40,7 +40,8 @@ Repository to describe, develop, document and test the Connectivity Insights API
     [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.2/code/API_definitions/application-profiles.yaml)
 
   * Pre-releases of this sub project are available in https://github.com/camaraproject/ConnectivityInsights/releases
-  * For changes see [CHANGELOG.md](https://github.com/camaraproject/ConnectivityInsights/blob/main/CHANGELOG.md)
+
+  * Note: This being the first public release of the API, list of changes as compared to previous public release is not applicable and hence not provided.
 
 ## Contributing
 * Meetings <!-- for new API families request a meeting link from the LF admin team or replace the information with the existing meeting information (of the API family) -->

@@ -2,8 +2,6 @@ openapi: 3.0.3
 info:
   title: Connectivity Insights - Application Profiles
   version: 0.3.0
-  contact:
-    email: sp-coi@lists.camaraproject.org
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
