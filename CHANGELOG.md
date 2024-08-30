@@ -52,7 +52,7 @@ The API definition(s) are based on
 ### Changed
 * n/a
 
-**Full Changelog**: https://github.com/camaraproject/connectivityInsights/compare/r1.1...r1.2
+**Full Changelog**: https://github.com/camaraproject/connectivityInsights/commits/r1.2
 
 
 # r1.1 - rc
