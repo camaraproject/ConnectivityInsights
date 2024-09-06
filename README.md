@@ -16,7 +16,6 @@ Repository to describe, develop, document and test the Connectivity Insights API
   * NOTE: The scope of this API family should be limited (at least at a first stage) to 4G and 5G.
 * Describe, develop, document and test the APIs (with 1-2 Telcos)
 * Started: November 2023
-* Location: virtually
 
 ## Release Information
 
