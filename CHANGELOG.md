@@ -30,7 +30,7 @@ The API definition(s) are based on
 * Commonalities v0.4.0
 * Identity and Consent Management v0.2.0
 
-*  **r1.2 release of connectivity insights has the following API definitions:**
+*  **r1.2 release of ConnectivityInsights has the following API definitions:**
 
     *  **connectivity-insights v0.4.0**
     [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.2/code/API_definitions/connectivity-insights.yaml&nocors)
