@@ -1,9 +1,7 @@
 openapi: 3.0.3
 info:
   title: Connectivity Insights - Application Profiles
-  version: 0.3.0-rc.1
-  contact:
-    email: sp-coi@lists.camaraproject.org
+  version: 0.3.0
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -28,7 +26,7 @@ info:
   x-camara-commonalities: 0.4.0
 
 servers:
-  - url: "{apiRoot}/application-profiles/v0.3rc1"
+  - url: "{apiRoot}/application-profiles/v0.3"
     variables:
       apiRoot:
         default: http://localhost:9091
