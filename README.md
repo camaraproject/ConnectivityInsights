@@ -4,7 +4,7 @@
 <a href="https://github.com/camaraproject/ConnectivityInsights/graphs/contributors" title="Contributors"><img src="https://img.shields.io/github/contributors/camaraproject/ConnectivityInsights?style=plastic"></a>
 <a href="https://github.com/camaraproject/ConnectivityInsights" title="Repo Size"><img src="https://img.shields.io/github/repo-size/camaraproject/ConnectivityInsights?style=plastic"></a>
 <a href="https://github.com/camaraproject/ConnectivityInsights/blob/main/LICENSE" title="License"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg?style=plastic"></a>
-<a href="https://github.com/camaraproject/§repo_name§/releases/latest" title="Latest Release"><img src="https://img.shields.io/github/release/camaraproject/§repo_name§?style=plastic"></a>
+<a href="https://github.com/camaraproject/ConnectivityInsights/releases/latest" title="Latest Release"><img src="https://img.shields.io/github/release/camaraproject/ConnectivityInsights?style=plastic"></a>
 
 # Connectivity Insights
 Repository to describe, develop, document and test the Connectivity Insights API family
