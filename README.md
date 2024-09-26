@@ -46,7 +46,7 @@ Repository to describe, develop, document and test the Connectivity Insights API
 * Meetings <!-- for new API families request a meeting link from the LF admin team or replace the information with the existing meeting information (of the API family) -->
     * [Registration / Join](https://zoom-lfx.platform.linuxfoundation.org/meeting/92345695827?password=35dff2b2-058d-44de-bd7e-67d08c9e9f9d)
     * Schedule: Bi-weekly on Wednesday at 8AM PST
-    * Minutes: Access [meeting minutes](https://wiki.camaraproject.org/x/UAKeAQ)
+    * Minutes: Access [meeting minutes](https://lf-camaraproject.atlassian.net/wiki/x/vTve)
 * Mailing List
     <!-- Note: the $api-family-mailinglist$ is not necessery the $repo-name$, if the repository is belonging to an API Family  -->
     * Subscribe / Unsubscribe to the mailing list of this Sub Project <https://lists.camaraproject.org/g/sp-coi>.
