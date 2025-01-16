@@ -426,11 +426,11 @@ components:
                 properties:
                   status:
                     enum:
-                    - 401
+                      - 401
                   code:
                     enum:
-                    - UNAUTHENTICATED
-                    - AUTHENTICATION_REQUIRED
+                      - UNAUTHENTICATED
+                      - AUTHENTICATION_REQUIRED
           examples:
             GENERIC_401_UNAUTHENTICATED:
               description: Request cannot be authenticated
@@ -458,11 +458,11 @@ components:
                 properties:
                   status:
                     enum:
-                    - 403
+                      - 403
                   code:
                     enum:
-                        - PERMISSION_DENIED
-                        - INVALID_TOKEN_CONTEXT
+                      - PERMISSION_DENIED
+                      - INVALID_TOKEN_CONTEXT
           examples:
             GENERIC_403_PERMISSION_DENIED:
               description: Permission denied. OAuth2 token access does not have the required scope or when the user fails operational security
