@@ -482,16 +482,16 @@ components:
         application/json:
           schema:
             allOf:
-            - $ref: "#/components/schemas/ErrorInfo"
-            - type: object
-              properties:
-                status:
-                  enum:
-                   - 401
-                code:
-                  enum:
-                  - UNAUTHENTICATED
-                  - AUTHENTICATION_REQUIRED
+              - $ref: "#/components/schemas/ErrorInfo"
+              - type: object
+                properties:
+                  status:
+                    enum:
+                    - 401
+                  code:
+                    enum:
+                    - UNAUTHENTICATED
+                    - AUTHENTICATION_REQUIRED
           examples:
             GENERIC_401_UNAUTHENTICATED:
               description: Request cannot be authenticated
@@ -514,16 +514,16 @@ components:
         application/json:
           schema:
             allOf:
-            - $ref: "#/components/schemas/ErrorInfo"
-            - type: object
-            properties:
-              status:
-                enum:
-                - 403
-              code:
-                enum:
-                    - PERMISSION_DENIED
-                    - INVALID_TOKEN_CONTEXT
+              - $ref: "#/components/schemas/ErrorInfo"
+              - type: object
+                properties:
+                  status:
+                    enum:
+                    - 403
+                  code:
+                    enum:
+                        - PERMISSION_DENIED
+                        - INVALID_TOKEN_CONTEXT
           examples:
             GENERIC_403_PERMISSION_DENIED:
               description: Permission denied. OAuth2 token access does not have the required scope or when the user fails operational security
@@ -546,16 +546,16 @@ components:
         application/json:
           schema:
             allOf:
-            - $ref: "#/components/schemas/ErrorInfo"
-            - type: object
-              properties:
-                status:
-                  enum:
-                    - 404
-                code:
-                  enum:
-                    - NOT_FOUND
-                    - IDENTIFIER_NOT_FOUND
+              - $ref: "#/components/schemas/ErrorInfo"
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 404
+                  code:
+                    enum:
+                      - NOT_FOUND
+                      - IDENTIFIER_NOT_FOUND
           examples:
             GENERIC_404_NOT_FOUND:
               description: Resource is not found
@@ -608,16 +608,16 @@ components:
         application/json:
           schema:
             allOf:
-            - $ref: "#/components/schemas/ErrorInfo"
-            - type: object
-              properties:
-                status:
-                  enum:
-                    - 429
-                code:
-                  enum:
-                    - QUOTA_EXCEEDED
-                    - TOO_MANY_REQUESTS
+              - $ref: "#/components/schemas/ErrorInfo"
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 429
+                  code:
+                    enum:
+                      - QUOTA_EXCEEDED
+                      - TOO_MANY_REQUESTS
           examples:
             GENERIC_429_QUOTA_EXCEEDED:
               description: Request is rejected due to exceeding a business quota limit
