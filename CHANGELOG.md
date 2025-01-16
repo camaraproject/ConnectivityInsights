@@ -4,7 +4,7 @@ NOTE:
 
 ## Table of contents
 
-- **[v0.4.1-alpha.1](#v041---alpha1)**
+- **[r2.1-rc](#r21---rc)**
 - **[r1.2](#r12)**
 - **[r1.1 - rc](#r11---rc)**
 
@@ -19,12 +19,12 @@ respect to the previous pre-release
 * for a public API version, the consolidated changes since the release of the
 previous public API version
 
-# v0.4.1-alpha.1
+# r2.1-rc
 
 This alpha pre-release contains the definition and documentation of
-* connectivity-insights v0.4.1-alpha.1
-* connectivity-insights-subscriptions v0.4.1-alpha.1
-* application-profiles v0.3.1-alpha.1
+* connectivity-insights v0.4.1-rc.1
+* connectivity-insights-subscriptions v0.4.1-rc.1
+* application-profiles v0.3.1-rc.1
 
 The API definition(s) are based on
 * Commonalities 0.5.0-alpha.1 (r2.1)
@@ -33,13 +33,16 @@ The API definition(s) are based on
 It contains the following changes compared to the last public release [r1.2](#r12)
 
 ### Changed
-All changes are to align with Commonalities 0.5.0-alpha.1
+All changes are to align with Commonalities 0.5.0-alpha.1, as captured in PR #116
 * Error names and structures updated
+* removed `406` and `5xx` errors
 * `security` component updated
 * `x-camara-commonalities` version updated
+* Device identifier pupdates
 * Template text for identifying devices updated
 * Test guidelines updated to incorporate changed errrors.
 * New API Readiness checklist used and updated
+* For more details see [Scope for Spring 25 CAMAAR meta release](https://github.com/camaraproject/SimpleEdgeDiscovery/issues/53)
 
 # r1.2
 ## Release Notes
