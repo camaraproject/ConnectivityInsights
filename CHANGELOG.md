@@ -4,7 +4,7 @@ NOTE:
 
 ## Table of contents
 
-- **[v1.1.0-alpha.1](#v110---alpha1)**
+- **[v0.4.1-alpha.1](#v041---alpha1)**
 - **[r1.2](#r12)**
 - **[r1.1 - rc](#r11---rc)**
 
@@ -19,12 +19,12 @@ respect to the previous pre-release
 * for a public API version, the consolidated changes since the release of the
 previous public API version
 
-# v1.1.0-alpha.1
+# v0.4.1-alpha.1
 
 This alpha pre-release contains the definition and documentation of
-* connectivity-insights v1.1.0-alpha.1
-* connectivity-insights-subscriptions v1.1.0-alpha.1
-* application-profiles v1.1.0-alpha.1
+* connectivity-insights v0.4.1-alpha.1
+* connectivity-insights-subscriptions v0.4.1-alpha.1
+* application-profiles v0.3.1-alpha.1
 
 The API definition(s) are based on
 * Commonalities 0.5.0-alpha.1 (r2.1)
