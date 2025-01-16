@@ -4,6 +4,7 @@ NOTE:
 
 ## Table of contents
 
+- **[v1.1.0-alpha.1](#v110---alpha1)**
 - **[r1.2](#r12)**
 - **[r1.1 - rc](#r11---rc)**
 
@@ -17,6 +18,28 @@ release of the previous public API version
 respect to the previous pre-release
 * for a public API version, the consolidated changes since the release of the
 previous public API version
+
+# v1.1.0-alpha.1
+
+This alpha pre-release contains the definition and documentation of
+* connectivity-insights v1.1.0-alpha.1
+* connectivity-insights-subscriptions v1.1.0-alpha.1
+* application-profiles v1.1.0-alpha.1
+
+The API definition(s) are based on
+* Commonalities 0.5.0-alpha.1 (r2.1)
+* Identity and Consent Management v0.3.0-alpha.1 (r2.1)
+
+It contains the following changes compared to the last public release [r1.2](#r12)
+
+### Changed
+All changes are to align with Commonalities 0.5.0-alpha.1
+* Error names and structures updated
+* `security` component updated
+* `x-camara-commonalities` version updated
+* Template text for identifying devices updated
+* Test guidelines updated to incorporate changed errrors.
+* New API Readiness checklist used and updated
 
 # r1.2
 ## Release Notes
