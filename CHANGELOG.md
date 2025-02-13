@@ -4,31 +4,29 @@ NOTE:
 
 ## Table of contents
 
-- **[r2.1-rc](#r21---rc)**
+- **[r2.1](#r21)**
 - **[r1.2](#r12)**
 - **[r1.1 - rc](#r11---rc)**
 
 **Please be aware that the project will have frequent updates to the main branch. There are no compatibility guarantees associated with code in any branch, including main, until it has been released. For example, changes may be reverted before a release is published. For the best results, use the latest published release.**
 
-The below sections record the changes for each API version in each (pre-)release as follows:
+The below sections record the changes for each API version in each release as follows:
 
-* for the first alpha or release-candidate API version, all changes since the
-release of the previous public API version
-* for subsequent alpha or release-candidate API versions, the delta with
-respect to the previous pre-release
-* for a public API version, the consolidated changes since the release of the
-previous public API version
+* for an alpha release, the delta with respect to the previous release
+* for the first release-candidate, all changes since the last public release
+* for subsequent release-candidate(s), only the delta to the previous release-candidate
+* for a public release, the consolidated changes since the previous public release
 
-# r2.1-rc
+# r2.1
 
-This alpha pre-release contains the definition and documentation of
-* connectivity-insights v0.4.1-rc.1
-* connectivity-insights-subscriptions v0.4.1-rc.1
-* application-profiles v0.3.1-rc.1
+This pre-release contains the definition and documentation of
+* connectivity-insights v0.5.0-rc.1
+* connectivity-insights-subscriptions v0.5.0-rc.1
+* application-profiles v0.4.0-rc.1
 
 The API definition(s) are based on
-* Commonalities 0.5.0-alpha.1 (r2.1)
-* Identity and Consent Management v0.3.0-alpha.1 (r2.1)
+* Commonalities 0.5.0-rc.1 (r2.2)
+* Identity and Consent Management v0.3.0-rc.1 (r2.2)
 
 It contains the following changes compared to the last public release [r1.2](#r12)
 
