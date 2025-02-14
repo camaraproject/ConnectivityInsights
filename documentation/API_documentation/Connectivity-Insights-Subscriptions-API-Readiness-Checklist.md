@@ -2,7 +2,7 @@
 
 Checklist for connectivity-insights-subscriptions v0.5.0 in r2.1
 
-| Nr | API release assets  | alpha | release-candidate |  initial<br>public | stable<br> public | Status | Comments |
+| Nr | API release assets  | alpha | release-candidate |  initial<br>public | stable<br> public | Status | Reference information |
 |----|----------------------------------------------|:-----:|:-----------------:|:-------:|:------:|:----:|----|
 |  1 | API definition                               |   M   |         M         |    M    |    M   | Y    | [link](/code/API_definitions/connectivity-insights-subscriptions.yaml) |
 |  2 | Design guidelines from Commonalities applied |   O   |         M         |    M    |    M   | Y  |  Comm. release r2.2    |
