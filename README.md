@@ -21,26 +21,29 @@ Repository to describe, develop, document and test the Connectivity Insights API
 
 * Note: Please be aware that the project will have frequent updates to the main branch. There are no compatibility guarantees associated with code in any branch, including main, until a new release is created. For example, changes may be reverted before a release is created. **For best results, use the latest available release**.
 
-*  **[r1.2](https://github.com/camaraproject/ConnectivityInsights/tree/r1.2) is the first public release of connectivity insights with the following API definitions:**
+* `NEW`: Release r2.1 features following APIs:
 
-    *  **Connectivity Insights API v0.4.0**
-    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.2/code/API_definitions/connectivity-insights.yaml&nocors)
-    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.2/code/API_definitions/connectivity-insights.yaml)
-    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.2/code/API_definitions/connectivity-insights.yaml)
+  *  **[r2.1](https://github.com/camaraproject/ConnectivityInsights/tree/r2.1) release of connectivity insights with the following API definitions:**
 
-    *  **Connectivity Insights Subscriptions API v0.4.0**
-    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.2/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)
-    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
-    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
+      *  **Connectivity Insights API v0.5.0-rc.1**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/connectivity-insights.yaml&nocors)
+    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/connectivity-insights.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/connectivity-insights.yaml)
 
-    *  **Application Profiles API 0.3.0**
-    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.2/code/API_definitions/application-profiles.yaml&nocors)
-    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.2/code/API_definitions/application-profiles.yaml)
-    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r1.2/code/API_definitions/application-profiles.yaml)
+      *  **Connectivity Insights Subscriptions API v0.5.0-rc.1**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)
+    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/connectivity-insights-subscriptions.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/connectivity-insights-subscriptions.yaml)
 
-  * Pre-releases of this sub project are available in https://github.com/camaraproject/ConnectivityInsights/releases
+      *  **Application Profiles API 0.4.0-rc.1**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/application-profiles.yaml&nocors)
+    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/application-profiles.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/application-profiles.yaml)
 
-  * Note: This being the first public release of the API, list of changes as compared to previous public release is not applicable and hence not provided.
+
+* The latest public release is available here: https://github.com/camaraproject/ConnectivityInsights/releases/latest
+* Other releases of this sub project are available in https://github.com/camaraproject/ConnectivityInsights/releases
+* For changes see [CHANGELOG.md](https://github.com/camaraproject/ConnectivityInsights/blob/main/CHANGELOG.md)
 
 ## Contributing
 * Meetings <!-- for new API families request a meeting link from the LF admin team or replace the information with the existing meeting information (of the API family) -->
