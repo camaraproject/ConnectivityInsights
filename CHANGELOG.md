@@ -31,17 +31,17 @@ The API definition(s) are based on
 
 *  **r2.1 release of ConnectivityInsights has the following API definitions:**
 
-    *  **connectivity-insights v0.5.0**
+    *  **connectivity-insights v0.5.0-rc.1**
     [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/connectivity-insights.yaml&nocors)
     [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/connectivity-insights.yaml)
     [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/connectivity-insights.yaml)
 
-    *  **connectivity-insights-subscriptions v0.5.0**
+    *  **connectivity-insights-subscriptions v0.5.0-rc.1**
     [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)
     [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/connectivity-insights-subscriptions.yaml)
     [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/connectivity-insights-subscriptions.yaml)
 
-    *  **application-profiles v0.4.0**
+    *  **application-profiles v0.4.0-rc.1**
     [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/application-profiles.yaml&nocors)
     [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/application-profiles.yaml)
     [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/application-profiles.yaml)
