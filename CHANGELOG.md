@@ -18,8 +18,9 @@ The below sections record the changes for each API version in each release as fo
 * for a public release, the consolidated changes since the previous public release
 
 # r2.1
+## Release Notes
 
-This pre-release contains the definition and documentation of
+This release contains the definition and documentation of
 * connectivity-insights v0.5.0-rc.1
 * connectivity-insights-subscriptions v0.5.0-rc.1
 * application-profiles v0.4.0-rc.1
@@ -28,10 +29,25 @@ The API definition(s) are based on
 * Commonalities 0.5.0-rc.1 (r2.2)
 * Identity and Consent Management v0.3.0-rc.1 (r2.2)
 
-It contains the following changes compared to the last public release [r1.2](#r12)
+*  **r2.1 release of ConnectivityInsights has the following API definitions:**
+
+    *  **connectivity-insights v0.5.0**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/connectivity-insights.yaml&nocors)
+    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/connectivity-insights.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/connectivity-insights.yaml)
+
+    *  **connectivity-insights-subscriptions v0.5.0**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)
+    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/connectivity-insights-subscriptions.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/connectivity-insights-subscriptions.yaml)
+
+    *  **application-profiles v0.4.0**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/application-profiles.yaml&nocors)
+    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/application-profiles.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/application-profiles.yaml)
 
 ### Changed
-All changes are to align with Commonalities 0.5.0-alpha.1, as captured in PR #116
+All changes are to align with Commonalities 0.5.0-rc.1 and Identity and Consent management 0.3.0-rc.1, as captured in PR #116
 * Error names and structures updated
 * removed `406` and `5xx` errors
 * `security` component updated
@@ -41,6 +57,8 @@ All changes are to align with Commonalities 0.5.0-alpha.1, as captured in PR #11
 * Test guidelines updated to incorporate changed errrors.
 * New API Readiness checklist used and updated
 * For more details see [Scope for Spring 25 CAMARA meta release](https://github.com/camaraproject/ConnectivityInsights/issues/106)
+
+**Full Changelog**: https://github.com/camaraproject/connectivityInsights/commits/r2.1
 
 # r1.2
 ## Release Notes
