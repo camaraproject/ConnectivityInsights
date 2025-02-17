@@ -58,7 +58,7 @@ All changes are to align with Commonalities 0.5.0-rc.1 and Identity and Consent 
 * New API Readiness checklist used and updated
 * For more details see [Scope for Spring 25 CAMARA meta release](https://github.com/camaraproject/ConnectivityInsights/issues/106)
 
-**Full Changelog**: https://github.com/camaraproject/connectivityInsights/commits/r2.1
+**Full Changelog**: https://github.com/camaraproject/connectivityInsights/compare/r1.2...r2.1
 
 # r1.2
 ## Release Notes
