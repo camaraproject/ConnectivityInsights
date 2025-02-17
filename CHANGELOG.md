@@ -52,7 +52,7 @@ All changes are to align with Commonalities 0.5.0-rc.1 and Identity and Consent 
 * removed `406` and `5xx` errors
 * `security` component updated
 * `x-camara-commonalities` version updated
-* Device identifier pupdates
+* Device identifier updates
 * Template text for identifying devices updated
 * Test guidelines updated to incorporate changed errrors.
 * New API Readiness checklist used and updated
