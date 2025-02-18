@@ -4,42 +4,61 @@ NOTE:
 
 ## Table of contents
 
-- **[v0.4.1-alpha.1](#v041---alpha1)**
+- **[r2.1](#r21)**
 - **[r1.2](#r12)**
 - **[r1.1 - rc](#r11---rc)**
 
 **Please be aware that the project will have frequent updates to the main branch. There are no compatibility guarantees associated with code in any branch, including main, until it has been released. For example, changes may be reverted before a release is published. For the best results, use the latest published release.**
 
-The below sections record the changes for each API version in each (pre-)release as follows:
+The below sections record the changes for each API version in each release as follows:
 
-* for the first alpha or release-candidate API version, all changes since the
-release of the previous public API version
-* for subsequent alpha or release-candidate API versions, the delta with
-respect to the previous pre-release
-* for a public API version, the consolidated changes since the release of the
-previous public API version
+* for an alpha release, the delta with respect to the previous release
+* for the first release-candidate, all changes since the last public release
+* for subsequent release-candidate(s), only the delta to the previous release-candidate
+* for a public release, the consolidated changes since the previous public release
 
-# v0.4.1-alpha.1
+# r2.1
+## Release Notes
 
-This alpha pre-release contains the definition and documentation of
-* connectivity-insights v0.4.1-alpha.1
-* connectivity-insights-subscriptions v0.4.1-alpha.1
-* application-profiles v0.3.1-alpha.1
+This release contains the definition and documentation of
+* connectivity-insights v0.5.0-rc.1
+* connectivity-insights-subscriptions v0.5.0-rc.1
+* application-profiles v0.4.0-rc.1
 
 The API definition(s) are based on
-* Commonalities 0.5.0-alpha.1 (r2.1)
-* Identity and Consent Management v0.3.0-alpha.1 (r2.1)
+* Commonalities 0.5.0-rc.1 (r2.2)
+* Identity and Consent Management v0.3.0-rc.1 (r2.2)
 
-It contains the following changes compared to the last public release [r1.2](#r12)
+*  **r2.1 release of ConnectivityInsights has the following API definitions:**
+
+    *  **connectivity-insights v0.5.0-rc.1**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/connectivity-insights.yaml&nocors)
+    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/connectivity-insights.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.1/code/API_definitions/connectivity-insights.yaml)
+
+    *  **connectivity-insights-subscriptions v0.5.0-rc.1**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)
+    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/connectivity-insights-subscriptions.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/connectivity-insights-subscriptions.yaml)
+
+    *  **application-profiles v0.4.0-rc.1**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/application-profiles.yaml&nocors)
+    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/application-profiles.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.1/code/API_definitions/application-profiles.yaml)
 
 ### Changed
-All changes are to align with Commonalities 0.5.0-alpha.1
+All changes are to align with Commonalities 0.5.0-rc.1 and Identity and Consent management 0.3.0-rc.1, as captured in PR #116
 * Error names and structures updated
+* removed `406` and `5xx` errors
 * `security` component updated
 * `x-camara-commonalities` version updated
+* Device identifier updates
 * Template text for identifying devices updated
 * Test guidelines updated to incorporate changed errrors.
 * New API Readiness checklist used and updated
+* For more details see [Scope for Spring 25 CAMARA meta release](https://github.com/camaraproject/ConnectivityInsights/issues/106)
+
+**Full Changelog**: https://github.com/camaraproject/connectivityInsights/compare/r1.2...r2.1
 
 # r1.2
 ## Release Notes
