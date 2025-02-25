@@ -7,13 +7,17 @@
 <a href="https://github.com/camaraproject/ConnectivityInsights/releases/latest" title="Latest Release"><img src="https://img.shields.io/github/release/camaraproject/ConnectivityInsights?style=plastic"></a>
 
 # Connectivity Insights
-Repository to describe, develop, document and test the Connectivity Insights API family
+Repository to describe, develop, document and test the Connectivity Insights APIs
 
 ## Scope
 * Service APIs for “Connectivity Insights” (see APIBacklog.md)
-* It provides the customer with the ability to:
-  * define intents in the form of policy thresholds for QoS metrics against the device and the application service. The API service will alert the consumers if and when the policy has breached.
-  * NOTE: The scope of this API family should be limited (at least at a first stage) to 4G and 5G.
+* It provides the API consumer with the ability to:
+  * share key details about their applications that are relevant for network-related decisions across various CAMARA APIs.
+  * gain visibility into network quality, allowing them to
+check if their application's network requirements can be met for a given user session. Based on the API’s response, developers can make informed decisions - like requesting a network boost through CAMARA Quality on Demand API or adjusting application settings (e.g. adjust video resolution) to ensure the best possible user experience.
+  * enables application developers to receive continuous updates
+about network quality through event notifications.
+  * NOTE: The scope of these APIs should be limited (at least at a first stage) to 4G and 5G.
 * Describe, develop, document and test the APIs (with 1-2 Telcos)
 * Started: November 2023
 
