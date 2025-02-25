@@ -1,11 +1,11 @@
 @Connectivity_Insights
-Feature: CAMARA Connectivity Insights API, v0.5.0-rc.1 - Operations for Network Quality
+Feature: CAMARA Connectivity Insights API, v0.5.0 - Operations for Network Quality
 
 # Input to be provided by the implementation to the tests
 # References to OAS spec schemas refer to schemas specified in connectivity-insights.yaml
 
   Background: Common Connectivity Insights setup
-    Given the resource "{apiroot}/connectivity-insights/v0.5rc1" as base-url
+    Given the resource "{apiroot}/connectivity-insights/v0.5" as base-url
     And the header "Content-Type" is set to "application/json"
     And the header "Authorization" is set to a valid access token
     And the header "x-correlator" is set to a UUID value
