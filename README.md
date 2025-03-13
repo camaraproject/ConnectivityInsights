@@ -25,7 +25,7 @@ about network quality through event notifications.
 
 * Note: Please be aware that the project will have frequent updates to the main branch. There are no compatibility guarantees associated with code in any branch, including main, until a new release is created. For example, changes may be reverted before a release is created. **For best results, use the latest available release**.
 
-* `NEW`: Release r2.2 features following APIs:
+* `NEW`: Release r2.2 features the following APIs:
 
   *  **[r2.2](https://github.com/camaraproject/ConnectivityInsights/tree/r2.2) release of connectivity insights with the following API definitions:**
 
