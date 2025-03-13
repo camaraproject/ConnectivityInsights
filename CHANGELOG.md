@@ -50,7 +50,7 @@ The API definition(s) are based on
 ### Changed
 * Changes requested by Release Management for M4
 
-**Full Changelog**: https://github.com/camaraproject/connectivityInsights/compare/r2.1...r2.2
+**Full Changelog**: https://github.com/camaraproject/connectivityInsights/compare/r1.2...r2.2
 
 # r2.1
 ## Release Notes
