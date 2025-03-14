@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Connectivity Insights
-  version: 0.5.0-rc.1
+  version: 0.5.0
   x-camara-commonalities: 0.5
   description: |
     With CAMARA Connectivity Insights, application developers gain essential
@@ -42,7 +42,7 @@ info:
 
 
       Following diagram shows the interaction between different components
-      ![Sequence Diagram](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/main/documentation/API_documentation/ConnectivityInsights-SequenceDiagram.png)
+      ![Sequence Diagram](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/documentation/API_documentation/ConnectivityInsights-SequenceDiagram.png)
 
     ### Notification callback
 
@@ -117,7 +117,7 @@ externalDocs:
   url: https://github.com/camaraproject/ConnectivityInsights/
 
 servers:
-  - url: "{apiRoot}/connectivity-insights-subscriptions/v0.5rc1"
+  - url: "{apiRoot}/connectivity-insights-subscriptions/v0.5"
     variables:
       apiRoot:
         default: http://localhost:9091
@@ -356,6 +356,7 @@ components:
       schema:
         type: string
         pattern: ^[a-zA-Z0-9-]{0,55}$
+        example: "b4333c46-49c0-4f62-80d7-f0ef930f1c46"
   headers:
     x-correlator:
       description: Correlation id for the different services
@@ -408,8 +409,6 @@ components:
             The address to which events shall be delivered using the selected
             protocol.
           example: "https://endpoint.example.com/sink"
-        sinkCredential:
-          $ref: "#/components/schemas/SinkCredential"
         types:
           description: |
             Camara Event types eligible to be delivered by this subscription.
@@ -434,6 +433,11 @@ components:
           type: string
           format: date-time
           description: Date when the event subscription will begin/began
+            It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/
+            rfc3339#section-5.6) and must have time zone.
+            Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ (i.e. which
+            allows 2023-07-03T14:27:08.312+02:00 or 2023-07-03T12:27:08.312Z)
+          example: "2023-07-03T12:27:08.312Z"
         expiresAt:
           type: string
           format: date-time
@@ -441,6 +445,11 @@ components:
             Date when the event subscription will expire. Only provided when
             `subscriptionExpireTime` is indicated by API client or Telco
             Operator has specific policy about that.
+            It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/
+            rfc3339#section-5.6) and must have time zone.
+            Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ (i.e. which allows
+            2023-07-03T14:27:08.312+02:00 or 2023-07-03T12:27:08.312Z)
+          example: "2023-07-03T12:27:08.312Z"
         status:
           type: string
           description: |-
@@ -710,10 +719,12 @@ components:
         subscriptionExpireTime:
           type: string
           format: date-time
-          example: 2023-01-17T13:18:23.682Z
           description: |
             The subscription expiration time (in date-time format) requested by
             the API consumer. Up to API project decision to keep it.
+            It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone.
+            Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ (i.e. which allows 2023-07-03T14:27:08.312+02:00 or 2023-07-03T12:27:08.312Z)
+          example: "2023-07-03T12:27:08.312Z"
         subscriptionMaxEvents:
           type: integer
           description: |
@@ -743,7 +754,9 @@ components:
             - PLAIN
             - ACCESSTOKEN
             - REFRESHTOKEN
-          description: "The type of the credential."
+          description: |
+            The type of the credential.
+            Note: Type of the credential - MUST be set to ACCESSTOKEN for now
       discriminator:
         propertyName: credentialType
         mapping:
@@ -785,7 +798,7 @@ components:
           $ref: "#/components/schemas/Protocol"
         sink:
           type: string
-          format: url
+          format: uri
           description: |
             The address to which events shall be delivered using the selected
             protocol.
@@ -951,8 +964,12 @@ components:
       type: string
       format: date-time
       description: |
-        Timestamp of when the occurrence happened. Must adhere to RFC 3339.
-      example: "2018-04-05T17:31:00Z"
+        Timestamp of when the occurrence happened.
+        It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/
+        rfc3339#section-5.6) and must have time zone.
+        Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ (i.e. which allows
+        2023-07-03T14:27:08.312+02:00 or 2023-07-03T12:27:08.312Z)
+      example: "2023-07-03T12:27:08.312Z"
 
     EventTypeNotification:
       type: string

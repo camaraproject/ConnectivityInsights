@@ -4,6 +4,7 @@ NOTE:
 
 ## Table of contents
 
+- **[r2.2](#r22)**
 - **[r2.1](#r21)**
 - **[r1.2](#r12)**
 - **[r1.1 - rc](#r11---rc)**
@@ -16,6 +17,40 @@ The below sections record the changes for each API version in each release as fo
 * for the first release-candidate, all changes since the last public release
 * for subsequent release-candidate(s), only the delta to the previous release-candidate
 * for a public release, the consolidated changes since the previous public release
+
+# r2.2
+## Release Notes
+
+This release contains the definition and documentation of
+* connectivity-insights v0.5.0
+* connectivity-insights-subscriptions v0.5.0
+* application-profiles v0.4.0
+
+The API definition(s) are based on
+* Commonalities 0.5.0
+* Identity and Consent Management v0.3.0
+
+*  **r2.2 release of ConnectivityInsights has the following API definitions:**
+
+    *  **connectivity-insights v0.5.0**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/code/API_definitions/connectivity-insights.yaml&nocors)
+    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/code/API_definitions/connectivity-insights.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/code/API_definitions/connectivity-insights.yaml)
+
+    *  **connectivity-insights-subscriptions v0.5.0**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.2/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)
+    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
+
+    *  **application-profiles v0.4.0**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.2/code/API_definitions/application-profiles.yaml&nocors)
+    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.2/code/API_definitions/application-profiles.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/2.2/code/API_definitions/application-profiles.yaml)
+
+### Changed
+* Changes requested by Release Management for M4
+
+**Full Changelog**: https://github.com/camaraproject/connectivityInsights/compare/r1.2...r2.2
 
 # r2.1
 ## Release Notes
