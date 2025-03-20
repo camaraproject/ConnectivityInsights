@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Connectivity Insights - Application Profiles
-  version: 0.4.0
+  version: wip
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -26,7 +26,7 @@ info:
   x-camara-commonalities: 0.5
 
 servers:
-  - url: "{apiRoot}/application-profiles/v0.4"
+  - url: "{apiRoot}/application-profiles/vwip"
     variables:
       apiRoot:
         default: http://localhost:9091
