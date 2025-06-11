@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Connectivity Insights
   version: wip
-  x-camara-commonalities: 0.5
+  x-camara-commonalities: 0.6
   description: |
     With CAMARA Connectivity Insights, application developers gain essential
     visibility into network quality. This enables them to make informed
