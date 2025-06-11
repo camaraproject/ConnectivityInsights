@@ -31,17 +31,17 @@ about network quality through event notifications.
 
       *  **Connectivity Insights API v0.5.0**
     [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/code/API_definitions/connectivity-insights.yaml&nocors)
-    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/code/API_definitions/connectivity-insights.yaml)
+    [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/code/API_definitions/connectivity-insights.yaml)
     [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/code/API_definitions/connectivity-insights.yaml)
 
       *  **Connectivity Insights Subscriptions API v0.5.0**
     [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)
-    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
+    [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
     [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
 
       *  **Application Profiles API 0.4.0**
     [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/code/API_definitions/application-profiles.yaml&nocors)
-    [[View it on Swagger Editor]](https://editor.swagger.io/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/code/API_definitions/application-profiles.yaml)
+    [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/code/API_definitions/application-profiles.yaml)
     [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/code/API_definitions/application-profiles.yaml)
 
 
