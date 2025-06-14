@@ -5,9 +5,13 @@
 <a href="https://github.com/camaraproject/ConnectivityInsights" title="Repo Size"><img src="https://img.shields.io/github/repo-size/camaraproject/ConnectivityInsights?style=plastic"></a>
 <a href="https://github.com/camaraproject/ConnectivityInsights/blob/main/LICENSE" title="License"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg?style=plastic"></a>
 <a href="https://github.com/camaraproject/ConnectivityInsights/releases/latest" title="Latest Release"><img src="https://img.shields.io/github/release/camaraproject/ConnectivityInsights?style=plastic"></a>
+<a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Sandbox API Repository"><img src="https://img.shields.io/badge/Sandbox%20API%20Repository-yellow?style=plastic"></a>
 
-# Connectivity Insights
-Repository to describe, develop, document and test the Connectivity Insights APIs
+# ConnectivityInsights
+
+Sandbox API Repository to describe, develop, document, and test the ConnectivityInsights Service API(s). The repository does not yet belong to a CAMARA Sub Project.
+
+* API Repository [wiki page](https://lf-camaraproject.atlassian.net/wiki/x/KTLe)
 
 ## Scope
 * Service APIs for “Connectivity Insights” (see APIBacklog.md)
@@ -50,11 +54,10 @@ about network quality through event notifications.
 * For changes see [CHANGELOG.md](https://github.com/camaraproject/ConnectivityInsights/blob/main/CHANGELOG.md)
 
 ## Contributing
-* Meetings <!-- for new API families request a meeting link from the LF admin team or replace the information with the existing meeting information (of the API family) -->
+* Meetings
     * [Registration / Join](https://zoom-lfx.platform.linuxfoundation.org/meeting/92345695827?password=35dff2b2-058d-44de-bd7e-67d08c9e9f9d)
     * Schedule: Bi-weekly on Wednesday at 1500UTC
     * Minutes: Access [meeting minutes](https://lf-camaraproject.atlassian.net/wiki/x/vTve)
 * Mailing List
-    <!-- Note: the $api-family-mailinglist$ is not necessery the $repo-name$, if the repository is belonging to an API Family  -->
     * Subscribe / Unsubscribe to the mailing list of this Sub Project <https://lists.camaraproject.org/g/sp-coi>.
     * A message to the community of this Sub Project can be sent using <sp-coi@lists.camaraproject.org>.
