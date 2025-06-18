@@ -1,0 +1,529 @@
+openapi: 3.0.3
+info:
+  title: Connectivity Insights - Application Profiles
+  version: wip
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  description: |
+    Application profiles allows application developers to share all the
+    information about their application which would be relevant for network/
+    CAMARA APIs related decision making.
+
+    To start with the API will provide operations to define, read and manage
+    an application's thresholds for network quality (latency, jitter, loss,
+    throughput). This scope will be expanded further based on addtional
+    requirements from other applicable CAMARA APIs
+
+    # Authorization and authentication
+
+    The "Camara Security and Interoperability Profile" provides details of how an API consumer requests an access token. Please refer to Identity and Consent Management (https://github.com/camaraproject/IdentityAndConsentManagement/) for the released version of the profile.
+
+    The specific authorization flows to be used will be agreed upon during the onboarding process, happening between the API consumer and the API provider, taking into account the declared purpose for accessing the API, whilst also being subject to the prevailing legal framework dictated by local legislation.
+
+    In cases where personal data is processed by the API and users can exercise their rights through mechanisms such as opt-in and/or opt-out, the use of three-legged access tokens is mandatory. This ensures that the API remains in compliance with privacy regulations, upholding the principles of transparency and user-centric privacy-by-design.
+
+  x-camara-commonalities: 0.5
+
+servers:
+  - url: "{apiRoot}/application-profiles/vwip"
+    variables:
+      apiRoot:
+        default: http://localhost:9091
+        description: |
+          API root, defined by service provider, e.g.
+          `api.example.com` or `api.example.com/somepath`
+
+tags:
+  - name: Application Profiles
+    description: |
+      Operations to define, read and manage an application's thresholds
+      for network quality (latency, jitter, loss, throughput)
+
+paths:
+  /application-profiles:
+    post:
+      security:
+        - openId:
+            - application-profiles:create
+      tags:
+        - Application Profiles
+      summary: |
+        create a profile which represents an application's networking demands.
+      description: |
+        Define network monitoring intents for optimal end user application
+        experience.
+      operationId: createApplicationProfile
+      requestBody:
+        description: List of user-defined network quality thresholds
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplicationProfileRequest"
+        required: true
+      responses:
+        "201":
+          description: Created
+          headers:
+            x-correlator:
+              $ref: "#/components/headers/x-correlator"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationProfile"
+        "400":
+          $ref: "#/components/responses/Generic400"
+        "401":
+          $ref: "#/components/responses/Generic401"
+        "403":
+          $ref: "#/components/responses/Generic403"
+        "429":
+          $ref: "#/components/responses/Generic429"
+
+  /application-profiles/{applicationProfileId}:
+    patch:
+      security:
+        - openId:
+            - application-profiles:update
+      tags:
+        - Application Profiles
+      description: |
+        Update the complete set of network quality thresholds for an
+        application with the new set of thresholds to ensure good
+        end user experience
+      operationId: updateApplicationProfile
+      parameters:
+        - name: applicationProfileId
+          in: path
+          description: Identifier for the Application Profile
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: |
+          network monitoring intents for optimal end user application
+          experience.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplicationProfile"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationProfile"
+        "400":
+          $ref: "#/components/responses/Generic400"
+        "401":
+          $ref: "#/components/responses/Generic401"
+        "403":
+          $ref: "#/components/responses/Generic403"
+        "404":
+          $ref: "#/components/responses/Generic404"
+        "429":
+          $ref: "#/components/responses/Generic429"
+
+    get:
+      security:
+        - openId:
+            - application-profiles:read
+      tags:
+        - Application Profiles
+      description: Read an Application Profile
+      operationId: readApplicationProfile
+      parameters:
+        - name: applicationProfileId
+          in: path
+          description: Identifier for the Application Profile
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationProfile"
+        "400":
+          $ref: "#/components/responses/Generic400"
+        "401":
+          $ref: "#/components/responses/Generic401"
+        "403":
+          $ref: "#/components/responses/Generic403"
+        "404":
+          $ref: "#/components/responses/Generic404"
+        "429":
+          $ref: "#/components/responses/Generic429"
+
+    delete:
+      security:
+        - openId:
+            - application-profile:delete
+      tags:
+        - Application Profiles
+      description: delete
+      operationId: deleteApplicationProfile
+      parameters:
+        - name: applicationProfileId
+          in: path
+          description: subscription Id
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: application profile has been deleted
+        "400":
+          $ref: "#/components/responses/Generic400"
+        "401":
+          $ref: "#/components/responses/Generic401"
+        "403":
+          $ref: "#/components/responses/Generic403"
+        "404":
+          $ref: "#/components/responses/Generic404"
+        "429":
+          $ref: "#/components/responses/Generic429"
+
+components:
+  securitySchemes:
+    openId:
+      type: openIdConnect
+      description: Common security scheme for all CAMARA APIs
+      openIdConnectUrl: https://example.com/.well-known/openid-configuration
+  headers:
+    x-correlator:
+      description: Correlation id for the different services
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9-]{0,55}$
+  schemas:
+    Duration:
+      type: object
+      properties:
+        value:
+          type: integer
+          example: 12
+          format: int32
+          minimum: 1
+        unit:
+          allOf:
+            - $ref: "#/components/schemas/TimeUnitEnum"
+            - example: Minutes
+
+    TimeUnitEnum:
+      type: string
+      enum:
+        - Days
+        - Hours
+        - Minutes
+        - Seconds
+        - Milliseconds
+        - Microseconds
+        - Nanoseconds
+
+    Rate:
+      type: object
+      properties:
+        value:
+          type: integer
+          example: 10
+          format: int32
+          minimum: 0
+          maximum: 1024
+        unit:
+          $ref: "#/components/schemas/RateUnitEnum"
+
+    RateUnitEnum:
+      type: string
+      enum:
+        - bps
+        - kbps
+        - Mbps
+        - Gbps
+        - Tbps
+
+    PacketDelayBudget:
+      description: |
+        The packet delay budget is the maximum allowable one-way latency
+        between the customer's device and the gateway from the operator's
+        network to other networks. By limiting the delay, the network
+        can provide an acceptable level of performance for various services,
+        such as voice calls, video streaming, and data. The end-to-end or
+        round trip latency will be about two times this value plus the latency
+        not controlled by the operator
+      allOf:
+        - $ref: "#/components/schemas/Duration"
+
+    PacketErrorLossRate:
+      type: integer
+      description: |
+        The exponential power of the allowable error loss rate 10^(-N).
+        For instance 3 would be an error loss rate of 10 to the power of -3
+        (0.001)
+
+        For 5G network the 3GPP specification TS 23.203 defines the packet
+        error loss rate QCI attribute. It describes the Quality of Service
+        (QoS) Class Identifier (QCI) parameters used to differentiate traffic
+        classes in mobile networks, ensuring appropriate resource
+        allocation and performance for various services.
+
+        The packet error loss rate is one of the QCI attributes, providing
+        information on the acceptable packet loss rate for a specific traffic
+        class. This attribute helps maintain the desired performance level for
+        services like voice calls, video streaming, or data transfers within
+        the 3GPP mobile network.
+      format: int32
+      minimum: 1
+      maximum: 10
+      example: 3
+
+    Jitter:
+      description: |
+        The jitter requirement aims to limit the maximum variation in
+        round-trip packet delay for the 99th percentile of traffic, following
+        ITU Y.1540 standards. It considers only acknowledged packets in a
+        session, which are packets that receive a confirmation of receipt from
+        the recipient (e.g., using TCP). This requirement helps maintain
+        consistent latency, essential for real-time applications such as VoIP,
+        video calls, and gaming.
+      allOf:
+        - $ref: "#/components/schemas/Duration"
+
+    TargetMinDownstreamRate:
+      description: |
+        This is the target minimum downstream rate.
+      allOf:
+        - $ref: "#/components/schemas/Rate"
+
+    TargetMinUpstreamRate:
+      description: |
+        This is the target minimum upstream rate.
+      allOf:
+        - $ref: "#/components/schemas/Rate"
+
+    ApplicationProfile:
+      type: object
+      required:
+        - applicationProfileId
+        - networkQualityThresholds
+      properties:
+        applicationProfileId:
+          type: string
+          format: uuid
+        networkQualityThresholds:
+          $ref: "#/components/schemas/NetworkQualityThresholds"
+
+    ApplicationProfileRequest:
+      type: object
+      required:
+        - networkQualityThresholds
+      properties:
+        networkQualityThresholds:
+          $ref: "#/components/schemas/NetworkQualityThresholds"
+
+    NetworkQualityThresholds:
+      type: object
+      properties:
+        packetDelayBudget:
+          $ref: "#/components/schemas/PacketDelayBudget"
+        targetMinDownstreamRate:
+          $ref: "#/components/schemas/TargetMinDownstreamRate"
+        targetMinUpstreamRate:
+          $ref: "#/components/schemas/TargetMinUpstreamRate"
+        packetlossErrorRate:
+          $ref: "#/components/schemas/PacketErrorLossRate"
+        jitter:
+          $ref: "#/components/schemas/Jitter"
+
+    ErrorInfo:
+      type: object
+      description: Error information
+      required:
+        - status
+        - code
+        - message
+      properties:
+        status:
+          type: integer
+          description: HTTP status code returned along with this error response
+        code:
+          type: string
+          description: Code given to this error
+        message:
+          type: string
+          description: Detailed error description
+
+  responses:
+    Generic400:
+      description: Bad Request
+      headers:
+        x-correlator:
+          $ref: "#/components/headers/x-correlator"
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ErrorInfo"
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 400
+                  code:
+                    enum:
+                      - INVALID_ARGUMENT
+                      - OUT_OF_RANGE
+          examples:
+            GENERIC_400_INVALID_ARGUMENT:
+              description: Invalid Argument. Generic Syntax Exception
+              value:
+                status: 400
+                code: INVALID_ARGUMENT
+                message: Client specified an invalid argument, request body or query param.
+            GENERIC_400_OUT_OF_RANGE:
+              description: Out of Range. Specific Syntax Exception used when a given field has a pre-defined range or a invalid filter criteria combination is requested
+              value:
+                status: 400
+                code: OUT_OF_RANGE
+                message: Client specified an invalid range.
+    Generic401:
+      description: Unauthorized
+      headers:
+        x-correlator:
+          $ref: "#/components/headers/x-correlator"
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ErrorInfo"
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 401
+                  code:
+                    enum:
+                      - UNAUTHENTICATED
+                      - AUTHENTICATION_REQUIRED
+          examples:
+            GENERIC_401_UNAUTHENTICATED:
+              description: Request cannot be authenticated
+              value:
+                status: 401
+                code: UNAUTHENTICATED
+                message: Request not authenticated due to missing, invalid, or expired credentials.
+            GENERIC_401_AUTHENTICATION_REQUIRED:
+              description: New authentication is needed, authentication is no longer valid
+              value:
+                status: 401
+                code: AUTHENTICATION_REQUIRED
+                message: New authentication is required.
+    Generic403:
+      description: Forbidden
+      headers:
+        x-correlator:
+          $ref: "#/components/headers/x-correlator"
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ErrorInfo"
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 403
+                  code:
+                    enum:
+                      - PERMISSION_DENIED
+                      - INVALID_TOKEN_CONTEXT
+          examples:
+            GENERIC_403_PERMISSION_DENIED:
+              description: Permission denied. OAuth2 token access does not have the required scope or when the user fails operational security
+              value:
+                status: 403
+                code: PERMISSION_DENIED
+                message: Client does not have sufficient permissions to perform this action.
+            GENERIC_403_INVALID_TOKEN_CONTEXT:
+              description: Reflect some inconsistency between information in some field of the API and the related OAuth2 Token
+              value:
+                status: 403
+                code: INVALID_TOKEN_CONTEXT
+                message: "{{field}} is not consistent with access token."
+    Generic404:
+      description: Not found
+      headers:
+        x-correlator:
+          $ref: "#/components/headers/x-correlator"
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ErrorInfo"
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 404
+                  code:
+                    enum:
+                      - NOT_FOUND
+                      - IDENTIFIER_NOT_FOUND
+          examples:
+            GENERIC_404_NOT_FOUND:
+              description: Resource is not found
+              value:
+                status: 404
+                code: NOT_FOUND
+                message: The specified resource is not found.
+            GENERIC_404_IDENTIFIER_NOT_FOUND:
+              description: Some identifier cannot be matched to a device
+              value:
+                status: 404
+                code: IDENTIFIER_NOT_FOUND
+                message: Device identifier not found.
+    Generic429:
+      description: Too Many Requests
+      headers:
+        x-correlator:
+          $ref: "#/components/headers/x-correlator"
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ErrorInfo"
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 429
+                  code:
+                    enum:
+                      - QUOTA_EXCEEDED
+                      - TOO_MANY_REQUESTS
+          examples:
+            GENERIC_429_QUOTA_EXCEEDED:
+              description: Request is rejected due to exceeding a business quota limit
+              value:
+                status: 429
+                code: QUOTA_EXCEEDED
+                message: Out of resource quota.
+            GENERIC_429_TOO_MANY_REQUESTS:
+              description: Access to the API has been temporarily blocked due to rate or spike arrest limits being reached
+              value:
+                status: 429
+                code: TOO_MANY_REQUESTS
+                message: Rate limit reached.
