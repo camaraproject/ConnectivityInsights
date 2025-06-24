@@ -585,12 +585,6 @@ components:
           schema:
             $ref: "#/components/schemas/ErrorInfo"
           examples:
-            GENERIC_422_IDENTIFIER_MISMATCH:
-              description: Inconsistency between device identifiers not pointing to the same device
-              value:
-                status: 422
-                code: IDENTIFIER_MISMATCH
-                message: Provided identifiers are not consistent.
             GENERIC_422_SERVICE_NOT_APPLICABLE:
               description: Service is not available for the provided device
               value:
