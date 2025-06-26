@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Connectivity Insights Subscriptions
   version: wip
-  x-camara-commonalities: 0.6
+  x-camara-commonalities: 0.5
   description: |
     With CAMARA Connectivity Insights, application developers gain essential
     visibility into network quality. This enables them to make informed
@@ -25,10 +25,11 @@ info:
 
     # Relevant terms and definitions
 
-      * **Identifier for the device**:
-        At least one identifier for the device (user equipment) out of four
-         options: IPv4 address, IPv6 address, Phone number, or Network Access
-          Identifier assigned by the mobile network operator for the device.
+      * **Device**: A device refers to any physical entity that can connect to a network and participate in network communication.
+
+        At least one identifier for the device out of four options must be provided: IPv4 address, IPv6 address, Phone number, or Network Access Identifier assigned by the mobile network operator for the device. Where more than one device identifier is provided, only one identifier will be selected by the implementation and this choice indicated to the API consumer in the session creation response.
+
+        Note: Network Access Identifier is defined for future use and will not be supported with this version of the API.
 
       * **Identifier for the application server**:
         IPv4 and/or IPv6 address of the application server
@@ -107,6 +108,31 @@ info:
     will return an error with the `422 UNNECESSARY_IDENTIFIER` error code. This
     will be the case even if the same device is identified by these two
     methods, as the server is unable to make this comparison.
+
+    ## Errors
+
+    If the authentication token is not valid, a `401 UNAUTHENTICATED` error is
+    returned.
+
+    If the mobile subscription parameters contain a formatting error, a `400
+    INVALID_ARGUMENT` error is returned.
+
+    If the mobile subscription cannot be identified from the provided
+    parameters, a `404 NOT_FOUND` error is returned.
+
+    Any more general service failures will result in an error in the `5xx`range
+    with an explanation.
+
+    ### Additional CAMARA error responses
+    The list of error codes in this API specification is not exhaustive. Therefore
+    the API specification may not document some non-mandatory error statuses as
+    indicated in `CAMARA API Design Guidelines`.
+
+    Please refer to the `CAMARA_common.yaml` of the Commonalities Release associated
+    to this API version for a complete list of error responses.
+
+    As a specific rule, error `501 - NOT_IMPLEMENTED` can be only a possible error
+    response if it is explicitly documented in the API.
 
   license:
     name: Apache 2.0
@@ -405,6 +431,7 @@ components:
         sink:
           type: string
           format: uri
+          pattern: ^https:\/\/.+$
           description: |
             The address to which events shall be delivered using the selected
             protocol.
@@ -412,12 +439,12 @@ components:
         types:
           description: |
             Camara Event types eligible to be delivered by this subscription.
-            Note: for the Commonalities meta-release v0.4 we enforce to have
-            only event type per subscription then for following meta-release
-            use of array MUST be decided at API project level.
+            Note: For the current Commonalities API design guidelines, only one event type per subscription is allowed
           type: array
+          minItems: 1
+          maxItems: 1
           items:
-            type: string
+            $ref: "#/components/schemas/SubscriptionEventType"
         config:
           $ref: "#/components/schemas/Config"
         subscriptionId:
@@ -517,15 +544,7 @@ components:
         * `phoneNumber`
         * `networkAccessIdentifier`
 
-        NOTE1: the MNO might support only a subset of these options. The
-        API invoker can provide multiple identifiers to be compatible across
-        different MNOs. In this case the identifiers MUST belong to the same
-        device.
-        NOTE2: for the Commonalities release v0.4, we are enforcing that the
-        networkAccessIdentifier is only part of the schema for future-proofing,
-        and CAMARA does not currently allow its use. After the CAMARA
-        meta-release work is concluded and the relevant issues are resolved,
-        its use will need to be explicitly documented in the guidelines.
+        NOTE: the MNO might support only a subset of these options. The API invoker can provide multiple identifiers to be compatible across different MNOs. In this case the identifiers MUST belong to the same device.
       type: object
       properties:
         phoneNumber:
@@ -808,13 +827,12 @@ components:
         types:
           description: |
             Camara Event types eligible to be delivered by this subscription.
-            Note: for the Commonalities meta-release v0.4 we enforce to have
-            only event type per subscription then for following meta-release
-            use of array MUST be decided at API project level.
+            Note: For the current Commonalities API design guidelines, only one event type per subscription is allowed, yet in the following releases use of array of event types SHALL be specified without changing this definition.
           type: array
+          minItems: 1
+          maxItems: 1
           items:
-            type: string
-            example: org.camaraproject.connectivity-insights-subscriptions.v0.network-quality
+            $ref: "#/components/schemas/SubscriptionEventType"
         config:
           $ref: "#/components/schemas/Config"
 
@@ -979,6 +997,14 @@ components:
       enum:
         - org.camaraproject.connectivity-insights-subscriptions.v0.network-quality
         - org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ends
+
+    SubscriptionEventType:
+      type: string
+      description: |
+        event-type - Event triggered when an event-type event occurred
+      enum:
+        - org.camaraproject.connectivity-insights-subscriptions.v0.network-quality
+
     ErrorInfo:
       type: object
       description: Error information
@@ -1128,7 +1154,7 @@ components:
 
           examples:
             GENERIC_401_UNAUTHENTICATED:
-              description: Request cannot be authenticated
+              description: Request cannot be authenticated and a new authentication is required
               value:
                 status: 401
                 code: UNAUTHENTICATED
