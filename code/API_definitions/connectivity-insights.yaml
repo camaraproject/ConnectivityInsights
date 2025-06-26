@@ -63,6 +63,31 @@ info:
 
     - If the subject can be identified from the access token and the optional `device` object is also included in the request, then the server will return an error with the `422 UNNECESSARY_IDENTIFIER` error code. This will be the case even if the same device is identified by these two methods, as the server is unable to make this comparison.
 
+    ## Errors
+
+    If the authentication token is not valid, a `401 UNAUTHENTICATED` error is
+    returned.
+
+    If the mobile subscription parameters contain a formatting error, a `400
+    INVALID_ARGUMENT` error is returned.
+
+    If the mobile subscription cannot be identified from the provided
+    parameters, a `404 NOT_FOUND` error is returned.
+
+    Any more general service failures will result in an error in the `5xx`range
+    with an explanation.
+
+    ### Additional CAMARA error responses
+    The list of error codes in this API specification is not exhaustive. Therefore
+    the API specification may not document some non-mandatory error statuses as
+    indicated in `CAMARA API Design Guidelines`.
+
+    Please refer to the `CAMARA_common.yaml` of the Commonalities Release associated
+    to this API version for a complete list of error responses.
+
+    As a specific rule, error `501 - NOT_IMPLEMENTED` can be only a possible error
+    response if it is explicitly documented in the API.
+
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -120,7 +145,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/NetworkQualityInsightResponse"
+                allOf:
+                  - $ref: "#/components/schemas/NetworkQualityInsightResponse"
+                  - $ref: "#/components/schemas/DeviceResponseBody"
         "400":
           $ref: "#/components/responses/Generic400"
         "401":
@@ -221,6 +248,16 @@ components:
             - 5G-NSA
             - 4G
             - 3G
+
+    DeviceResponse:
+      description: |
+        An identifier for the end-user equipment able to connect to the network that the response refers to. This parameter is only returned when the API consumer includes the `device` parameter in their request (i.e. they are using a two-legged access token), and is relevant when more than one device identifier is specified, as only one of those device identifiers is allowed in the response.
+
+        If the API consumer provides more than one device identifier in their request, the API provider must return a single identifier which is the one they are using to fulfil the request, even if the identifiers do not match the same device. API provider does not perform any logic to validate/correlate that the indicated device identifiers match the same device. No error should be returned if the identifiers are otherwise valid to prevent API consumers correlating different identifiers with a given end user.
+
+      allOf:
+        - $ref: "#/components/schemas/Device"
+        - maxProperties: 1
 
     Device:
       description: |
@@ -368,6 +405,19 @@ components:
         ports:
           - 5060
           - 5070
+
+    DeviceResponseBody:
+      description: |
+        The optional device identifier to include in the response
+      properties:
+        device:
+          description: |
+            The device identifier that was used to fulfil the request.
+            If this property is not present then the device
+            identifier sent in the request was used.
+          allOf:
+            - $ref: "#/components/schemas/DeviceResponse"
+            - example: {"phoneNumber": "+123456789"}
 
     ApplicationServer:
       description: |
