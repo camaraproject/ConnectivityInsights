@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Connectivity Insights Subscriptions
   version: wip
-  x-camara-commonalities: 0.5
+  x-camara-commonalities: 0.6
   description: |
     With CAMARA Connectivity Insights, application developers gain essential
     visibility into network quality. This enables them to make informed
@@ -380,16 +380,17 @@ components:
       in: header
       description: Correlation id for the different services
       schema:
-        type: string
-        pattern: ^[a-zA-Z0-9-_:;.\/<>{}]{0,256}$
-        example: "b4333c46-49c0-4f62-80d7-f0ef930f1c46"
+        $ref: "#/components/schemas/XCorrelator"
   headers:
     x-correlator:
       description: Correlation id for the different services
       schema:
-        type: string
-        pattern: ^[a-zA-Z0-9-_:;.\/<>{}]{0,256}$
+        $ref: "#/components/schemas/XCorrelator"
   schemas:
+    XCorrelator:
+      type: string
+      pattern: ^[a-zA-Z0-9-_:;.\/<>{}]{0,256}$
+      example: "b4333c46-49c0-4f62-80d7-f0ef930f1c46"
     AdditionalKpis:
       description: additional information about connectivity quality
       type: object
@@ -439,7 +440,7 @@ components:
         types:
           description: |
             Camara Event types eligible to be delivered by this subscription.
-            Note: For the current Commonalities API design guidelines, only one event type per subscription is allowed
+            Note: the maximum number of event types per subscription will be decided at API project level
           type: array
           minItems: 1
           maxItems: 1
@@ -533,18 +534,14 @@ components:
       example: qs15-h556-rt89-1298
     Device:
       description: |
-        End-user equipment able to connect to a mobile network. Examples of
-        devices include smartphones or IoT sensors/actuators.
-
-        The developer can choose to provide the below specified device
-        identifiers:
-
-        * `ipv4Address`
-        * `ipv6Address`
-        * `phoneNumber`
-        * `networkAccessIdentifier`
-
-        NOTE: the MNO might support only a subset of these options. The API invoker can provide multiple identifiers to be compatible across different MNOs. In this case the identifiers MUST belong to the same device.
+        End-user equipment able to connect to a mobile network. Examples of devices include smartphones or IoT sensors/actuators.
+            The developer can choose to provide the below specified device identifiers:
+            * `ipv4Address`
+            * `ipv6Address`
+            * `phoneNumber`
+            * `networkAccessIdentifier`
+            NOTE1: the network operator might support only a subset of these options. The API invoker can provide multiple identifiers to be compatible across different network operators. In this case the identifiers MUST belong to the same device.
+            NOTE2: as for this Commonalities release, we are enforcing that the networkAccessIdentifier is only part of the schema for future-proofing, and CAMARA does not currently allow its use. After the CAMARA meta-release work is concluded and the relevant issues are resolved, its use will need to be explicitly documented in the guidelines.
       type: object
       properties:
         phoneNumber:
@@ -827,7 +824,7 @@ components:
         types:
           description: |
             Camara Event types eligible to be delivered by this subscription.
-            Note: For the current Commonalities API design guidelines, only one event type per subscription is allowed, yet in the following releases use of array of event types SHALL be specified without changing this definition.
+            Note: the maximum number of event types per subscription will be decided at API project level
           type: array
           minItems: 1
           maxItems: 1
