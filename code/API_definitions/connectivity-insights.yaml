@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Connectivity Insights
-  version: wip
+  version: 0.6.0-rc.1
   x-camara-commonalities: 0.6
   description: |
     With CAMARA Connectivity Insights, application developers gain essential
@@ -97,7 +97,7 @@ externalDocs:
   url: https://github.com/camaraproject/ConnectivityInsights
 
 servers:
-  - url: "{apiRoot}/connectivity-insights/vwip"
+  - url: "{apiRoot}/connectivity-insights/v0.6rc1"
     variables:
       apiRoot:
         default: http://localhost:9091
