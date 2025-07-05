@@ -440,7 +440,6 @@ components:
         types:
           description: |
             Camara Event types eligible to be delivered by this subscription.
-            Note: the maximum number of event types per subscription will be decided at API project level
           type: array
           minItems: 1
           maxItems: 1
@@ -824,7 +823,6 @@ components:
         types:
           description: |
             Camara Event types eligible to be delivered by this subscription.
-            Note: the maximum number of event types per subscription will be decided at API project level
           type: array
           minItems: 1
           maxItems: 1
