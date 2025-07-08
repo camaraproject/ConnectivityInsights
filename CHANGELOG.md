@@ -4,6 +4,7 @@ NOTE:
 
 ## Table of contents
 
+- **[r3.1](#r31)**
 - **[r2.2](#r22)**
 - **[r2.1](#r21)**
 - **[r1.2](#r12)**
@@ -17,6 +18,49 @@ The below sections record the changes for each API version in each release as fo
 * for the first release-candidate, all changes since the last public release
 * for subsequent release-candidate(s), only the delta to the previous release-candidate
 * for a public release, the consolidated changes since the previous public release
+
+# r3.1
+## Release Notes
+
+This release contains the definition and documentation of
+* connectivity-insights v0.6.0-rc.1
+* connectivity-insights-subscriptions v0.6.0-rc.1
+
+The API definition(s) are based on
+* Commonalities v0.6.0-rc.1 (r3.2)
+* Identity and Consent Management v0.4.0-rc.1 (r3.2)
+
+*  **r3.1 release of ConnectivityInsights has the following API definitions:**
+
+    *  **connectivity-insights v0.6.0-rc.1**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.1/code/API_definitions/connectivity-insights.yaml&nocors)
+    [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.1/code/API_definitions/connectivity-insights.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.1/code/API_definitions/connectivity-insights.yaml)
+
+    *  **connectivity-insights-subscriptions v0.6.0-rc.1**
+    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.1/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)
+    [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.1/code/API_definitions/connectivity-insights-subscriptions.yaml)
+    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.1/code/API_definitions/connectivity-insights-subscriptions.yaml)
+
+
+### Added
+
+* New `DeviceResponse` object in responses limited to one identifier.
+* Clarifications on non-documented error responses.
+* subscription event types updated
+
+### Changed
+
+* Updated string pattern for `x-correlator`headers.
+
+### Removed
+
+* `verificationResult: UNKNOWN` for 200 responses.
+* Error `422 IDENTIFIER_MISMATCH`.
+* Error `401 AUTHENTICATION_REQUIRED`.
+
+**Full Changelog**: https://github.com/camaraproject/connectivityInsights/compare/r2.2...r3.1
+
 
 # r2.2
 ## Release Notes
