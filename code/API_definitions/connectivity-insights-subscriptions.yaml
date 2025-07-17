@@ -570,10 +570,10 @@ components:
         networks it corresponds to the MSISDN (Mobile Station International
         Subscriber Directory Number). In order to be globally unique it has to
         be formatted in international format, according to E.164 standard,
-        optionally prefixed with '+'.
+        prefixed with '+'.
       type: string
-      pattern: '^\+?[0-9]{5,15}$'
-      example: "123456789"
+      pattern: '^\+[1-9][0-9]{4,14}$'
+      example: "+123456789"
 
     DeviceIpv4Addr:
       type: object
@@ -1336,7 +1336,7 @@ components:
     Generic429:
       description: Too Many Requests
       headers:
-        X-Correlator:
+        x-correlator:
           $ref: "#/components/headers/x-correlator"
       content:
         application/json:

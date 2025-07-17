@@ -125,6 +125,8 @@ paths:
          level of confidence that it can meet an application profile's quality
          thresholds for a given end user device.
       operationId: checkNetworkQuality
+      parameters:
+        - $ref: "#/components/parameters/x-correlator"
       requestBody:
         description: |
           An `ApplicationProfileId` and one or more device identifiers.
@@ -167,13 +169,24 @@ components:
       type: openIdConnect
       description: Common security scheme for all CAMARA APIs
       openIdConnectUrl: https://example.com/.well-known/openid-configuration
+  parameters:
+    x-correlator:
+      name: x-correlator
+      in: header
+      description: Correlation id for the different services
+      schema:
+        $ref: "#/components/schemas/XCorrelator"
   headers:
     x-correlator:
       description: Correlation id for the different services
       schema:
-        type: string
-        pattern: ^[a-zA-Z0-9-_:;.\/<>{}]{0,256}$
+        $ref: "#/components/schemas/XCorrelator"
   schemas:
+    XCorrelator:
+      type: string
+      pattern: ^[a-zA-Z0-9-_:;.\/<>{}]{0,256}$
+      example: "b4333c46-49c0-4f62-80d7-f0ef930f1c46"
+
     NetworkQualityInsightRequest:
       description: |
         request body to query the network quality for a given device and
@@ -312,8 +325,8 @@ components:
         be formatted in international format, according to E.164 standard,
         optionally prefixed with '+'.
       type: string
-      pattern: ^[a-zA-Z0-9-_:;.\/<>{}]{0,256}$
-      example: "123456789"
+      pattern: '^\+[1-9][0-9]{4,14}$'
+      example: "+123456789"
 
     DeviceIpv4Addr:
       type: object
