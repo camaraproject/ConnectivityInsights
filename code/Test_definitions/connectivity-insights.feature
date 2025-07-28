@@ -8,7 +8,7 @@ Feature: CAMARA Connectivity Insights API, v0.5.0 - Operations for Network Quali
     Given the resource "{apiroot}/connectivity-insights/v0.5" as base-url
     And the header "Content-Type" is set to "application/json"
     And the header "Authorization" is set to a valid access token
-    And the header "x-correlator" is set to a UUID value
+    And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"
 
 ######### Happy Path Scenarios #################################
 
