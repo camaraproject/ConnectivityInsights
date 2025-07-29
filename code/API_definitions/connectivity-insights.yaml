@@ -39,7 +39,7 @@ info:
       notifications of network quality.
 
     Following diagram shows the interaction between different components
-      ![Sequence Diagram](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/documentation/API_documentation/ConnectivityInsights-SequenceDiagram.png)
+      ![Sequence Diagram](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.1/documentation/API_documentation/ConnectivityInsights-SequenceDiagram.png)
 
     # Authorization and authentication
 

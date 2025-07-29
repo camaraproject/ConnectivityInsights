@@ -22,7 +22,7 @@ The below sections record the changes for each API version in each release as fo
 # r3.1
 ## Release Notes
 
-This release contains the definition and documentation of
+This pre-release contains the definition and documentation of
 * connectivity-insights v0.6.0-rc.1
 * connectivity-insights-subscriptions v0.6.0-rc.1
 
