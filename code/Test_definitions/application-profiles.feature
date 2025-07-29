@@ -8,7 +8,7 @@ Feature: CAMARA Application Profiles API, v0.4.0 - Operations for Application Pr
     Given the resource "{apiroot}/application-profiles/v0.4" as base-url
     And the header "Content-Type" is set to "application/json"
     And the header "Authorization" is set to a valid access token
-    And the header "x-correlator" is set to a UUID value
+    And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"
 
 ######### Happy Path Scenarios #################################
 
