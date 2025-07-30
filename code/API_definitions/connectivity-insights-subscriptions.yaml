@@ -922,8 +922,8 @@ components:
         mapping:
           org.camaraproject.connectivity-insights-subscriptions.v0.network-quality:
             "#/components/schemas/EventNetworkQuality"
-          org.camaraproject.connectivityinsights.v0.eventSubscriptionEnds:
-            "#/components/schemas/EventSubscriptionEnds"
+          org.camaraproject.connectivityinsights.v0.eventSubscriptionEnded:
+            "#/components/schemas/EventSubscriptionEnded"
 
     EventNetworkQuality:
       description: event structure for Network Quality
@@ -934,17 +934,17 @@ components:
             data:
               $ref: "#/components/schemas/NetworkQualityInsight"
 
-    EventSubscriptionEnds:
-      description: event structure for event subscription ends
+    EventSubscriptionEnded:
+      description: event structure for event subscription ended
       allOf:
         - $ref: "#/components/schemas/CloudEvent"
         - type: object
           properties:
             data:
-              $ref: "#/components/schemas/SubscriptionEnds"
+              $ref: "#/components/schemas/SubscriptionEnded"
 
-    SubscriptionEnds:
-      description: Event detail structure for SUBSCRIPTION_ENDS event
+    SubscriptionEnded:
+      description: Event detail structure for subscription ended event
       type: object
       required:
         - terminationReason
@@ -955,6 +955,7 @@ components:
         subscriptionId:
           $ref: "#/components/schemas/SubscriptionId"
         terminationDescription:
+          description: Explanation why a subscription ended or had to end.
           type: string
 
     TerminationReason:
@@ -967,11 +968,13 @@ components:
         requester) has been reached
         - ACCESS_TOKEN_EXPIRED - Access Token sinkCredential (optionally set by
         the requester) expiration time has been reached
+        - SUBSCRIPTION_DELETED - Subscription was deleted by the requester
       enum:
         - MAX_EVENTS_REACHED
         - NETWORK_TERMINATED
         - SUBSCRIPTION_EXPIRED
         - ACCESS_TOKEN_EXPIRED
+        - SUBSCRIPTION_DELETED
 
     DateTime:
       type: string
@@ -988,10 +991,10 @@ components:
       type: string
       description: |
         event-type - Event triggered when an event-type event occurred
-        subscription-ends: Event triggered when the subscription ends
+        subscription-ended: Event triggered when the subscription ends
       enum:
         - org.camaraproject.connectivity-insights-subscriptions.v0.network-quality
-        - org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ends
+        - org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended
 
     SubscriptionEventType:
       type: string
@@ -1160,7 +1163,7 @@ components:
               value:
                 status: 401
                 code: UNAUTHENTICATED
-                message: Request not authenticated due to missing, invalid, or expired credentials.
+                message: Request not authenticated due to missing, invalid, or expired credentials. A new authentication is required.
 
     Generic403:
       description: Client does not have sufficient permission
