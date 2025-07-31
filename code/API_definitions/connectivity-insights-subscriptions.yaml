@@ -109,7 +109,7 @@ info:
     will be the case even if the same device is identified by these two
     methods, as the server is unable to make this comparison.
 
-    ## Errors
+    # Errors
 
     If the authentication token is not valid, a `401 UNAUTHENTICATED` error is
     returned.
@@ -123,7 +123,7 @@ info:
     Any more general service failures will result in an error in the `5xx`range
     with an explanation.
 
-    ### Additional CAMARA error responses
+    # Additional CAMARA error responses
     The list of error codes in this API specification is not exhaustive. Therefore
     the API specification may not document some non-mandatory error statuses as
     indicated in `CAMARA API Design Guidelines`.
