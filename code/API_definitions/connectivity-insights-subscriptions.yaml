@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Connectivity Insights Subscriptions
-  version: wip
+  version: 0.6.0-rc.1
   x-camara-commonalities: 0.6
   description: |
     With CAMARA Connectivity Insights, application developers gain essential
@@ -43,7 +43,7 @@ info:
 
 
       Following diagram shows the interaction between different components
-      ![Sequence Diagram](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r2.2/documentation/API_documentation/ConnectivityInsights-SequenceDiagram.png)
+      ![Sequence Diagram](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.1/documentation/API_documentation/ConnectivityInsights-SequenceDiagram.png)
 
     ### Notification callback
 
@@ -109,7 +109,7 @@ info:
     will be the case even if the same device is identified by these two
     methods, as the server is unable to make this comparison.
 
-    ## Errors
+    # Errors
 
     If the authentication token is not valid, a `401 UNAUTHENTICATED` error is
     returned.
@@ -123,16 +123,19 @@ info:
     Any more general service failures will result in an error in the `5xx`range
     with an explanation.
 
-    ### Additional CAMARA error responses
-    The list of error codes in this API specification is not exhaustive. Therefore
-    the API specification may not document some non-mandatory error statuses as
-    indicated in `CAMARA API Design Guidelines`.
+    # Additional CAMARA error responses
 
-    Please refer to the `CAMARA_common.yaml` of the Commonalities Release associated
-    to this API version for a complete list of error responses.
+    The list of error codes in this API specification is not exhaustive.
+    Therefore the API specification may not document some non-mandatory error
+    statuses as indicated in `CAMARA API Design Guide`.
 
-    As a specific rule, error `501 - NOT_IMPLEMENTED` can be only a possible error
-    response if it is explicitly documented in the API.
+    Please refer to the `CAMARA_common.yaml` of the Commonalities Release
+    associated to this API version for a complete list of error responses. The
+    applicable Commonalities Release can be identified in the `API Readiness
+    Checklist` document associated to this API version.
+
+    As a specific rule, error `501 - NOT_IMPLEMENTED` can be only a possible
+    error response if it is explicitly documented in the API.
 
   license:
     name: Apache 2.0
@@ -143,7 +146,7 @@ externalDocs:
   url: https://github.com/camaraproject/ConnectivityInsights/
 
 servers:
-  - url: "{apiRoot}/connectivity-insights-subscriptions/vwip"
+  - url: "{apiRoot}/connectivity-insights-subscriptions/v0.6rc1"
     variables:
       apiRoot:
         default: http://localhost:9091
@@ -922,8 +925,8 @@ components:
         mapping:
           org.camaraproject.connectivity-insights-subscriptions.v0.network-quality:
             "#/components/schemas/EventNetworkQuality"
-          org.camaraproject.connectivityinsights.v0.eventSubscriptionEnds:
-            "#/components/schemas/EventSubscriptionEnds"
+          org.camaraproject.connectivityinsights.v0.eventSubscriptionEnded:
+            "#/components/schemas/EventSubscriptionEnded"
 
     EventNetworkQuality:
       description: event structure for Network Quality
@@ -934,17 +937,17 @@ components:
             data:
               $ref: "#/components/schemas/NetworkQualityInsight"
 
-    EventSubscriptionEnds:
-      description: event structure for event subscription ends
+    EventSubscriptionEnded:
+      description: event structure for event subscription ended
       allOf:
         - $ref: "#/components/schemas/CloudEvent"
         - type: object
           properties:
             data:
-              $ref: "#/components/schemas/SubscriptionEnds"
+              $ref: "#/components/schemas/SubscriptionEnded"
 
-    SubscriptionEnds:
-      description: Event detail structure for SUBSCRIPTION_ENDS event
+    SubscriptionEnded:
+      description: Event detail structure for subscription ended event
       type: object
       required:
         - terminationReason
@@ -955,6 +958,7 @@ components:
         subscriptionId:
           $ref: "#/components/schemas/SubscriptionId"
         terminationDescription:
+          description: Explanation why a subscription ended or had to end.
           type: string
 
     TerminationReason:
@@ -967,11 +971,13 @@ components:
         requester) has been reached
         - ACCESS_TOKEN_EXPIRED - Access Token sinkCredential (optionally set by
         the requester) expiration time has been reached
+        - SUBSCRIPTION_DELETED - Subscription was deleted by the requester
       enum:
         - MAX_EVENTS_REACHED
         - NETWORK_TERMINATED
         - SUBSCRIPTION_EXPIRED
         - ACCESS_TOKEN_EXPIRED
+        - SUBSCRIPTION_DELETED
 
     DateTime:
       type: string
@@ -988,10 +994,10 @@ components:
       type: string
       description: |
         event-type - Event triggered when an event-type event occurred
-        subscription-ends: Event triggered when the subscription ends
+        subscription-ended: Event triggered when the subscription ends
       enum:
         - org.camaraproject.connectivity-insights-subscriptions.v0.network-quality
-        - org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ends
+        - org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended
 
     SubscriptionEventType:
       type: string
@@ -1041,6 +1047,7 @@ components:
                       - INVALID_PROTOCOL
                       - INVALID_CREDENTIAL
                       - INVALID_TOKEN
+                      - INVALID_SINK
           examples:
             GENERIC_400_INVALID_ARGUMENT:
               description: Invalid Argument. Generic Syntax Exception
@@ -1072,6 +1079,12 @@ components:
                 status: 400
                 code: INVALID_TOKEN
                 message: Only bearer token is supported
+            GENERIC_400_INVALID_SINK:
+              description: Invalid sink value
+              value:
+                status: 400
+                code: INVALID_SINK
+                message: sink not valid for the specified protocol
     Generic400:
       description: Problem with the client request
       headers:
@@ -1153,7 +1166,7 @@ components:
               value:
                 status: 401
                 code: UNAUTHENTICATED
-                message: Request not authenticated due to missing, invalid, or expired credentials.
+                message: Request not authenticated due to missing, invalid, or expired credentials. A new authentication is required.
 
     Generic403:
       description: Client does not have sufficient permission

@@ -1,12 +1,12 @@
-# Connectivity Insights Subscriptions API Readiness minimum criteria checklist
+# API Readiness Checklist
 
-Checklist for connectivity-insights-subscriptions v0.5.0 in r2.2
+Checklist for connectivity-insights-subscriptions v0.6.0-rc.1 in r3.1
 
 | Nr | API release assets  | alpha | release-candidate |  initial<br>public | stable<br> public | Status | Reference information |
 |----|----------------------------------------------|:-----:|:-----------------:|:-------:|:------:|:----:|----|
 |  1 | API definition                               |   M   |         M         |    M    |    M   | Y    | [link](/code/API_definitions/connectivity-insights-subscriptions.yaml) |
-|  2 | Design guidelines from Commonalities applied |   O   |         M         |    M    |    M   | Y  |  Comm. release r2.3    |
-|  3 | Guidelines from ICM applied                  |   O   |         M         |    M    |    M   | Y    |  ICM release r2.3    |
+|  2 | Design guidelines from Commonalities applied |   O   |         M         |    M    |    M   | Y  |  r3.2    |
+|  3 | Guidelines from ICM applied                  |   O   |         M         |    M    |    M   | Y    |  r3.2    |
 |  4 | API versioning convention applied            |   M   |         M         |    M    |    M   | Y    |      |
 |  5 | API documentation                            |   M   |         M         |    M    |    M   | Y    | inline in YAML |
 |  6 | User stories                                 |   O   |         O         |    O    |    M   | Y    | [link](/documentation/API_documentation/ConnectivityInsights-User-Story.md) |
@@ -16,7 +16,7 @@ Checklist for connectivity-insights-subscriptions v0.5.0 in r2.2
 | 10 | API release numbering convention applied     |   M   |         M         |    M    |    M   | Y    |      |
 | 11 | Change log updated                           |   M   |         M         |    M    |    M   | Y  | [link](/CHANGELOG.md) |
 | 12 | Previous public release was certified        |   O   |         O         |    O    |    M   | N    |      |
-| 13 | API description (for marketing)              |   O   |         O         |    M    |    M   |      | [wiki link](https://lf-camaraproject.atlassian.net/wiki/xxx) |
+| 13 | API description (for marketing)              |   O   |         O         |    M    |    M   |      | [wiki link](https://lf-camaraproject.atlassian.net/wiki/x/GIBSBQ) |
 
 To fill the checklist:
 - in the line above the table, replace the api-name, api-version and the rx.y by their actual values for the current API version and release.

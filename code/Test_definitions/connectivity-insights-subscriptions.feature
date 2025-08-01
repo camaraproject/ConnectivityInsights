@@ -1,11 +1,11 @@
 @Connectivity_Insights_Subscriptions
-Feature: CAMARA Connectivity Insights Subscriptions API, v0.5.0 - Operations for Subscriptions
+Feature: CAMARA Connectivity Insights Subscriptions API, v0.6.0-rc.1 - Operations for Subscriptions
 
 # Input to be provided by the implementation to the tests
 # References to OAS spec schemas refer to schemas specified in connectivity-insights-subscriptions.yaml
 
   Background: Common Connectivity Insights Subscriptions setup
-    Given the resource "{apiroot}/connectivity-insights-subscriptions/v0.5" as base-url
+    Given the resource "{apiroot}/connectivity-insights-subscriptions/v0.6rc1" as base-url
     And the header "Content-Type" is set to "application/json"
     And the header "Authorization" is set to a valid access token
     And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"
@@ -88,20 +88,20 @@ Feature: CAMARA Connectivity Insights Subscriptions API, v0.5.0 - Operations for
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.network-quality"
 
   @connectivity_insights_subscriptions_09_subscription_ends_on_expiry
-  Scenario: Receive notification for subscription-ends event on expiry
+  Scenario: Receive notification for subscription-ended event on expiry
     Given that subscriptions are created synchronously
     And a valid subscription request body with network quality event type
     And the request body property "$.config.subscriptionExpireTime" is set to a value in the near future
     When the request "createSubscription" is sent
     Then the response code is 201
     And when the subscription expires
-    Then event notification "subscription-ends" is received on callback-url
-    And notification body complies with the OAS schema at "/components/schemas/EventSubscriptionEnds"
-    And type="org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ends"
+    Then event notification "subscription-ended" is received on callback-url
+    And notification body complies with the OAS schema at "/components/schemas/EventSubscriptionEnded"
+    And type="org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended"
     And the response property "$.data.terminationReason" is "SUBSCRIPTION_EXPIRED"
 
   @connectivity_insights_subscriptions_10_subscription_ends_when_max_events
-  Scenario: Receive notification for subscription-ends event on max events reached
+  Scenario: Receive notification for subscription-ended event on max events reached
     Given that subscriptions are created synchronously
     And a valid subscription request body with network quality event type
     And the request body property "$.config.subscriptionMaxEvents" is set to 1
@@ -109,22 +109,22 @@ Feature: CAMARA Connectivity Insights Subscriptions API, v0.5.0 - Operations for
     Then the response code is 201
     And when the network quality changes for the subscribed device
     Then event notification "network-quality" is received on callback-url
-    And event notification "subscription-ends" is received on callback-url
-    And notification body complies with the OAS schema at "/components/schemas/EventSubscriptionEnds"
-    And type="org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ends"
+    And event notification "subscription-ended" is received on callback-url
+    And notification body complies with the OAS schema at "/components/schemas/EventSubscriptionEnded"
+    And type="org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended"
     And the response property "$.data.terminationReason" is "MAX_EVENTS_REACHED"
 
   @connectivity_insights_subscriptions_11_subscription_ends_on_delete
-  Scenario: Receive notification for subscription-ends event on deletion
+  Scenario: Receive notification for subscription-ended event on deletion
     Given that subscriptions are created synchronously
     And a valid subscription request body with network quality event type
     When the request "createSubscription" is sent
     Then the response code is 201
     When the request "deleteSubscription" is sent with the created subscription ID
     Then the response code is 204
-    And event notification "subscription-ends" is received on callback-url
-    And notification body complies with the OAS schema at "/components/schemas/EventSubscriptionEnds"
-    And type="org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ends"
+    And event notification "subscription-ended" is received on callback-url
+    And notification body complies with the OAS schema at "/components/schemas/EventSubscriptionEnded"
+    And type="org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended"
     And the response property "$.data.terminationReason" is "NETWORK_TERMINATED"
 
   @connectivity_insights_subscriptions_12_initial_event
