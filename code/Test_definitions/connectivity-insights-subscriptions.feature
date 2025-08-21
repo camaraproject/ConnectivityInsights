@@ -1,4 +1,3 @@
-@Connectivity_Insights_Subscriptions
 Feature: CAMARA Connectivity Insights Subscriptions API, v0.6.0-rc.1 - Operations for Subscriptions
 
 # Input to be provided by the implementation to the tests
@@ -82,7 +81,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, v0.6.0-rc.1 - Operation
     When the request "createSubscription" is sent
     Then the response code is 201
     And when the network quality changes for the subscribed device
-    Then event notification "network-quality" is received on callback-url
+    And event notification "network-quality" is received on callback-url
     And sink credentials are received as expected
     And notification body complies with the OAS schema at "/components/schemas/EventNetworkQuality"
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.network-quality"
@@ -95,7 +94,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, v0.6.0-rc.1 - Operation
     When the request "createSubscription" is sent
     Then the response code is 201
     And when the subscription expires
-    Then event notification "subscription-ended" is received on callback-url
+    And event notification "subscription-ended" is received on callback-url
     And notification body complies with the OAS schema at "/components/schemas/EventSubscriptionEnded"
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended"
     And the response property "$.data.terminationReason" is "SUBSCRIPTION_EXPIRED"
@@ -108,7 +107,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, v0.6.0-rc.1 - Operation
     When the request "createSubscription" is sent
     Then the response code is 201
     And when the network quality changes for the subscribed device
-    Then event notification "network-quality" is received on callback-url
+    And event notification "network-quality" is received on callback-url
     And event notification "subscription-ended" is received on callback-url
     And notification body complies with the OAS schema at "/components/schemas/EventSubscriptionEnded"
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended"
@@ -118,8 +117,8 @@ Feature: CAMARA Connectivity Insights Subscriptions API, v0.6.0-rc.1 - Operation
   Scenario: Receive notification for subscription-ended event on deletion
     Given that subscriptions are created synchronously
     And a valid subscription request body with network quality event type
-    When the request "createSubscription" is sent
-    Then the response code is 201
+    And the request "createSubscription" is sent
+    And the response code is 201
     When the request "deleteSubscription" is sent with the created subscription ID
     Then the response code is 204
     And event notification "subscription-ended" is received on callback-url
@@ -296,7 +295,6 @@ Feature: CAMARA Connectivity Insights Subscriptions API, v0.6.0-rc.1 - Operation
     And the response property "$.status" is 422
     And the response property "$.code" is "MISSING_IDENTIFIER"
     And the response property "$.message" contains a user friendly text
-
 
   # 429 Error Scenarios
 
