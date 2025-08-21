@@ -1,4 +1,3 @@
-@Connectivity_Insights
 Feature: CAMARA Connectivity Insights API, v0.6.0-rc.1 - Operations for Network Quality
 
 # Input to be provided by the implementation to the tests
@@ -149,7 +148,6 @@ Feature: CAMARA Connectivity Insights API, v0.6.0-rc.1 - Operations for Network 
     And the response property "$.status" is 404
     And the response property "$.code" is "IDENTIFIER_NOT_FOUND"
     And the response property "$.message" contains a user friendly text
-
 
   # 429 Error Scenarios
 

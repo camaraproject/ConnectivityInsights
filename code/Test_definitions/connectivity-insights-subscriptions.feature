@@ -1,4 +1,3 @@
-@Connectivity_Insights_Subscriptions
 Feature: CAMARA Connectivity Insights Subscriptions API, v0.6.0-rc.1 - Operations for Subscriptions
 
 # Input to be provided by the implementation to the tests
@@ -296,7 +295,6 @@ Feature: CAMARA Connectivity Insights Subscriptions API, v0.6.0-rc.1 - Operation
     And the response property "$.status" is 422
     And the response property "$.code" is "MISSING_IDENTIFIER"
     And the response property "$.message" contains a user friendly text
-
 
   # 429 Error Scenarios
 
