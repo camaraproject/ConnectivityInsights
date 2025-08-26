@@ -463,10 +463,7 @@ components:
           type: string
           format: date-time
           description: Date when the event subscription will begin/began
-            It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/
-            rfc3339#section-5.6) and must have time zone.
-            Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ (i.e. which
-            allows 2023-07-03T14:27:08.312+02:00 or 2023-07-03T12:27:08.312Z)
+            It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone.
           example: "2023-07-03T12:27:08.312Z"
         expiresAt:
           type: string
@@ -475,10 +472,7 @@ components:
             Date when the event subscription will expire. Only provided when
             `subscriptionExpireTime` is indicated by API client or Telco
             Operator has specific policy about that.
-            It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/
-            rfc3339#section-5.6) and must have time zone.
-            Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ (i.e. which allows
-            2023-07-03T14:27:08.312+02:00 or 2023-07-03T12:27:08.312Z)
+            It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone.
           example: "2023-07-03T12:27:08.312Z"
         status:
           type: string
@@ -741,7 +735,6 @@ components:
             The subscription expiration time (in date-time format) requested by
             the API consumer. Up to API project decision to keep it.
             It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone.
-            Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ (i.e. which allows 2023-07-03T14:27:08.312+02:00 or 2023-07-03T12:27:08.312Z)
           example: "2023-07-03T12:27:08.312Z"
         subscriptionMaxEvents:
           type: integer
@@ -984,10 +977,7 @@ components:
       format: date-time
       description: |
         Timestamp of when the occurrence happened.
-        It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/
-        rfc3339#section-5.6) and must have time zone.
-        Recommended format is yyyy-MM-dd'T'HH:mm:ss.SSSZ (i.e. which allows
-        2023-07-03T14:27:08.312+02:00 or 2023-07-03T12:27:08.312Z)
+        It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone.
       example: "2023-07-03T12:27:08.312Z"
 
     EventTypeNotification:
@@ -1016,13 +1006,13 @@ components:
       properties:
         status:
           type: integer
-          description: HTTP status code returned along with this error response
+          description: HTTP response status code
         code:
           type: string
-          description: Code given to this error
+          description: A human-readable code to describe the error
         message:
           type: string
-          description: Detailed error description
+          description: A human-readable description of what the event represents
 
   responses:
     CreateSubscriptionBadRequest400:
