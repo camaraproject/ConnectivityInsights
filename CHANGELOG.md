@@ -2,6 +2,7 @@
 
 ## Table of contents
 
+- **[r3.2](#r32) (Fall25 public release)**
 - **[r3.1](#r31)**
 - **[r2.2](#r22) (Spring25 public release)**
 - **[r2.1](#r21)**
@@ -16,6 +17,48 @@ The below sections record the changes for each API version in each release as fo
 * for the first release-candidate, all changes since the last public release
 * for subsequent release-candidate(s), only the delta to the previous release-candidate
 * for a public release, the consolidated changes since the previous public release
+
+# r3.2
+## Release Notes
+
+This public release contains the definition and documentation of
+* connectivity-insights v0.6.0
+* connectivity-insights-subscriptions v0.6.0
+
+The API definition(s) are based on
+* Commonalities v0.6.0 (r3.3)
+* Identity and Consent Management v0.4.0 (r3.3)
+
+
+## connectivity-insights v0.6.0
+
+**connectivity-insights v0.6.0 is the public release of the version 0.6.0**
+
+
+- API definition **with inline documentation**:
+  - [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights.yaml&nocors)
+  - [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights.yaml)
+  - [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights.yaml)
+
+### Changed
+
+* Align with latest Commonalities in [#166](https://github.com/camaraproject/ConnectivityInsights/issues/166)
+
+## connectivity-insights-subscriptions v0.6.0
+
+**connectivity-insights-subscriptions v0.6.0 is the public release of the version 0.6.0**
+
+- API definition **with inline documentation**:
+  - [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)
+  - [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
+  - [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
+
+### Changed
+
+* Align with latest Commonalities in [#166](https://github.com/camaraproject/ConnectivityInsights/issues/166)
+
+
+**Full Changelog**: https://github.com/camaraproject/connectivityInsights/compare/r3.1...r3.2
 
 # r3.1
 ## Release Notes
