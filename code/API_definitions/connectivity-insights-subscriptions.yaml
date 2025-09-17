@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Connectivity Insights Subscriptions
-  version: wip
+  version: 0.6.0
   x-camara-commonalities: 0.6
   description: |
     With CAMARA Connectivity Insights, application developers gain essential
@@ -43,7 +43,7 @@ info:
 
 
       Following diagram shows the interaction between different components
-      ![Sequence Diagram](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.1/documentation/API_documentation/ConnectivityInsights-SequenceDiagram.png)
+      ![Sequence Diagram](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/documentation/API_documentation/ConnectivityInsights-SequenceDiagram.png)
 
     ### Notification callback
 
@@ -62,7 +62,7 @@ info:
       These rules apply for subscription:
 
       - If 3-legged access token is used, the POST and GET{id} requests &
-      responses must NOT provide thev``phoneNumber``. For GET (list) only
+      responses must NOT provide the ``phoneNumber``. For GET (list) only
       subscription(s) for this exactly phone number is/are retrieved (implicit
       filtering).
       - If 2-legged access token is used, for POST and GET{id}, the presence
@@ -146,7 +146,7 @@ externalDocs:
   url: https://github.com/camaraproject/ConnectivityInsights/
 
 servers:
-  - url: "{apiRoot}/connectivity-insights-subscriptions/vwip"
+  - url: "{apiRoot}/connectivity-insights-subscriptions/v0.6"
     variables:
       apiRoot:
         default: http://localhost:9091
@@ -189,7 +189,7 @@ paths:
                 Important: this endpoint is to be implemented by the API
                 consumer.The Connectivity Insights server will call this
                 endpoint whenever a connectivity event occurs that changes
-                the netowrk's ability to meet the application's demands for
+                the network's ability to meet the application's demands for
                 a given device.
               operationId: postNotification
               parameters:
@@ -453,12 +453,8 @@ components:
         subscriptionId:
           type: string
           description: |
-            The unique identifier of the subscription in the scope of the
-            subscription manager. When this information is contained within
-            an event notification, this concept SHALL be referred as
-            `subscriptionId` as per
-            [Commonalities Event Notification Model](https://github.com/camaraproject/Commonalities/blob/main/documentation/API-design-guidelines.md#122-event-notification).
-          example: "1119920371"
+            When this information is contained within an event notification, it SHALL be referred to as `subscriptionId` as per the Commonalities Event Notification Model.
+          example: qs15-h556-rt89-1298
         startsAt:
           type: string
           format: date-time
@@ -522,11 +518,7 @@ components:
     SubscriptionId:
       type: string
       description: |
-        The unique identifier of the subscription in the scope of the
-        subscription manager. When this information is contained within
-        an event notification, this concept SHALL be referred as
-        `subscriptionId` as per
-        [Commonalities Event Notification Model](https://github.com/camaraproject/Commonalities/blob/main/documentation/API-design-guidelines.md#122-event-notification).
+        When this information is contained within an event notification, it SHALL be referred to as `subscriptionId` as per the Commonalities Event Notification Model.
       example: qs15-h556-rt89-1298
     Device:
       description: |

@@ -1,10 +1,10 @@
-Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for Subscriptions
+Feature: CAMARA Connectivity Insights Subscriptions API, v0.6.0 - Operations for Subscriptions
 
 # Input to be provided by the implementation to the tests
 # References to OAS spec schemas refer to schemas specified in connectivity-insights-subscriptions.yaml
 
   Background: Common Connectivity Insights Subscriptions setup
-    Given the resource "{apiroot}/connectivity-insights-subscriptions/vwip" as base-url
+    Given the resource "{apiroot}/connectivity-insights-subscriptions/v0.6" as base-url
     And the header "Content-Type" is set to "application/json"
     And the header "Authorization" is set to a valid access token
     And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"
