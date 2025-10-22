@@ -1,4 +1,4 @@
-Feature: CAMARA Connectivity Insights API, v0.6.0 - Operations for Network Quality
+Feature: CAMARA Connectivity Insights API, vwip - Operations for Network Quality
 
 # Input to be provided by the implementation to the tests
 # * apiRoot: API root of the server URL
@@ -6,7 +6,7 @@ Feature: CAMARA Connectivity Insights API, v0.6.0 - Operations for Network Quali
 
   Background: Common Connectivity Insights setup
     Given an environment at "apiRoot"
-    And the resource "/connectivity-insights/v0.6"
+    And the resource "/connectivity-insights/vwip"
     And the header "Content-Type" is set to "application/json"
     And the header "Authorization" is set to a valid access token
     And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"
