@@ -25,25 +25,29 @@ about network quality through event notifications.
 * Describe, develop, document and test the APIs (with 1-2 Telcos)
 * Started: November 2023
 
+<!-- CAMARA:RELEASE-INFO:START -->
+<!-- The following section is automatically maintained by the CAMARA project-administration tooling: https://github.com/camaraproject/project-administration -->
+
 ## Release Information
 
-* Note: Please be aware that the project will have frequent updates to the main branch. There are no compatibility guarantees associated with code in any branch, including main, until a new release is created. For example, changes may be reverted before a release is created. **For best results, use the latest available release**.
+> [!NOTE]
+> Please be aware that the project will have frequent updates to the main branch. There are no compatibility guarantees associated with code in any branch, including main, until a new release is created. For example, changes may be reverted before a release is created. **For best results, use the latest available release**.
 
-* **NEW: The latest public release is [r3.2](https://github.com/camaraproject/ConnectivityInsights/tree/r3.2), with the following API versions:**
-
-    *  **Connectivity Insights API v0.6.0**
-    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights.yaml&nocors)
-    [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights.yaml)
-    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights.yaml)
-
-    *  **Connectivity Insights Subscriptions API v0.6.0**
-    [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)
-    [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
-    [[OpenAPI]](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
-
-* The latest public release is available here: https://github.com/camaraproject/ConnectivityInsights/releases/latest
-* Other releases of this sub project are available in https://github.com/camaraproject/ConnectivityInsights/releases
+* **NEW**: The latest public release is [r3.2](https://github.com/camaraproject/ConnectivityInsights/releases/tag/r3.2) (Fall25), with the following API versions:
+  * **connectivity-insights-subscriptions v0.6.0**
+  [[YAML]](https://github.com/camaraproject/ConnectivityInsights/blob/r3.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
+  [[ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)
+  [[Swagger]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
+  * **connectivity-insights v0.6.0**
+  [[YAML]](https://github.com/camaraproject/ConnectivityInsights/blob/r3.2/code/API_definitions/connectivity-insights.yaml)
+  [[ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights.yaml&nocors)
+  [[Swagger]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/code/API_definitions/connectivity-insights.yaml)
+* The latest public release is always available here: https://github.com/camaraproject/ConnectivityInsights/releases/latest
+* Other releases of this repository are available in https://github.com/camaraproject/ConnectivityInsights/releases
 * For changes see [CHANGELOG.md](https://github.com/camaraproject/ConnectivityInsights/blob/main/CHANGELOG.md)
+
+_The above section is automatically synchronized by CAMARA project-administration._
+<!-- CAMARA:RELEASE-INFO:END -->
 
 ## Contributing
 * Meetings
