@@ -746,6 +746,24 @@ components:
             Set to `true` by API consumer if consumer wants to get an event as
             soon as the subscription is created and current situation reflects
             event request.
+        monitoringTimeOffset:
+          type: string
+          format: duration
+          description: |
+            This is an optional input parameter. A positive duration can be
+            provided to request predictive data for the subscription.
+            The value represents an offset from the current evaluation time to the
+            future point in time for which network performance is assessed.
+            If no value is provided, the current date and time is used and network
+            data for the monitoring data aggregation is used to check network
+            performance against the application profile defined.
+            It must follow ISO 8601 Durations.
+            Examples:
+            - PT10S = 10 seconds ahead
+            - PT1M  = 1 minute ahead
+            - PT5M  = 5 minutes ahead
+            - PT10M = 10 minutes ahead
+          example: "PT10S"
     SinkCredential:
       type: object
       description: |
