@@ -749,6 +749,7 @@ components:
         monitoringTimeOffset:
           type: string
           format: duration
+          maxLength: 20
           description: |
             This is an optional input parameter. A positive duration can be
             provided to request predictive data for the subscription.
