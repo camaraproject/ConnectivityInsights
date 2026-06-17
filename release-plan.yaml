@@ -34,14 +34,14 @@ dependencies:
 apis:
   - api_name: connectivity-insights-subscriptions
     target_api_version: 0.7.0
-    target_api_status: public
+    target_api_status: rc
     main_contacts:
       - maheshc01
       - kevsy
       - urvika-v
   - api_name: connectivity-insights
     target_api_version: 0.7.0
-    target_api_status: public
+    target_api_status: rc
     main_contacts:
       - maheshc01
       - kevsy
