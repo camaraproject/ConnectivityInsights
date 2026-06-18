@@ -422,6 +422,7 @@ components:
     DeviceResponseBody:
       description: |
         The optional device identifier to include in the response
+      type: object
       properties:
         device:
           description: |

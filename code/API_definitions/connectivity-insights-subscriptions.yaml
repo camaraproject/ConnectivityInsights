@@ -872,6 +872,7 @@ components:
       example: "https://notificationSendServer12.supertelco.com"
     CloudEvent:
       description: The Cloud-Event used for the callback.
+      type: object
       required:
         - id
         - source
