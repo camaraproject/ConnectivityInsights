@@ -506,8 +506,10 @@ components:
         Response for a event-type subscription request managed asynchronously
         (Creation or Deletion)
       type: object
+      required:
+        - id
       properties:
-        subscriptionId:
+        id:
           $ref: "#/components/schemas/SubscriptionId"
 
     SubscriptionId:
@@ -690,6 +692,7 @@ components:
           type: string
           format: uri
           maxLength: 2048
+          pattern: ^https:\/\/.+$
           description: |
             The address to which events shall be delivered using the selected
             protocol.
@@ -713,7 +716,7 @@ components:
         the network's confidence level at being able to meet the network
         demands of a given application for a given terminal device.
       properties:
-        papplicationProfileId:
+        applicationProfileId:
           $ref: "#/components/schemas/ApplicationProfileId"
         packetDelayBudget:
           $ref: "#/components/schemas/NetworkQualityThresholdsConfidence"
