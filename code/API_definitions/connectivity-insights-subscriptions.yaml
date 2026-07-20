@@ -481,7 +481,7 @@ components:
               yet.
               - `ACTIVE`: Subscription creation process is completed.
               Subscription is fully operative.
-              - `DEACTIVE`: Subscription is temporarily inactive, but its
+              - `INACTIVE`: Subscription is temporarily inactive, but its
               workflow logic is not deleted.
               - `EXPIRED`: Subscription is ended (no longer active).
               This status applies when subscription is ended due to
@@ -494,7 +494,7 @@ components:
             - ACTIVATION_REQUESTED
             - ACTIVE
             - EXPIRED
-            - DEACTIVE
+            - INACTIVE
             - DELETED
       discriminator:
         propertyName: protocol
@@ -654,27 +654,7 @@ components:
             event request.
 
     SinkCredential:
-      type: object
-      description: |
-        A sink credential provides authentication or authorization information
-      properties:
-        credentialType:
-          type: string
-          enum:
-            - PLAIN
-            - ACCESSTOKEN
-            - REFRESHTOKEN
-          description: |
-            The type of the credential.
-            Note: Type of the credential - MUST be set to ACCESSTOKEN for now
-      discriminator:
-        propertyName: credentialType
-        mapping:
-          PLAIN: "#/components/schemas/PlainCredential"
-          ACCESSTOKEN: "#/components/schemas/AccessTokenCredential"
-          REFRESHTOKEN: "#/components/schemas/RefreshTokenCredential"
-      required:
-        - credentialType
+      $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SinkCredential"
 
     CreateSubscriptionDetail:
       description: The detail of the requested event subscription
