@@ -500,11 +500,6 @@ components:
         propertyName: protocol
         mapping:
           HTTP: "#/components/schemas/HTTPSubscriptionResponse"
-          MQTT3: "#/components/schemas/MQTTSubscriptionResponse"
-          MQTT5: "#/components/schemas/MQTTSubscriptionResponse"
-          AMQP: "#/components/schemas/AMQPSubscriptionResponse"
-          NATS: "#/components/schemas/NATSSubscriptionResponse"
-          KAFKA: "#/components/schemas/ApacheKafkaSubscriptionResponse"
 
     SubscriptionAsync:
       description: |
@@ -560,7 +555,8 @@ components:
 
     Protocol:
       type: string
-      enum: ["HTTP", "MQTT3", "MQTT5", "AMQP", "NATS", "KAFKA"]
+      enum:
+        - HTTP
       description: |
         Identifier of a delivery protocol. Only HTTP is allowed for now
       example: "HTTP"
@@ -767,24 +763,6 @@ components:
       format: uuid
       maxLength: 36
 
-    Source:
-      type: string
-      format: uri-reference
-      minLength: 1
-      maxLength: 2048
-      description: |
-        Identifies the context in which an event happened, as a non-empty
-        `URI-reference` like:
-        - URI with a DNS authority:
-          * https://github.com/cloudevents
-          * mailto:cncf-wg-serverless@lists.cncf.io
-        - Universally-unique URN with a UUID:
-          * urn:uuid:6e8bc430-9c3a-11d9-9669-0800200c9a66
-        - Application-specific identifier:
-          * /cloudevents/spec/pull/123
-          * 1-555-123-4567
-      example: "https://notificationSendServer12.supertelco.com"
-
     CloudEvent:
       description: The Cloud-Event used for the callback.
       allOf:
@@ -854,15 +832,6 @@ components:
         - SUBSCRIPTION_EXPIRED
         - ACCESS_TOKEN_EXPIRED
         - SUBSCRIPTION_DELETED
-
-    DateTime:
-      type: string
-      format: date-time
-      maxLength: 64
-      description: |
-        Timestamp of when the occurrence happened.
-        It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone.
-      example: "2023-07-03T12:27:08.312Z"
 
     EventTypeNotification:
       type: string
