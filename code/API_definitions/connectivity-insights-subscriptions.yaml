@@ -201,7 +201,7 @@ paths:
                 content:
                   application/cloudevents+json:
                     schema:
-                      $ref: "#/components/schemas/CloudEvent"
+                      $ref: "#/components/schemas/NotificationEvent"
 
               responses:
                 "204":
@@ -266,6 +266,8 @@ paths:
         provided access token.
       parameters:
         - $ref: "#/components/parameters/x-correlator"
+        - $ref: "../common/CAMARA_common.yaml#/components/parameters/page"
+        - $ref: "../common/CAMARA_common.yaml#/components/parameters/perPage"
       security:
         - openId:
             - connectivity-insights-subscriptions:read
@@ -275,6 +277,12 @@ paths:
           headers:
             x-correlator:
               $ref: "#/components/headers/x-correlator"
+            X-Total-Count:
+              $ref: "../common/CAMARA_common.yaml#/components/headers/x-total-count"
+            X-Total-Pages:
+              $ref: "../common/CAMARA_common.yaml#/components/headers/x-total-pages"
+            Link:
+              $ref: "../common/CAMARA_common.yaml#/components/headers/link"
           content:
             application/json:
               schema:
@@ -434,7 +442,7 @@ components:
           minItems: 1
           maxItems: 1
           items:
-            $ref: "#/components/schemas/SubscriptionEventType"
+            $ref: "#/components/schemas/ApiEventType"
         config:
           $ref: "#/components/schemas/Config"
         startsAt:
@@ -632,7 +640,7 @@ components:
           minItems: 1
           maxItems: 1
           items:
-            $ref: "#/components/schemas/SubscriptionEventType"
+            $ref: "#/components/schemas/ApiEventType"
         config:
           $ref: "#/components/schemas/Config"
       discriminator:
@@ -711,41 +719,102 @@ components:
       format: uuid
       maxLength: 36
 
-    CloudEvent:
-      description: The Cloud-Event used for the callback.
+    ApiNotificationEvent:
+      description: |
+        API-specific notification event group.
+        Extends the CloudEvent envelope and constrains `type` to the set of
+        event types defined by this API project.
+        Adding a new event type only requires updating ApiEventType and the
+        discriminator mapping below — the CloudEvent base never changes.
       allOf:
         - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/CloudEvent"
         - type: object
           properties:
             type:
-              $ref: "#/components/schemas/EventTypeNotification"
-            data:
-              $ref: "#/components/schemas/NetworkQualityInsight"
+              $ref: "#/components/schemas/ApiEventType"
       discriminator:
         propertyName: "type"
         mapping:
-          org.camaraproject.connectivity-insights-subscriptions.v0.network-quality:
-            "#/components/schemas/EventNetworkQuality"
-          org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended:
-            "#/components/schemas/EventSubscriptionEnded"
+          org.camaraproject.connectivity-insights-subscriptions.v0.network-quality: "#/components/schemas/EventNetworkQuality"
+
+    SubscriptionLifecycleEvent:
+      description: |
+        Subscription lifecycle event group, common to all CAMARA APIs that
+        support explicit subscriptions.
+        Extends the CloudEvent envelope and constrains `type` to the set of
+        lifecycle event types managed by Commonalities.
+      allOf:
+        - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/CloudEvent"
+        - type: object
+          properties:
+            type:
+              $ref: "#/components/schemas/SubscriptionLifecycleEventType"
+      discriminator:
+        propertyName: type
+        mapping:
+          org.camaraproject.connectivity-insights-subscriptions.v0.subscription-started: "#/components/schemas/EventSubscriptionStarted"
+          org.camaraproject.connectivity-insights-subscriptions.v0.subscription-updated: "#/components/schemas/EventSubscriptionUpdated"
+          org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended: "#/components/schemas/EventSubscriptionEnded"
+
+    NotificationEvent:
+      description: |
+        Union of all valid notification event groups at the callback endpoint.
+        Its only responsibility is to enumerate which groups are valid payloads
+        for this API's notification callback.
+      oneOf:
+        - $ref: "#/components/schemas/ApiNotificationEvent"
+        - $ref: "#/components/schemas/SubscriptionLifecycleEvent"
 
     EventNetworkQuality:
       description: event structure for Network Quality
       allOf:
-        - $ref: "#/components/schemas/CloudEvent"
+        - $ref: "#/components/schemas/ApiNotificationEvent"
         - type: object
           properties:
             data:
               $ref: "#/components/schemas/NetworkQualityInsight"
 
-    EventSubscriptionEnded:
-      description: event structure for event subscription ended
+    EventSubscriptionStarted:
+      description: event structure for event subscription started
       allOf:
-        - $ref: "#/components/schemas/CloudEvent"
+        - $ref: "#/components/schemas/SubscriptionLifecycleEvent"
         - type: object
           properties:
             data:
-              $ref: "#/components/schemas/SubscriptionEnded"
+              allOf:
+                - type: object
+                  properties:
+                    device:
+                      $ref: "../common/CAMARA_common.yaml#/components/schemas/DeviceResponse"
+                - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionStarted"
+
+    EventSubscriptionUpdated:
+      description: event structure for event subscription updated
+      allOf:
+        - $ref: "#/components/schemas/SubscriptionLifecycleEvent"
+        - type: object
+          properties:
+            data:
+              allOf:
+                - type: object
+                  properties:
+                    device:
+                      $ref: "../common/CAMARA_common.yaml#/components/schemas/DeviceResponse"
+                - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionUpdated"
+
+    EventSubscriptionEnded:
+      description: event structure for event subscription ended
+      allOf:
+        - $ref: "#/components/schemas/SubscriptionLifecycleEvent"
+        - type: object
+          properties:
+            data:
+              allOf:
+                - type: object
+                  properties:
+                    device:
+                      $ref: "../common/CAMARA_common.yaml#/components/schemas/DeviceResponse"
+                - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionEnded"
 
     SubscriptionEnded:
       $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionEnded"
@@ -753,21 +822,22 @@ components:
     TerminationReason:
       $ref: "../common/CAMARA_event_common.yaml#/components/schemas/TerminationReason"
 
-    EventTypeNotification:
+    ApiEventType:
       type: string
-      description: |
-        event-type - Event triggered when an event-type event occurred
-        subscription-ended: Event triggered when the subscription ends
+      description: Event type for network quality notifications.
       enum:
         - org.camaraproject.connectivity-insights-subscriptions.v0.network-quality
-        - org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended
 
-    SubscriptionEventType:
+    SubscriptionLifecycleEventType:
       type: string
       description: |
-        event-type - Event triggered when an event-type event occurred
+        Enum of subscription lifecycle event type strings.
+        These are managed by Commonalities and are identical across all CAMARA
+        APIs that support explicit subscriptions.
       enum:
-        - org.camaraproject.connectivity-insights-subscriptions.v0.network-quality
+        - org.camaraproject.connectivity-insights-subscriptions.v0.subscription-started
+        - org.camaraproject.connectivity-insights-subscriptions.v0.subscription-updated
+        - org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended
 
   responses:
     CreateSubscriptionBadRequest400:
