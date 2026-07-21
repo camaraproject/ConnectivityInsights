@@ -278,11 +278,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                minItems: 0
-                maxItems: 100
-                items:
-                  $ref: "#/components/schemas/Subscription"
+                $ref: "#/components/schemas/SubscriptionList"
         "400":
           $ref: "#/components/responses/Generic400"
         "401":
@@ -419,10 +415,7 @@ components:
         - startsAt
       properties:
         id:
-          type: string
-          maxLength: 256
-          description: Unique identifier of the subscription.
-          example: qs15-h556-rt89-1298
+          $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionId"
         protocol:
           $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Protocol"
         sink:
@@ -444,29 +437,10 @@ components:
             $ref: "#/components/schemas/SubscriptionEventType"
         config:
           $ref: "#/components/schemas/Config"
-        subscriptionId:
-          type: string
-          maxLength: 256
-          description: |
-            When this information is contained within an event notification, it SHALL be referred to as `subscriptionId` as per the Commonalities Event Notification Model.
-          example: qs15-h556-rt89-1298
         startsAt:
-          type: string
-          format: date-time
-          maxLength: 64
-          description: Date when the event subscription will begin/began
-            It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone.
-          example: "2023-07-03T12:27:08.312Z"
+          $ref: "../common/CAMARA_common.yaml#/components/schemas/DateTime"
         expiresAt:
-          type: string
-          format: date-time
-          maxLength: 64
-          description: |
-            Date when the event subscription will expire. Only provided when
-            `subscriptionExpireTime` is indicated by API client or Telco
-            Operator has specific policy about that.
-            It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone.
-          example: "2023-07-03T12:27:08.312Z"
+          $ref: "../common/CAMARA_common.yaml#/components/schemas/DateTime"
         status:
           type: string
           description: |-
@@ -661,6 +635,45 @@ components:
             $ref: "#/components/schemas/SubscriptionEventType"
         config:
           $ref: "#/components/schemas/Config"
+      discriminator:
+        propertyName: protocol
+        mapping:
+          HTTP: "#/components/schemas/HTTPSubscriptionRequest"
+
+    HTTPSubscriptionRequest:
+      description: Subscription request for HTTP-based event delivery.
+      allOf:
+        - $ref: "#/components/schemas/SubscriptionRequest"
+        - type: object
+          properties:
+            protocolSettings:
+              $ref: "../common/CAMARA_event_common.yaml#/components/schemas/HTTPSettings"
+
+    HTTPSubscriptionResponse:
+      description: Subscription resource returned for HTTP-based event delivery.
+      allOf:
+        - $ref: "#/components/schemas/Subscription"
+        - type: object
+          properties:
+            protocolSettings:
+              $ref: "../common/CAMARA_event_common.yaml#/components/schemas/HTTPSettings"
+
+    SubscriptionList:
+      description: Response with subscriptions list
+      type: object
+      required:
+        - subscriptions
+        - pagination
+      properties:
+        subscriptions:
+          description: Subscriptions list
+          type: array
+          minItems: 0
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/Subscription"
+        pagination:
+          $ref: "../common/CAMARA_common.yaml#/components/schemas/Pagination"
 
     NetworkQualityInsight:
       type: object

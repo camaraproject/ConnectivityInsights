@@ -184,6 +184,9 @@ components:
         request body to query the network quality for a given device and
         application profile
       type: object
+      required:
+        - applicationProfileId
+        - applicationServer
       properties:
         applicationProfileId:
           $ref: "#/components/schemas/ApplicationProfileId"
@@ -264,7 +267,7 @@ components:
             identifier sent in the request was used.
           allOf:
             - $ref: "../common/CAMARA_common.yaml#/components/schemas/DeviceResponse"
-            - example: {"phoneNumber": "+123456789"}
+          example: {"phoneNumber": "+123456789"}
 
     ApplicationServer:
       description: |
