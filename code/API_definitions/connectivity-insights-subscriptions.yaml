@@ -580,14 +580,30 @@ components:
         subscription manager for acquiring events.
         Note: if a request is performed for several event types, all subscribed
         events will use same `config` parameters.
-      allOf:
-        - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/Config"
-        - type: object
-          required:
-            - subscriptionDetail
-          properties:
-            subscriptionDetail:
-              $ref: "#/components/schemas/CreateSubscriptionDetail"
+      type: object
+      required:
+        - subscriptionDetail
+      properties:
+        subscriptionDetail:
+          $ref: "#/components/schemas/CreateSubscriptionDetail"
+        subscriptionExpireTime:
+          type: string
+          format: date-time
+          maxLength: 64
+          description: The subscription expiration time (in date-time format) requested by the API consumer. It must follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone. Up to API project decision to keep it.
+          example: "2023-01-17T13:18:23.682Z"
+        subscriptionMaxEvents:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 1000000
+          description: Identifies the maximum number of event reports to be generated (>=1) requested by the API consumer - Once this number is reached, the subscription ends. Up to API project decision to keep it.
+          example: 5
+        initialEvent:
+          type: boolean
+          description: |
+            Set to `true` by API consumer if consumer wants to get an event as soon as the subscription is created and current situation reflects event request.
+            Up to API project decision to keep it.
 
     SinkCredential:
       $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SinkCredential"
