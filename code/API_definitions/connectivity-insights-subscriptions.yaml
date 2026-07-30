@@ -797,12 +797,7 @@ components:
         - type: object
           properties:
             data:
-              allOf:
-                - type: object
-                  properties:
-                    device:
-                      $ref: "../common/CAMARA_common.yaml#/components/schemas/DeviceResponse"
-                - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionStarted"
+              $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionStarted"
 
     EventSubscriptionUpdated:
       description: event structure for event subscription updated
@@ -811,12 +806,7 @@ components:
         - type: object
           properties:
             data:
-              allOf:
-                - type: object
-                  properties:
-                    device:
-                      $ref: "../common/CAMARA_common.yaml#/components/schemas/DeviceResponse"
-                - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionUpdated"
+              $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionUpdated"
 
     EventSubscriptionEnded:
       description: event structure for event subscription ended
@@ -825,12 +815,7 @@ components:
         - type: object
           properties:
             data:
-              allOf:
-                - type: object
-                  properties:
-                    device:
-                      $ref: "../common/CAMARA_common.yaml#/components/schemas/DeviceResponse"
-                - $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionEnded"
+              $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionEnded"
 
     SubscriptionEnded:
       $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionEnded"
