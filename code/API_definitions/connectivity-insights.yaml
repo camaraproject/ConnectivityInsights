@@ -41,6 +41,7 @@ info:
     Following diagram shows the interaction between different components
       ![Sequence Diagram](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/documentation/API_documentation/ConnectivityInsights-SequenceDiagram.png)
 
+    <!-- CAMARA:MANDATORY:authorization-and-authentication:BEGIN -->
     # Authorization and authentication
 
     The "Camara Security and Interoperability Profile" provides details of how an API consumer requests an access token. Please refer to Identity and Consent Management (https://github.com/camaraproject/IdentityAndConsentManagement/) for the released version of the profile.
@@ -48,6 +49,7 @@ info:
     The specific authorization flows to be used will be agreed upon during the onboarding process, happening between the API consumer and the API provider, taking into account the declared purpose for accessing the API, whilst also being subject to the prevailing legal framework dictated by local legislation.
 
     In cases where personal data is processed by the API and users can exercise their rights through mechanisms such as opt-in and/or opt-out, the use of three-legged access tokens is mandatory. This ensures that the API remains in compliance with privacy regulations, upholding the principles of transparency and user-centric privacy-by-design.
+    <!-- CAMARA:MANDATORY:authorization-and-authentication:END -->
 
     # Identifying the device from the access token
 
@@ -74,22 +76,24 @@ info:
     If the mobile subscription cannot be identified from the provided
     parameters, a `404 NOT_FOUND` error is returned.
 
-    Any more general service failures will result in an error in the `5xx`range
+    Any more general service failures will result in an error in the `5xx` range
     with an explanation.
 
+    <!-- CAMARA:MANDATORY:additional-error-responses:BEGIN -->
     # Additional CAMARA error responses
 
-    The list of error codes in this API specification is not exhaustive.
-    Therefore the API specification may not document some non-mandatory error
-    statuses as indicated in `CAMARA API Design Guide`.
+    The list of error codes in this API specification is not exhaustive. Therefore the API specification MAY not document some non-mandatory error statuses as indicated in `CAMARA API Design Guide`.
 
-    Please refer to the `CAMARA_common.yaml` of the Commonalities Release
-    associated to this API version for a complete list of error responses. The
-    applicable Commonalities Release can be identified in the `API Readiness
-    Checklist` document associated to this API version.
+    Please refer to the `CAMARA_common.yaml` of the Commonalities Release associated to this API version for a complete list of error responses. The applicable Commonalities Release can be identified in the `API Readiness Checklist` document associated to this API version.
 
-    As a specific rule, error `501 - NOT_IMPLEMENTED` can be only a possible
-    error response if it is explicitly documented in the API.
+    As a specific rule, error `501 - NOT_IMPLEMENTED` can be only a possible error response if it is explicitly documented in the API.
+    <!-- CAMARA:MANDATORY:additional-error-responses:END -->
+
+    <!-- CAMARA:MANDATORY:request-body-strictness:BEGIN -->
+    # Request body strictness
+
+    This API rejects requests with JSON request bodies that contain properties not declared in this specification, at any nesting level. Unknown properties result in a `400 INVALID_ARGUMENT` response.
+    <!-- CAMARA:MANDATORY:request-body-strictness:END -->
 
   license:
     name: Apache 2.0
@@ -104,9 +108,7 @@ servers:
     variables:
       apiRoot:
         default: http://localhost:9091
-        description: |
-          API root, defined by service provider, e.g.
-          `api.example.com` or `api.example.com/somepath`
+        description: API root, defined by the service provider, e.g. `api.example.com` or `api.example.com/somepath`
 
 tags:
   - name: Network Quality
@@ -169,37 +171,27 @@ paths:
 components:
   securitySchemes:
     openId:
-      type: openIdConnect
-      description: Common security scheme for all CAMARA APIs
-      openIdConnectUrl: https://example.com/.well-known/openid-configuration
+      $ref: "../common/CAMARA_common.yaml#/components/securitySchemes/openId"
   parameters:
     x-correlator:
-      name: x-correlator
-      in: header
-      description: Correlation id for the different services
-      schema:
-        $ref: "#/components/schemas/XCorrelator"
+      $ref: "../common/CAMARA_common.yaml#/components/parameters/x-correlator"
   headers:
     x-correlator:
-      description: Correlation id for the different services
-      schema:
-        $ref: "#/components/schemas/XCorrelator"
+      $ref: "../common/CAMARA_common.yaml#/components/headers/x-correlator"
   schemas:
-    XCorrelator:
-      type: string
-      pattern: ^[a-zA-Z0-9-_:;.\/<>{}]{0,256}$
-      example: "b4333c46-49c0-4f62-80d7-f0ef930f1c46"
-
     NetworkQualityInsightRequest:
       description: |
         request body to query the network quality for a given device and
         application profile
       type: object
+      required:
+        - applicationProfileId
+        - applicationServer
       properties:
         applicationProfileId:
           $ref: "#/components/schemas/ApplicationProfileId"
         device:
-          $ref: "#/components/schemas/Device"
+          $ref: "../common/CAMARA_common.yaml#/components/schemas/Device"
         applicationServer:
           $ref: "#/components/schemas/ApplicationServer"
         applicationServerPorts:
@@ -210,6 +202,7 @@ components:
         monitoringTimeStamp:
           type: string
           format: date-time
+          maxLength: 64
           description: |
             this is an optional input parameter. A future data and time can be
             provided for predictive data. If no value is provided then the
@@ -262,163 +255,6 @@ components:
             - 4G
             - 3G
 
-    DeviceResponse:
-      description: |
-        An identifier for the end-user equipment able to connect to the network that the response refers to. This parameter is only returned when the API consumer includes the `device` parameter in their request (i.e. they are using a two-legged access token), and is relevant when more than one device identifier is specified, as only one of those device identifiers is allowed in the response.
-
-        If the API consumer provides more than one device identifier in their request, the API provider must return a single identifier which is the one they are using to fulfil the request, even if the identifiers do not match the same device. API provider does not perform any logic to validate/correlate that the indicated device identifiers match the same device. No error should be returned if the identifiers are otherwise valid to prevent API consumers correlating different identifiers with a given end user.
-
-      allOf:
-        - $ref: "#/components/schemas/Device"
-        - maxProperties: 1
-
-    Device:
-      description: |
-        End-user equipment able to connect to a mobile network. Examples of
-        devices include smartphones or IoT sensors/actuators.
-
-        The developer can choose to provide the below specified device
-        identifiers:
-
-        * `ipv4Address`
-        * `ipv6Address`
-        * `phoneNumber`
-        * `networkAccessIdentifier`
-
-        NOTE1: the MNO might support only a subset of these options. The
-        API invoker can provide multiple identifiers to be compatible across
-        different MNOs. In this case the identifiers MUST belong to the same
-        device.
-        NOTE2: for the Commonalities release v0.4, we are enforcing that the
-        networkAccessIdentifier is only part of the schema for future-proofing,
-        and CAMARA does not currently allow its use. After the CAMARA
-        meta-release work is concluded and the relevant issues are resolved,
-        its use will need to be explicitly documented in the guidelines.
-      type: object
-      properties:
-        phoneNumber:
-          $ref: "#/components/schemas/PhoneNumber"
-        networkAccessIdentifier:
-          $ref: "#/components/schemas/NetworkAccessIdentifier"
-        ipv4Address:
-          $ref: "#/components/schemas/DeviceIpv4Addr"
-        ipv6Address:
-          $ref: "#/components/schemas/DeviceIpv6Address"
-      minProperties: 1
-
-    NetworkAccessIdentifier:
-      description: |
-        A public identifier addressing a subscription in a mobile network. In
-        3GPP terminology, it corresponds to the GPSI formatted with the
-        External Identifier ({Local Identifier}@{Domain Identifier}). Unlike
-        the telephone number, the network access identifier is not subjected
-        to portability ruling in force, and is individually managed by each
-        operator.
-      type: string
-      example: "123456789@domain.com"
-
-    PhoneNumber:
-      description: |
-        A public identifier addressing a telephone subscription. In mobile
-        networks it corresponds to the MSISDN (Mobile Station International
-        Subscriber Directory Number). In order to be globally unique it has to
-        be formatted in international format, according to E.164 standard,
-        optionally prefixed with '+'.
-      type: string
-      pattern: '^\+[1-9][0-9]{4,14}$'
-      example: "+123456789"
-
-    DeviceIpv4Addr:
-      type: object
-      description: |
-        The device should be identified by either the public (observed) IP
-        address and port as seen by the application server, or the private
-        (local) and any public (observed) IP addresses in use by the device
-        (this information can be obtained by various means, for example from
-        some DNS servers).
-
-        If the allocated and observed IP addresses are the same (i.e. NAT is
-        not in use) then  the same address should be specified for both
-        publicAddress and privateAddress.
-
-        If NAT64 is in use, the device should be identified by its
-        publicAddress and publicPort, or separately by its allocated IPv6
-        address (field ipv6Address of the Device object)
-
-        In all cases, publicAddress must be specified, along with at least one
-        of either privateAddress or publicPort, dependent upon which is known.
-        In general, mobile devices cannot be identified by their public IPv4
-        address alone.
-      properties:
-        publicAddress:
-          $ref: "#/components/schemas/SingleIpv4Addr"
-        privateAddress:
-          $ref: "#/components/schemas/SingleIpv4Addr"
-        publicPort:
-          $ref: "#/components/schemas/Port"
-      anyOf:
-        - required: [publicAddress, privateAddress]
-        - required: [publicAddress, publicPort]
-      example: {"publicAddress": "84.125.93.10", "publicPort": 59765}
-
-    SingleIpv4Addr:
-      description: A single IPv4 address with no subnet mask
-      type: string
-      format: ipv4
-      example: "84.125.93.10"
-
-    DeviceIpv6Address:
-      description: |
-        The device should be identified by the observed IPv6 address, or by any
-        single IPv6 address from within the subnet allocated to the device
-        (e.g. adding ::0 to the /64 prefix).
-
-        The session shall apply to all IP flows between the device subnet and
-        the specified application server, unless further restricted by the
-        optional parameters devicePorts or applicationServerPorts.
-      type: string
-      format: ipv6
-      example: 2001:db8:85a3:8d3:1319:8a2e:370:7344
-
-    Port:
-      description: TCP or UDP port number
-      type: integer
-      minimum: 0
-      maximum: 65535
-
-    PortsSpec:
-      description: Specification of several TCP or UDP ports
-      type: object
-      minProperties: 1
-      properties:
-        ranges:
-          description: Range of TCP or UDP ports
-          type: array
-          minItems: 1
-          items:
-            type: object
-            required:
-              - from
-              - to
-            properties:
-              from:
-                $ref: "#/components/schemas/Port"
-              to:
-                $ref: "#/components/schemas/Port"
-        ports:
-          description: Array of TCP or UDP ports
-          type: array
-          minItems: 1
-          items:
-            $ref: "#/components/schemas/Port"
-      example:
-        ranges:
-          - from: 5010
-            to: 5020
-        ports:
-          - 5060
-          - 5070
-
     DeviceResponseBody:
       description: |
         The optional device identifier to include in the response
@@ -430,8 +266,8 @@ components:
             If this property is not present then the device
             identifier sent in the request was used.
           allOf:
-            - $ref: "#/components/schemas/DeviceResponse"
-            - example: {"phoneNumber": "+123456789"}
+            - $ref: "../common/CAMARA_common.yaml#/components/schemas/DeviceResponse"
+          example: {"phoneNumber": "+123456789"}
 
     ApplicationServer:
       description: |
@@ -456,6 +292,7 @@ components:
 
     ApplicationServerIpv4Address:
       type: string
+      maxLength: 49
       example: "192.168.0.1/24"
       description: |
         IPv4 address may be specified in form <address/mask> as:
@@ -468,6 +305,7 @@ components:
 
     ApplicationServerIpv6Address:
       type: string
+      maxLength: 50
       example: "2001:db8:85a3:8d3:1319:8a2e:370:7344"
       description: |
         IPv6 address may be specified in form <address/mask> as:
@@ -491,202 +329,54 @@ components:
       description: Identifier for the Application Profile
       type: string
       format: uuid
+      maxLength: 36
 
-    ErrorInfo:
+    PortsSpec:
+      description: Specification of several TCP or UDP ports
       type: object
-      description: Error information
-      required:
-        - status
-        - code
-        - message
+      minProperties: 1
       properties:
-        status:
-          type: integer
-          description: HTTP response status code
-        code:
-          type: string
-          description: A human-readable code to describe the error
-        message:
-          type: string
-          description: A human-readable description of what the event represents
+        ranges:
+          description: Range of TCP or UDP ports
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            description: A TCP or UDP port range defined by from and to ports
+            type: object
+            required:
+              - from
+              - to
+            properties:
+              from:
+                $ref: "../common/CAMARA_common.yaml#/components/schemas/Port"
+              to:
+                $ref: "../common/CAMARA_common.yaml#/components/schemas/Port"
+        ports:
+          description: Array of TCP or UDP ports
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            $ref: "../common/CAMARA_common.yaml#/components/schemas/Port"
+      example:
+        ranges:
+          - from: 5010
+            to: 5020
+        ports:
+          - 5060
+          - 5070
 
   responses:
     Generic400:
-      description: Bad Request
-      headers:
-        x-correlator:
-          $ref: "#/components/headers/x-correlator"
-      content:
-        application/json:
-          schema:
-            allOf:
-              - $ref: "#/components/schemas/ErrorInfo"
-              - type: object
-                properties:
-                  status:
-                    enum:
-                      - 400
-                  code:
-                    enum:
-                      - INVALID_ARGUMENT
-                      - OUT_OF_RANGE
-          examples:
-            GENERIC_400_INVALID_ARGUMENT:
-              description: Invalid Argument. Generic Syntax Exception
-              value:
-                status: 400
-                code: INVALID_ARGUMENT
-                message: Client specified an invalid argument, request body or query param.
-            GENERIC_400_OUT_OF_RANGE:
-              description: Out of Range. Specific Syntax Exception used when a given field has a pre-defined range or a invalid filter criteria combination is requested
-              value:
-                status: 400
-                code: OUT_OF_RANGE
-                message: Client specified an invalid range.
+      $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
     Generic401:
-      description: Unauthorized
-      headers:
-        x-correlator:
-          $ref: "#/components/headers/x-correlator"
-      content:
-        application/json:
-          schema:
-            allOf:
-              - $ref: "#/components/schemas/ErrorInfo"
-              - type: object
-                properties:
-                  status:
-                    enum:
-                      - 401
-                  code:
-                    enum:
-                      - UNAUTHENTICATED
-
-          examples:
-            GENERIC_401_UNAUTHENTICATED:
-              description: Request cannot be authenticated
-              value:
-                status: 401
-                code: UNAUTHENTICATED
-                message: Request not authenticated due to missing, invalid, or expired credentials.
-
+      $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
     Generic403:
-      description: Forbidden
-      headers:
-        x-correlator:
-          $ref: "#/components/headers/x-correlator"
-      content:
-        application/json:
-          schema:
-            allOf:
-              - $ref: "#/components/schemas/ErrorInfo"
-              - type: object
-                properties:
-                  status:
-                    enum:
-                      - 403
-                  code:
-                    enum:
-                      - PERMISSION_DENIED
-                      - INVALID_TOKEN_CONTEXT
-          examples:
-            GENERIC_403_PERMISSION_DENIED:
-              description: Permission denied. OAuth2 token access does not have the required scope or when the user fails operational security
-              value:
-                status: 403
-                code: PERMISSION_DENIED
-                message: Client does not have sufficient permissions to perform this action.
-            GENERIC_403_INVALID_TOKEN_CONTEXT:
-              description: Reflect some inconsistency between information in some field of the API and the related OAuth2 Token
-              value:
-                status: 403
-                code: INVALID_TOKEN_CONTEXT
-                message: "{{field}} is not consistent with access token."
+      $ref: "../common/CAMARA_common.yaml#/components/responses/Generic403"
     Generic404:
-      description: Not found
-      headers:
-        x-correlator:
-          $ref: "#/components/headers/x-correlator"
-      content:
-        application/json:
-          schema:
-            allOf:
-              - $ref: "#/components/schemas/ErrorInfo"
-              - type: object
-                properties:
-                  status:
-                    enum:
-                      - 404
-                  code:
-                    enum:
-                      - NOT_FOUND
-                      - IDENTIFIER_NOT_FOUND
-          examples:
-            GENERIC_404_NOT_FOUND:
-              description: Resource is not found
-              value:
-                status: 404
-                code: NOT_FOUND
-                message: The specified resource is not found.
-            GENERIC_404_IDENTIFIER_NOT_FOUND:
-              description: Some identifier cannot be matched to a device
-              value:
-                status: 404
-                code: IDENTIFIER_NOT_FOUND
-                message: Device identifier not found.
+      $ref: "../common/CAMARA_common.yaml#/components/responses/Generic404"
     Generic422:
-      description: Unprocessable Content
-      headers:
-        x-correlator:
-          $ref: "#/components/headers/x-correlator"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/ErrorInfo"
-          examples:
-            GENERIC_422_SERVICE_NOT_APPLICABLE:
-              description: Service is not available for the provided device
-              value:
-                status: 422
-                code: SERVICE_NOT_APPLICABLE
-                message: The Service is not available for the provided device.
-            GENERIC_422_MISSING_IDENTIFIER:
-              description:
-                An identifier is not included in the request and the device or phone
-                number identificationinformation cannot be derived from the 3-legged access token
-              value:
-                status: 422
-                code: MISSING_IDENTIFIER
-                message: The device cannot be identified.
+      $ref: "../common/CAMARA_common.yaml#/components/responses/Generic422"
     Generic429:
-      description: Too Many Requests
-      headers:
-        x-correlator:
-          $ref: "#/components/headers/x-correlator"
-      content:
-        application/json:
-          schema:
-            allOf:
-              - $ref: "#/components/schemas/ErrorInfo"
-              - type: object
-                properties:
-                  status:
-                    enum:
-                      - 429
-                  code:
-                    enum:
-                      - QUOTA_EXCEEDED
-                      - TOO_MANY_REQUESTS
-          examples:
-            GENERIC_429_QUOTA_EXCEEDED:
-              description: Request is rejected due to exceeding a business quota limit
-              value:
-                status: 429
-                code: QUOTA_EXCEEDED
-                message: Out of resource quota.
-            GENERIC_429_TOO_MANY_REQUESTS:
-              description: Access to the API has been temporarily blocked due to rate or spike arrest limits being reached
-              value:
-                status: 429
-                code: TOO_MANY_REQUESTS
-                message: Rate limit reached.
+      $ref: "../common/CAMARA_common.yaml#/components/responses/Generic429"
