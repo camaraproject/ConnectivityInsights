@@ -66,7 +66,10 @@ Changes documented below are compared to version 0.6.0.
 
 ### Breaking changes
 
-* N/A
+* Status enum value `DEACTIVE` renamed to `INACTIVE` — consumers checking `$.status == 'DEACTIVE'` must update to `INACTIVE` by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* `Protocol` enum restricted from HTTP/MQTT3/MQTT5/AMQP/NATS/KAFKA to HTTP only — consumers using non-HTTP protocols must migrate to HTTP webhook delivery by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* `SubscriptionAsync` property renamed from `subscriptionId` to `id` — consumers reading `$.subscriptionId` from async creation/deletion responses must update to `$.id` by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* `SinkCredential` credential types narrowed from PLAIN/ACCESSTOKEN/REFRESHTOKEN to ACCESSTOKEN/PRIVATE_KEY_JWT — `PlainCredential` and `RefreshTokenCredential` schemas are no longer accepted by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
 
 ### Added
 
@@ -74,11 +77,20 @@ Changes documented below are compared to version 0.6.0.
 
 ### Changed
 
-* N/A
+* Status enum value `DEACTIVE` renamed to `INACTIVE` by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198 (see Breaking changes)
+* `Protocol` enum restricted to HTTP only by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198 (see Breaking changes)
+* `SubscriptionAsync` property renamed from `subscriptionId` to `id` by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198 (see Breaking changes)
+* `SinkCredential` narrowed to ACCESSTOKEN and PRIVATE_KEY_JWT credential types by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198 (see Breaking changes)
+* Aligned the API with CAMARA Commonalities r4.3 (0.8.0) by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+  * Common definitions reused via `$ref` into `CAMARA_event_common.yaml` (`CloudEvent`, `Protocol`, `SubscriptionId`, `SinkCredential`, `notificationsBearerAuth`, and event-specific error responses)
+  * Added the mandatory `info.description` sections (authorization and authentication, additional error responses, request body strictness, identifying device from access token)
+  * Added `maxLength`, `format`, `pattern` and `maxItems` constraints to string and array fields
+  * `sink` restricted to HTTPS only via pattern constraint
+* Fixed typo in `CreateSubscriptionDetail`: `papplicationProfileId` → `applicationProfileId` by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
 
 ### Fixed
 
-* N/A
+* Added missing `type: object` to `CloudEvent` schema by @hdamker in https://github.com/camaraproject/ConnectivityInsights/pull/193
 
 ### Removed
 
@@ -105,11 +117,14 @@ Changes documented below are compared to version 0.6.0.
 
 ### Changed
 
-* N/A
+* Aligned the API with CAMARA Commonalities r4.3 (0.8.0) by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+  * Common definitions reused via `$ref` into `CAMARA_common.yaml` (`openId`, `x-correlator`, `Device`, `DeviceResponse`, `Port`, and all generic error responses)
+  * Added the mandatory `info.description` sections (authorization and authentication, additional error responses, request body strictness, identifying device from access token)
+  * Added `maxLength` and `format` constraints to string fields
 
 ### Fixed
 
-* N/A
+* Added missing `type: object` to `DeviceResponseBody` schema by @hdamker in https://github.com/camaraproject/ConnectivityInsights/pull/193
 
 ### Removed
 
