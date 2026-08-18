@@ -626,7 +626,7 @@ components:
         applicationProfileId:
           $ref: "#/components/schemas/ApplicationProfileId"
       required:
-        - device
+        - applicationServer
         - applicationProfileId
 
     SubscriptionRequest:
