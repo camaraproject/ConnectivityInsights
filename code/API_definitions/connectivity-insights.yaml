@@ -285,9 +285,9 @@ components:
       type: object
       properties:
         ipv4Address:
-          $ref: "#/components/schemas/v4Address"
+          $ref: "#/components/schemas/ApplicationServerIpv4Address"
         ipv6Address:
-          $ref: "#/components/schemas/v6Address"
+          $ref: "#/components/schemas/ApplicationServerIpv6Address"
       minProperties: 1
 
     ApplicationServerIpv4Address:
