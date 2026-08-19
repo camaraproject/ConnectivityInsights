@@ -100,7 +100,7 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 
 externalDocs:
-  description: Product documentation at CAMARA.
+  description: Product documentation at CAMARA
   url: https://github.com/camaraproject/ConnectivityInsights
 
 servers:
