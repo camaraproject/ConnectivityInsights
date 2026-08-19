@@ -147,7 +147,7 @@ info:
 
 externalDocs:
   description: Product documentation at CAMARA.
-  url: https://github.com/camaraproject/ConnectivityInsights/
+  url: https://github.com/camaraproject/ConnectivityInsights
 
 servers:
   - url: "{apiRoot}/connectivity-insights-subscriptions/vwip"
