@@ -68,7 +68,11 @@ Changes documented below are compared to version 0.6.0.
 
 ### Breaking changes
 
-* N/A
+* Aligned the API with CAMARA Commonalities r4.3 (0.8.0) by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+  * Pagination for listing of subscriptions using `GET /subscriptions` is now supported — also listed under Changed
+    * Addition of `page` and `perPage` query parameters to control pagination
+    * Returned subscriptions are now embedded in the `subscriptions` array within the response JSON, with page metadata in the `pagination` object
+    * Addition of response headers `X-Total-Count`, `X-Total-Pages`, and `Link` to facilitate page navigation
 
 ### Added
 
@@ -77,6 +81,10 @@ Changes documented below are compared to version 0.6.0.
 ### Changed
 
 * Aligned the API with CAMARA Commonalities r4.3 (0.8.0) by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+  * Pagination for listing of subscriptions using `GET /subscriptions` is now supported — also listed under Breaking changes
+    * Addition of `page` and `perPage` query parameters to control pagination
+    * Returned subscriptions are now embedded in the `subscriptions` array within the response JSON, with page metadata in the `pagination` object
+    * Addition of response headers `X-Total-Count`, `X-Total-Pages`, and `Link` to facilitate page navigation
   * CloudEvent subscription replaced with `allOf` ref to `CAMARA_event_common.CloudEvent`
   * Added mandatory `info.description` sections (authorization and authentication, additional error responses, request body strictness)
   * Added `maxLength`, `format`, and pattern constraints to string fields
