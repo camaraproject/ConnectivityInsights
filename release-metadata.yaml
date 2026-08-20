@@ -2,7 +2,7 @@ repository:
   repository_name: ConnectivityInsights
   release_tag: r4.1
   release_type: pre-release-rc
-  release_date: null
+  release_date: '2026-08-20T22:39:15Z'
   src_commit_sha: 7cf0e845627d5b76eb4381b09093ba2c808c4ea4
 apis:
 - api_name: connectivity-insights-subscriptions
