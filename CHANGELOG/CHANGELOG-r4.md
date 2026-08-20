@@ -76,11 +76,15 @@ Changes documented below are compared to version 0.6.0.
 
 ### Changed
 
-* N/A
+* Aligned the API with CAMARA Commonalities r4.3 (0.8.0) by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+  * CloudEvent subscription replaced with `allOf` ref to `CAMARA_event_common.CloudEvent`
+  * Added mandatory `info.description` sections (authorization and authentication, additional error responses, request body strictness)
+  * Added `maxLength`, `format`, and pattern constraints to string fields
 
 ### Fixed
 
-* N/A
+* Fixed `maxLength`, `pattern` for `ApplicationServerIpv4Address` and `ApplicationServerIpv6Address` schemas, and fixed required properties in `CreateSubscriptionDetail` by @Kevsy in https://github.com/camaraproject/ConnectivityInsights/pull/209
+* Fixed `externalDocs.url` trailing slash and `externalDocs.description` trailing period by @Kevsy in https://github.com/camaraproject/ConnectivityInsights/pull/214
 
 ### Removed
 
@@ -107,11 +111,16 @@ Changes documented below are compared to version 0.6.0.
 
 ### Changed
 
-* N/A
+* Aligned the API with CAMARA Commonalities r4.3 (0.8.0) by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+  * Common definitions reused via `$ref` into `CAMARA_common.yaml` (`Device`, `DeviceResponse`, `Port`, `XCorrelator`, error responses)
+  * Added mandatory `info.description` sections (authorization and authentication, additional error responses, request body strictness)
+  * Added `maxLength`, `format`, `minimum`, and `maximum` constraints throughout
 
 ### Fixed
 
-* N/A
+* Fixed missing `type: object` declarations in schema definitions by @hdamker in https://github.com/camaraproject/ConnectivityInsights/pull/193
+* Fixed `maxLength` and added `pattern` for `ApplicationServerIpv4Address` and `ApplicationServerIpv6Address` schemas by @Kevsy in https://github.com/camaraproject/ConnectivityInsights/pull/214
+* Fixed `externalDocs.description` trailing period by @Kevsy in https://github.com/camaraproject/ConnectivityInsights/pull/214
 
 ### Removed
 
