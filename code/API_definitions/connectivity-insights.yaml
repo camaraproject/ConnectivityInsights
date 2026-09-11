@@ -448,7 +448,8 @@ components:
         applicationId:
           description: |
             Indicates the Application Identifier. If not carried, need to
-            configure application types (short_video, meeting, live_streaming).
+            configure application types (short_video, meeting,
+            live_video_publishing).
           allOf:
             - $ref: "#/components/schemas/ApplicationId"
         applicationType:
@@ -476,13 +477,29 @@ components:
 
     ApplicationType:
       description: |
-        Indicates the Application type. Negotiated by the carrier and application
-        vendor and configured on the carrier network. For example: live_streaming,
-        meeting, mobile_gaming, short_video.
+        **NOTE**: applicationType is experimental and could change in a future release.
+
+        The type of an application, representing a detailed classification of
+        applications based on user usage habits and traffic characteristics. It is used
+        to subscribe to applications of the same category. For example:
+        live_video_publishing, meeting, mobile_gaming, short_video.
       type: string
       maxLength: 128
-      pattern: '^[a-z]+(_[a-z]+)*$'
-      example: live_streaming
+      enum:
+        - ai_c                  # Conversational AI: interactive chat, voice assistants
+        - ai_g                  # Generative AI: content generation, agentic workloads
+        - file_transfer         # Bulk data upload/download, cloud storage sync, backups
+        - instant_messaging     # Real-time text/voice messaging, async chat
+        - live_video_publishing # Uplink live broadcast publishing (streamer/uplink)
+        - live_video_viewing    # Downlink live stream viewing (audience/downlink)
+        - meeting               # Multi-party A/V conferencing, screen sharing
+        - mobile_gaming         # Low-latency multiplayer/cloud gaming (mobile)
+        - fixed_gaming          # Fixed/console/PC online gaming
+        - short_video           # Short-form video playback and feed consumption
+        - video_on_demand       # On-demand HD video streaming (VOD)
+        - voip                  # Two-party voice/video telephony
+        - xr                    # Extended-reality (AR/VR/MR) services
+      example: live_video_viewing
 
     UserExperienceInsightsRecords:
       type: object
