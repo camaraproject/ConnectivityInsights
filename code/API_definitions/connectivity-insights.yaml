@@ -454,8 +454,7 @@ components:
             - $ref: "#/components/schemas/ApplicationId"
         applicationType:
           description: |
-            Indicates the Application type. If not carried, need to configure 
-            applicationId to assign apps.
+            Indicates the Application type. If not carried, need to configure applicationId to assign apps.
           allOf:
             - $ref: "#/components/schemas/ApplicationType"
       required:
