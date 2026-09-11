@@ -45,6 +45,20 @@ info:
       Following diagram shows the interaction between different components
       ![Sequence Diagram](https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r3.2/documentation/API_documentation/ConnectivityInsights-SequenceDiagram.png)
 
+    ### User Experience Insights
+
+      In addition to connectivity quality assessment, this API also
+      supports User Experience Insights subscriptions. Developers can obtain
+      detailed application-level experience analysis data including QoE scores,
+      resolution, stalling, latency, and bandwidth statistics. This enables
+      data-driven application strategy adjustments based on real-time network
+      experience.
+
+      This API provides the function of reporting poor-QoE data in real time or periodically reporting no poor-QoE data based on the datatype parameter.
+      POOR_QOE_REPORT Detects poor network experience and reports the collected statistical data.
+      PERIODIC_REPORT Periodically collecting and reporting data.
+      ALL  Detects data collected and reported by the poor network experience reporting function. If no poor quality is detected, the data is reported periodically.
+
     ### Notification callback
 
     This endpoint describes the event notification received on subscription
@@ -612,8 +626,21 @@ components:
 
     CreateSubscriptionDetail:
       description: The detail of the requested event subscription
+      oneOf:
+        - $ref: "#/components/schemas/NetworkQualitySubscriptionDetail"
+        - $ref: "#/components/schemas/UserExperienceInsightsSubscriptionDetail"
+      discriminator:
+        propertyName: subscriptionType
+
+    NetworkQualitySubscriptionDetail:
+      description: Subscription detail for network-quality event type
       type: object
       properties:
+        subscriptionType:
+          description: Indicates the subscription type.
+          type: string
+          enum:
+            - NETWORK_QUALITY
         device:
           $ref: "../common/CAMARA_common.yaml#/components/schemas/Device"
         applicationServer:
@@ -628,6 +655,26 @@ components:
       required:
         - applicationServer
         - applicationProfileId
+        - subscriptionType
+
+    UserExperienceInsightsSubscriptionDetail:
+      description: Subscription detail for user-experience event type
+      type: object
+      properties:
+        subscriptionType:
+          description: Indicates the subscription type.
+          type: string
+          enum:
+            - USER_EXPERIENCE
+        device:
+          $ref: "../common/CAMARA_common.yaml#/components/schemas/Device"
+        applicationType:
+          $ref: "#/components/schemas/ApplicationType"
+        datatype:
+          $ref: "#/components/schemas/Datatype"
+      required:
+        - device
+        - subscriptionType
 
     SubscriptionRequest:
       description: The request for creating a event-type event subscription
@@ -754,6 +801,7 @@ components:
         propertyName: "type"
         mapping:
           org.camaraproject.connectivity-insights-subscriptions.v0.network-quality: "#/components/schemas/EventNetworkQuality"
+          org.camaraproject.connectivity-insights-subscriptions.v0.user-experience: "#/components/schemas/EventUserExperience"
 
     SubscriptionLifecycleEvent:
       description: |
@@ -792,6 +840,235 @@ components:
             data:
               $ref: "#/components/schemas/NetworkQualityInsight"
 
+    EventUserExperience:
+      description: event structure for User Experience Insights
+      allOf:
+        - $ref: "#/components/schemas/ApiNotificationEvent"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/UserExperienceInsights"
+
+    UserExperienceInsights:
+      type: object
+      description: |
+        User Experience Collection and Recording
+      properties:
+        appSignalingAndStatisticsAnalysisRecords:
+          description: List of application signaling and statistics analysis records.
+          type: array
+          items:
+            $ref: "#/components/schemas/AppSignalingAndStatisticsAnalysisRecord"
+          minItems: 1
+          maxItems: 100
+
+    AppSignalingAndStatisticsAnalysisRecord:
+      type: object
+      description: |
+        Application signaling and statistics analysis record for user experience insights.
+      properties:
+        startTime:
+          description: Start time of data collection record analysis.
+          allOf:
+            - $ref: "../common/CAMARA_common.yaml#/components/schemas/DateTime"
+        endTime:
+          description: End time of data collection record analysis.
+          allOf:
+            - $ref: "../common/CAMARA_common.yaml#/components/schemas/DateTime"
+        applicationType:
+          description: Analysis application category type.
+          allOf:
+            - $ref: "#/components/schemas/ApplicationType"
+        applicationId:
+          description: Collected application ID.
+          allOf:
+            - $ref: "#/components/schemas/ApplicationId"
+        areaData:
+          description: Collection area.
+          allOf:
+            - $ref: "#/components/schemas/AreaData"
+        appSignalingData:
+          description: Cellular network information within the data period.
+          allOf:
+            - $ref: "#/components/schemas/AppSignalingData"
+        applicationIndicatorStatistics:
+          description: Basic application statistics.
+          allOf:
+            - $ref: "#/components/schemas/ApplicationIndicatorStatistics"
+        applicationExperienceAnalysis:
+          description: Application experience statistics data.
+          allOf:
+            - $ref: "#/components/schemas/ApplicationExperienceAnalysis"
+
+    ApplicationIndicatorStatistics:
+      type: object
+      description: |
+        Basic statistics on the application during the application use period.
+      properties:
+        subAppStartTime:
+          description: Application start time.
+          allOf:
+            - $ref: "../common/CAMARA_common.yaml#/components/schemas/DateTime"
+        subAppEffDur:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 86400
+          description: |
+            Unsigned integer identifying a period of time in units of seconds
+        avgBwUl:
+          description: Average uplink bandwidth of an application.
+          allOf:
+            - $ref: "#/components/schemas/BitRate"
+        avgBwDl:
+          description: Average downlink bandwidth of an application.
+          allOf:
+            - $ref: "#/components/schemas/BitRate"
+        maxBwUl:
+          description: Maximum uplink bandwidth of the application
+          allOf:
+            - $ref: "#/components/schemas/BitRate"
+        maxBwDl:
+          description: Maximum downlink bandwidth of the application
+          allOf:
+            - $ref: "#/components/schemas/BitRate"
+        subAppVol:
+          description: Application-level traffic statistics
+          allOf:
+            - $ref: "#/components/schemas/VolumeMeasurement"
+        maxDelayAn:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 10000
+          description: |
+            Maximum wireless-side latency of an application.
+        maxDelayDn:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 10000
+          description: |
+            Maximum wired-side latency of an application.
+
+    ApplicationExperienceAnalysis:
+      type: object
+      description: |
+        Application experience statistics data.
+      properties:
+        avgQoe:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 100
+          description: |
+            Average score of experience analysis. Value range: 0 to 100 points.
+        maxResolution:
+          type: string
+          maxLength: 64
+          pattern: '^[0-9]{3,4}$'
+          description: |
+            Maximum resolution in the experience analysis period, expressed in
+            vertical pixels (e.g. 720, 1080, 2160).
+        majorityResolution:
+          type: string
+          maxLength: 64
+          pattern: '^[0-9]{3,4}$'
+          description: |
+            The resolution with the highest duration ratio within the experience
+            analysis period, expressed in vertical pixels (e.g. 720, 1080, 2160).
+        maxBitRateUl:
+          description: Maximum uplink bit rate (kbit/s).
+          allOf:
+            - $ref: "#/components/schemas/BitRate"
+        avgBitRateUl:
+          description: Average uplink bit rate (kbit/s)
+          allOf:
+            - $ref: "#/components/schemas/BitRate"
+        maxBitRateDl:
+          description: Maximum downlink bit rate (kbit/s)
+          allOf:
+            - $ref: "#/components/schemas/BitRate"
+        avgBitRateDl:
+          description: Average downlink bit rate (kbit/s)
+          allOf:
+            - $ref: "#/components/schemas/BitRate"
+        stallSec:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 86400
+          description: Frame freezing duration, in seconds.
+        stallNum:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 1000000
+          description: Number of frame freezing times. The detection period is 5 seconds.
+        serviceDelay:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 10000
+          description: Service latency, in seconds.
+        initialDur:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 86400
+          description: |
+            Initial service buffering duration, in seconds.
+
+    AreaData:
+      type: object
+      description: |
+        Information about the area where a user is located.
+      properties:
+        region:
+          type: string
+          maxLength: 128
+          description: User's region of residence.
+        district:
+          type: string
+          maxLength: 256
+          description: Areas or streets within a region.
+
+    AppSignalingData:
+      type: object
+      description: |
+        Application signaling data.
+      properties:
+        dnn:
+          description: The DNN name.
+          allOf:
+            - $ref: "#/components/schemas/Dnn"
+        qciOr5qi:
+          description: The 5QI or QCI.
+          allOf:
+            - $ref: "#/components/schemas/QciOr5qi"
+        netType:
+          description: Cellular network access type (4G/5G).
+          allOf:
+            - $ref: "#/components/schemas/NetType"
+
+    VolumeMeasurement:
+      type: object
+      description: |
+        Application-level traffic statistics.
+      properties:
+        totalVolume:
+          description: Total running traffic statistics.
+          allOf:
+            - $ref: "#/components/schemas/TrafficVolume"
+        ulVolume:
+          description: This shall indicate the volume (bytes) of user plane traffic for the uplink direction.
+          allOf:
+            - $ref: "#/components/schemas/TrafficVolume"
+        dlVolume:
+          description: This shall indicate the volume (bytes) of user plane traffic for the downlink direction.
+          allOf:
+            - $ref: "#/components/schemas/TrafficVolume"
+
     EventSubscriptionStarted:
       description: event structure for event subscription started
       allOf:
@@ -819,17 +1096,12 @@ components:
             data:
               $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionEnded"
 
-    SubscriptionEnded:
-      $ref: "../common/CAMARA_event_common.yaml#/components/schemas/SubscriptionEnded"
-
-    TerminationReason:
-      $ref: "../common/CAMARA_event_common.yaml#/components/schemas/TerminationReason"
-
     ApiEventType:
       type: string
       description: Event type for network quality notifications.
       enum:
         - org.camaraproject.connectivity-insights-subscriptions.v0.network-quality
+        - org.camaraproject.connectivity-insights-subscriptions.v0.user-experience
 
     SubscriptionLifecycleEventType:
       type: string
@@ -841,6 +1113,120 @@ components:
         - org.camaraproject.connectivity-insights-subscriptions.v0.subscription-started
         - org.camaraproject.connectivity-insights-subscriptions.v0.subscription-updated
         - org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended
+
+    ApplicationType:
+      description: |
+        **NOTE**: applicationType is experimental and could change in a future release.
+
+        The type of an application, representing a detailed classification of
+        applications based on user usage habits and traffic characteristics. It is used
+        to subscribe to applications of the same category. For example:
+        live_video_publishing, meeting, mobile_gaming, short_video.
+      type: string
+      maxLength: 128
+      enum:
+        - ai_c                  # Conversational AI: interactive chat, voice assistants
+        - ai_g                  # Generative AI: content generation, agentic workloads
+        - file_transfer         # Bulk data upload/download, cloud storage sync, backups
+        - instant_messaging     # Real-time text/voice messaging, async chat
+        - live_video_publishing # Uplink live broadcast publishing (streamer/uplink)
+        - live_video_viewing    # Downlink live stream viewing (audience/downlink)
+        - meeting               # Multi-party A/V conferencing, screen sharing
+        - mobile_gaming         # Low-latency multiplayer/cloud gaming (mobile)
+        - fixed_gaming          # Fixed/console/PC online gaming
+        - short_video           # Short-form video playback and feed consumption
+        - video_on_demand       # On-demand HD video streaming (VOD)
+        - voip                  # Two-party voice/video telephony
+        - xr                    # Extended-reality (AR/VR/MR) services
+      example: live_video_viewing
+
+    ApplicationId:
+      description: Indicates the Application Identifier.
+      type: string
+      format: uuid
+      maxLength: 36
+
+    BitRate:
+      type: object
+      description: |
+        Specification of rate. The value is expressed in the unit indicated by
+        the `unit` property.
+      required:
+        - value
+        - unit
+      properties:
+        value:
+          description: Quantity of rate
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 2147483647
+          example: 125
+        unit:
+          $ref: "#/components/schemas/RateUnitEnum"
+      example:
+        value: 125
+        unit: Mbps
+
+    RateUnitEnum:
+      description: Units of rate
+      type: string
+      enum:
+        - bps
+        - kbps
+        - Mbps
+        - Gbps
+        - Tbps
+
+    TrafficVolume:
+      type: string
+      maxLength: 64
+      pattern: '^\d+(\.\d+)? (B|kB|MB|GB|TB)$'
+      description: |
+        String representing a traffic volume measured in bytes, formatted as a
+        number followed by a unit: `B`, `kB`, `MB`, `GB` or `TB`.
+      example: "125 MB"
+
+    Dnn:
+      type: string
+      maxLength: 100
+      pattern: '^[a-zA-Z0-9.-]+$'
+      description: |
+        String representing a Data Network Name as defined in clause 9A of 3GPP TS 23.003;
+        it shall contain either a DNN Network Identifier, or a full DNN with both
+        the Network Identifier and Operator Identifier, as specified in 3GPP TS 23.003
+        clause 9.1.1 and 9.1.2. It shall be coded as string in which the labels are
+        separated by dots (e.g. "Label1.Label2.Label3").
+
+    QciOr5qi:
+      type: integer
+      format: int32
+      minimum: 0
+      maximum: 255
+      description: |
+        QoS Class Identifier or 5G QoS Identifier.
+
+    NetType:
+      type: string
+      description: |
+        The mobile technology of the network that the device is connected to.
+      enum:
+        - 2G
+        - 3G
+        - 4G
+        - 5G
+        - UNKNOWN
+
+    Datatype:
+      type: string
+      description: |
+        POOR_QOE_REPORT: Detects poor network experience and reports the collected statistical data.
+        PERIODIC_REPORT: Periodically collecting and reporting data.
+        ALL: Detects data collected and reported by the poor network experience reporting function. If no poor quality is detected, the data is reported periodically.
+      enum:
+        - POOR_QOE_REPORT
+        - PERIODIC_REPORT
+        - ALL
 
   responses:
     CreateSubscriptionBadRequest400:

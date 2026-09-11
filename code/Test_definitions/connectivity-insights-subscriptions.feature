@@ -73,7 +73,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     Then the response code is 204
     And the response header "x-correlator" has same value as the request header "x-correlator"
 
-  @connectivity_insights_subscriptions_08_receive_network_quality_notification
+  @connectivity_insights_subscriptions_07_receive_network_quality_notification
   Scenario: Receive network quality notification
     Given that subscriptions are created synchronously
     And a valid subscription request body with network quality event type
@@ -86,7 +86,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And notification body complies with the OAS schema at "/components/schemas/EventNetworkQuality"
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.network-quality"
 
-  @connectivity_insights_subscriptions_09_subscription_ends_on_expiry
+  @connectivity_insights_subscriptions_08_subscription_ends_on_expiry
   Scenario: Receive notification for subscription-ended event on expiry
     Given that subscriptions are created synchronously
     And a valid subscription request body with network quality event type
@@ -99,7 +99,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended"
     And the response property "$.data.terminationReason" is "SUBSCRIPTION_EXPIRED"
 
-  @connectivity_insights_subscriptions_10_subscription_ends_when_max_events
+  @connectivity_insights_subscriptions_09_subscription_ends_when_max_events
   Scenario: Receive notification for subscription-ended event on max events reached
     Given that subscriptions are created synchronously
     And a valid subscription request body with network quality event type
@@ -113,7 +113,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended"
     And the response property "$.data.terminationReason" is "MAX_EVENTS_REACHED"
 
-  @connectivity_insights_subscriptions_11_subscription_ends_on_delete
+  @connectivity_insights_subscriptions_10_subscription_ends_on_delete
   Scenario: Receive notification for subscription-ended event on deletion
     Given that subscriptions are created synchronously
     And a valid subscription request body with network quality event type
@@ -126,7 +126,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended"
     And the response property "$.data.terminationReason" is "NETWORK_TERMINATED"
 
-  @connectivity_insights_subscriptions_12_initial_event
+  @connectivity_insights_subscriptions_11_initial_event
   Scenario: Receive initial event when requested
     Given that subscriptions are created synchronously
     And a valid subscription request body with network quality event type
@@ -137,11 +137,50 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And notification body complies with the OAS schema at "/components/schemas/EventNetworkQuality"
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.network-quality"
 
+  @connectivity_insights_subscriptions_12_create_user_experience_subscription
+  Scenario: Create user experience insights subscription synchronously
+    Given that subscriptions are created synchronously
+    And a valid subscription request body with user-experience event type
+    And the request body property "$.sink" is set to a valid callback URL
+    And the request body property "$.protocol" is set to "HTTP"
+    And the request body property "$.config.subscriptionDetail.subscriptionType" is set to "USER_EXPERIENCE"
+    And the request body property "$.config.subscriptionDetail.device" is set to a valid device
+    When the request "createSubscription" is sent
+    Then the response code is 201
+    And the response header "Content-Type" is "application/json"
+    And the response header "x-correlator" has same value as the request header "x-correlator"
+    And the response body complies with the OAS schema at "/components/schemas/Subscription"
+    And the response contains a valid "subscriptionId"
+
+  @connectivity_insights_subscriptions_13_receive_user_experience_notification
+  Scenario: Receive user experience notification
+    Given that subscriptions are created synchronously
+    And a valid subscription request body with user-experience event type
+    And the request body property "$.types" contains the element "org.camaraproject.connectivity-insights-subscriptions.v0.user-experience"
+    When the request "createSubscription" is sent
+    Then the response code is 201
+    And when the user experience data is collected for the subscribed device
+    And event notification "user-experience" is received on callback-url
+    And sink credentials are received as expected
+    And notification body complies with the OAS schema at "/components/schemas/EventUserExperience"
+    And type="org.camaraproject.connectivity-insights-subscriptions.v0.user-experience"
+
+  @connectivity_insights_subscriptions_14_create_user_experience_subscription_with_datatype
+  Scenario: Create user experience insights subscription with datatype
+    Given that subscriptions are created synchronously
+    And a valid subscription request body with user-experience event type
+    And the request body property "$.config.subscriptionDetail.subscriptionType" is set to "USER_EXPERIENCE"
+    And the request body property "$.config.subscriptionDetail.datatype" is set to "PERIODIC_REPORT"
+    When the request "createSubscription" is sent
+    Then the response code is 201
+    And the response body complies with the OAS schema at "/components/schemas/Subscription"
+    And the response contains a valid "subscriptionId"
+
 ############### Error response scenarios ###########################
 
   # 400 Error Scenarios
 
-  @connectivity_insights_subscriptions_13_create_with_invalid_request_body
+  @connectivity_insights_subscriptions_15_create_with_invalid_request_body
   Scenario: Create subscription with invalid request body
     Given the request body is not compliant with the schema "/components/schemas/SubscriptionRequest"
     When the request "createSubscription" is sent
@@ -150,7 +189,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response property "$.code" is "INVALID_ARGUMENT"
     And the response property "$.message" contains a user friendly text
 
-  @connectivity_insights_subscriptions_14_subscription_with_expiry_time_in_past
+  @connectivity_insights_subscriptions_16_subscription_with_expiry_time_in_past
   Scenario: Create subscription with expiry time in past
     Given a valid subscription request body with network quality event type
     And the request body property "$.config.subscriptionExpireTime" is set to a timestamp in the past
@@ -160,7 +199,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response property "$.code" is "INVALID_ARGUMENT"
     And the response property "$.message" contains a user friendly text
 
-  @connectivity_insights_subscriptions_15_invalid_protocol
+  @connectivity_insights_subscriptions_17_invalid_protocol
   Scenario: Create subscription with invalid protocol
     Given a valid subscription request body with network quality event type
     And the request body property "$.protocol" is set to "UNSUPPORTED_PROTOCOL"
@@ -170,7 +209,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response property "$.code" is "INVALID_PROTOCOL"
     And the response property "$.message" contains a user friendly text
 
-  @connectivity_insights_subscriptions_16_invalid_credential_type
+  @connectivity_insights_subscriptions_18_invalid_credential_type
   Scenario: Create subscription with invalid credential type
     Given a valid subscription request body with network quality event type
     And the request body property "$.sinkCredential.credentialType" is not "ACCESSTOKEN"
@@ -180,7 +219,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response property "$.code" is "INVALID_CREDENTIAL"
     And the response property "$.message" contains a user friendly text
 
-  @connectivity_insights_subscriptions_17_invalid_access_token_type
+  @connectivity_insights_subscriptions_19_invalid_access_token_type
   Scenario: Create subscription with invalid access token type
     Given a valid subscription request body with network quality event type
     And the request body property "$.sinkCredential.accessTokenType" is not "bearer"
@@ -190,7 +229,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response property "$.code" is "INVALID_TOKEN"
     And the response property "$.message" contains a user friendly text
 
-  @connectivity_insights_subscriptions_18_invalid_subscription_id_format
+  @connectivity_insights_subscriptions_20_invalid_subscription_id_format
   Scenario: Retrieve subscription with invalid subscription ID format
     Given the path parameter "subscriptionId" is set to an invalid format value
     When the request "getSubscription" is sent
@@ -199,9 +238,20 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response property "$.code" is "INVALID_ARGUMENT"
     And the response property "$.message" contains a user friendly text
 
+  @connectivity_insights_subscriptions_21_create_user_experience_subscription_invalid_datatype
+  Scenario: Create user experience insights subscription with invalid datatype
+    Given that subscriptions are created synchronously
+    And a valid subscription request body with user-experience event type
+    And the request body property "$.config.subscriptionDetail.datatype" is set to an unsupported value
+    When the request "createSubscription" is sent
+    Then the response code is 400
+    And the response property "$.status" is 400
+    And the response property "$.code" is "INVALID_ARGUMENT"
+    And the response property "$.message" contains a user friendly text
+
   # 401 Error Scenarios
 
-  @connectivity_insights_subscriptions_19_no_authorization_header
+  @connectivity_insights_subscriptions_22_no_authorization_header
   Scenario: No Authorization header
     Given the header "Authorization" is removed
     And a valid subscription request body with network quality event type
@@ -211,7 +261,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response property "$.code" is "UNAUTHENTICATED"
     And the response property "$.message" contains a user friendly text
 
-  @connectivity_insights_subscriptions_20_expired_access_token
+  @connectivity_insights_subscriptions_23_expired_access_token
   Scenario: Expired access token
     Given the header "Authorization" is set to an expired access token
     And a valid subscription request body with network quality event type
@@ -221,7 +271,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response property "$.code" is "UNAUTHENTICATED"
     And the response property "$.message" contains a user friendly text
 
-  @connectivity_insights_subscriptions_21_invalid_access_token
+  @connectivity_insights_subscriptions_24_invalid_access_token
   Scenario: Invalid access token
     Given the header "Authorization" is set to an invalid access token
     And a valid subscription request body with network quality event type
@@ -233,7 +283,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
 
   # 403 Error Scenarios
 
-  @connectivity_insights_subscriptions_22_permission_denied
+  @connectivity_insights_subscriptions_25_permission_denied
   Scenario: Client does not have sufficient permissions
     Given the header "Authorization" is set to a valid access token without required scope
     And a valid subscription request body with network quality event type
@@ -243,7 +293,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response property "$.code" is "PERMISSION_DENIED"
     And the response property "$.message" contains a user friendly text
 
-  @connectivity_insights_subscriptions_23_subscription_mismatch
+  @connectivity_insights_subscriptions_26_subscription_mismatch
   Scenario: Inconsistent access token for requested events subscription
     Given a valid subscription request body with network quality event type
     And the request body property "$.types" contains an event type not supported by the API
@@ -255,7 +305,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
 
   # 404 Error Scenarios
 
-  @connectivity_insights_subscriptions_24_subscription_id_not_found
+  @connectivity_insights_subscriptions_27_subscription_id_not_found
   Scenario: Retrieve subscription with unknown subscription ID
     Given the path parameter "subscriptionId" is set to a non-existent subscription ID
     When the request "getSubscription" is sent
@@ -264,7 +314,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response property "$.code" is "NOT_FOUND"
     And the response property "$.message" contains a user friendly text
 
-  @connectivity_insights_subscriptions_25_delete_unknown_subscription
+  @connectivity_insights_subscriptions_28_delete_unknown_subscription
   Scenario: Delete subscription with unknown subscription ID
     Given the path parameter "subscriptionId" is set to a non-existent subscription ID
     When the request "deleteSubscription" is sent
@@ -275,7 +325,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
 
   # 422 Error Scenarios
 
-  @connectivity_insights_subscriptions_27_service_not_applicable
+  @connectivity_insights_subscriptions_29_service_not_applicable
   Scenario: Create subscription for a device not supported by the service
     Given a valid subscription request body with network quality event type
     And the request body property "$.config.subscriptionDetail.device" refers to a device not supported by the service
@@ -285,7 +335,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response property "$.code" is "SERVICE_NOT_APPLICABLE"
     And the response property "$.message" contains a user friendly text
 
-  @connectivity_insights_subscriptions_28_missing_identifier
+  @connectivity_insights_subscriptions_30_missing_identifier
   Scenario: Create subscription without device identifier with two-legged token
     Given the header "Authorization" is set to a valid two-legged access token
     And a valid subscription request body with network quality event type
@@ -298,7 +348,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
 
   # 429 Error Scenarios
 
-  @connectivity_insights_subscriptions_30_too_many_requests
+  @connectivity_insights_subscriptions_31_too_many_requests
   Scenario: Too many requests (rate limit)
     Given the client has exceeded the rate limit
     And a valid subscription request body with network quality event type
@@ -308,7 +358,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response property "$.code" is "TOO_MANY_REQUESTS"
     And the response property "$.message" contains a user friendly text
 
-  @connectivity_insights_subscriptions_31_quota_exceeded
+  @connectivity_insights_subscriptions_32_quota_exceeded
   Scenario: Quota exceeded
     Given the client has exceeded their quota
     And a valid subscription request body with network quality event type
