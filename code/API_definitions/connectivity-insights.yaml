@@ -447,15 +447,14 @@ components:
           $ref: "../common/CAMARA_common.yaml#/components/schemas/Device"
         applicationId:
           description: |
-            Indicates the Application Identifier. If not carried, the carrier
-            configures mainstream application types (video, games, live streaming)
-            locally.
+            Indicates the Application Identifier. If not carried, need to
+            configure application types (short_video, meeting, live_streaming).
           allOf:
             - $ref: "#/components/schemas/ApplicationId"
         applicationType:
           description: |
-            Indicates the Application type. If not carried, the carrier configures
-            mainstream application types (video, games, live streaming) locally.
+            Indicates the Application type. If not carried, need to configure 
+            applicationId to assign apps.
           allOf:
             - $ref: "#/components/schemas/ApplicationType"
       required:
@@ -479,7 +478,7 @@ components:
       description: |
         Indicates the Application type. Negotiated by the carrier and application
         vendor and configured on the carrier network. For example: live_streaming,
-        meeting, mobile_game, short_video.
+        meeting, mobile_gaming, short_video.
       type: string
       maxLength: 128
       pattern: '^[a-z]+(_[a-z]+)*$'
@@ -708,6 +707,7 @@ components:
           type: integer
           format: int32
           minimum: 0
+          maximum: 2147483647
           example: 125
         unit:
           $ref: "#/components/schemas/RateUnitEnum"

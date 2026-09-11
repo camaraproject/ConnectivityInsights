@@ -54,6 +54,11 @@ info:
       data-driven application strategy adjustments based on real-time network
       experience.
 
+      This API provides the function of reporting poor-QoE data in real time or periodically reporting no poor-QoE data based on the datatype parameter.
+      POOR_QOE_REPORT Detects poor network experience and reports the collected statistical data.
+      PERIODIC_REPORT Periodically collecting and reporting data. 
+      ALL  Detects data collected and reported by the poor network experience reporting function. If no poor quality is detected, the data is reported periodically.
+
     ### Notification callback
 
     This endpoint describes the event notification received on subscription
@@ -1139,6 +1144,7 @@ components:
           type: integer
           format: int32
           minimum: 0
+          maximum: 2147483647
           example: 125
         unit:
           $ref: "#/components/schemas/RateUnitEnum"
