@@ -22,7 +22,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     Then the response code is 201
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has same value as the request header "x-correlator"
-    And the response body complies with the OAS schema at "/components/schemas/Subscription"
+    And the response body complies with the OAS schema at "#/components/schemas/Subscription"
     And the response contains a valid "subscriptionId"
 
   @connectivity_insights_subscriptions_02_create_subscription_async
@@ -36,7 +36,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     Then the response code is 202
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has same value as the request header "x-correlator"
-    And the response body complies with the OAS schema at "/components/schemas/SubscriptionAsync"
+    And the response body complies with the OAS schema at "#/components/schemas/SubscriptionAsync"
     And the response contains a valid "subscriptionId"
 
   @connectivity_insights_subscriptions_03_retrieve_empty_subscription_list
@@ -55,7 +55,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     Then the response code is 200
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has same value as the request header "x-correlator"
-    And the response body has an array of items and each item complies with the OAS schema at "/components/schemas/Subscription"
+    And the response body has an array of items and each item complies with the OAS schema at "#/components/schemas/Subscription"
 
   @connectivity_insights_subscriptions_05_retrieve_subscription_by_id
   Scenario: Retrieve a subscription based on existing subscription-id
@@ -64,7 +64,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     Then the response code is 200
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has same value as the request header "x-correlator"
-    And the response body complies with the OAS schema at "/components/schemas/Subscription"
+    And the response body complies with the OAS schema at "#/components/schemas/Subscription"
 
   @connectivity_insights_subscriptions_06_delete_subscription
   Scenario: Delete a subscription based on existing subscription-id
@@ -83,7 +83,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And when the network quality changes for the subscribed device
     And event notification "network-quality" is received on callback-url
     And sink credentials are received as expected
-    And notification body complies with the OAS schema at "/components/schemas/EventNetworkQuality"
+    And notification body complies with the OAS schema at "#/components/schemas/EventNetworkQuality"
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.network-quality"
 
   @connectivity_insights_subscriptions_09_subscription_ends_on_expiry
@@ -95,7 +95,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     Then the response code is 201
     And when the subscription expires
     And event notification "subscription-ended" is received on callback-url
-    And notification body complies with the OAS schema at "/components/schemas/EventSubscriptionEnded"
+    And notification body complies with the OAS schema at "#/components/schemas/EventSubscriptionEnded"
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended"
     And the response property "$.data.terminationReason" is "SUBSCRIPTION_EXPIRED"
 
@@ -109,7 +109,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And when the network quality changes for the subscribed device
     And event notification "network-quality" is received on callback-url
     And event notification "subscription-ended" is received on callback-url
-    And notification body complies with the OAS schema at "/components/schemas/EventSubscriptionEnded"
+    And notification body complies with the OAS schema at "#/components/schemas/EventSubscriptionEnded"
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended"
     And the response property "$.data.terminationReason" is "MAX_EVENTS_REACHED"
 
@@ -122,7 +122,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     When the request "deleteSubscription" is sent with the created subscription ID
     Then the response code is 204
     And event notification "subscription-ended" is received on callback-url
-    And notification body complies with the OAS schema at "/components/schemas/EventSubscriptionEnded"
+    And notification body complies with the OAS schema at "#/components/schemas/EventSubscriptionEnded"
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended"
     And the response property "$.data.terminationReason" is "NETWORK_TERMINATED"
 
@@ -134,7 +134,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     When the request "createSubscription" is sent
     Then the response code is 201
     And event notification "network-quality" is immediately received on callback-url
-    And notification body complies with the OAS schema at "/components/schemas/EventNetworkQuality"
+    And notification body complies with the OAS schema at "#/components/schemas/EventNetworkQuality"
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.network-quality"
 
 ############### Error response scenarios ###########################
@@ -143,7 +143,7 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
 
   @connectivity_insights_subscriptions_13_create_with_invalid_request_body
   Scenario: Create subscription with invalid request body
-    Given the request body is not compliant with the schema "/components/schemas/SubscriptionRequest"
+    Given the request body is not compliant with the schema "#/components/schemas/SubscriptionRequest"
     When the request "createSubscription" is sent
     Then the response code is 400
     And the response property "$.status" is 400
@@ -294,6 +294,17 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     Then the response code is 422
     And the response property "$.status" is 422
     And the response property "$.code" is "MISSING_IDENTIFIER"
+    And the response property "$.message" contains a user friendly text
+
+  @connectivity_insights_subscriptions_29_unnecessary_identifier
+  Scenario: Create subscription with device identifier and three-legged token
+    Given the header "Authorization" is set to a valid three-legged access token
+    And a valid subscription request body with network quality event type
+    And the request body property "$.config.subscriptionDetail.device" is set to a valid device identifier
+    When the request "createSubscription" is sent
+    Then the response code is 422
+    And the response property "$.status" is 422
+    And the response property "$.code" is "UNNECESSARY_IDENTIFIER"
     And the response property "$.message" contains a user friendly text
 
   # 429 Error Scenarios
