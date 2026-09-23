@@ -137,6 +137,25 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And notification body complies with the OAS schema at "/components/schemas/EventNetworkQuality"
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.network-quality"
 
+  @connectivity_insights_subscriptions_32_create_subscription_with_monitoring_time_offset
+  Scenario: Create subscription with monitoringTimeOffset for predictive data
+    Given that subscriptions are created synchronously
+    And a valid subscription request body with network quality event type
+    And the request body property "$.config.monitoringTimeOffset" is set to "PT5M"
+    When the request "createSubscription" is sent
+    Then the response code is 201
+    And the response header "Content-Type" is "application/json"
+    And the response body complies with the OAS schema at "/components/schemas/Subscription"
+
+  @connectivity_insights_subscriptions_33_create_subscription_without_monitoring_time_offset
+  Scenario: Create subscription without monitoringTimeOffset defaults to current time
+    Given that subscriptions are created synchronously
+    And a valid subscription request body with network quality event type
+    And the request body property "$.config.monitoringTimeOffset" is not provided
+    When the request "createSubscription" is sent
+    Then the response code is 201
+    And the response body complies with the OAS schema at "/components/schemas/Subscription"
+
 ############### Error response scenarios ###########################
 
   # 400 Error Scenarios
@@ -194,6 +213,16 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
   Scenario: Retrieve subscription with invalid subscription ID format
     Given the path parameter "subscriptionId" is set to an invalid format value
     When the request "getSubscription" is sent
+    Then the response code is 400
+    And the response property "$.status" is 400
+    And the response property "$.code" is "INVALID_ARGUMENT"
+    And the response property "$.message" contains a user friendly text
+
+  @connectivity_insights_subscriptions_34_invalid_monitoring_time_offset
+  Scenario: Create subscription with invalid monitoringTimeOffset format
+    Given a valid subscription request body with network quality event type
+    And the request body property "$.config.monitoringTimeOffset" is set to "INVALID_DURATION"
+    When the request "createSubscription" is sent
     Then the response code is 400
     And the response property "$.status" is 400
     And the response property "$.code" is "INVALID_ARGUMENT"
