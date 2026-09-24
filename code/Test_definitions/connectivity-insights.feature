@@ -22,7 +22,7 @@ Feature: CAMARA Connectivity Insights API, vwip - Operations for Network Quality
     Then the response code is 200
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has same value as the request header "x-correlator"
-    And the response body complies with the OAS schema at "/components/schemas/NetworkQualityInsightResponse"
+    And the response body complies with the OAS schema at "#/components/schemas/NetworkQualityInsightResponse"
     And the response property "$.packetDelayBudget" is "meets the application requirements"
     And the response property "$.targetMinDownstreamRate" is "meets the application requirements"
     And the response property "$.targetMinUpstreamRate" is "meets the application requirements"
@@ -38,7 +38,7 @@ Feature: CAMARA Connectivity Insights API, vwip - Operations for Network Quality
     Then the response code is 200
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has same value as the request header "x-correlator"
-    And the response body complies with the OAS schema at "/components/schemas/NetworkQualityInsightResponse"
+    And the response body complies with the OAS schema at "#/components/schemas/NetworkQualityInsightResponse"
     And at least one of the response properties contains "unable to meet the application requirements"
 
   @connectivity_insights_03_check_network_quality_with_additional_kpis
@@ -47,7 +47,7 @@ Feature: CAMARA Connectivity Insights API, vwip - Operations for Network Quality
     And a valid network quality insight request body with that application profile ID
     When the request "checkNetworkQuality" is sent
     Then the response code is 200
-    And the response body complies with the OAS schema at "/components/schemas/NetworkQualityInsightResponse"
+    And the response body complies with the OAS schema at "#/components/schemas/NetworkQualityInsightResponse"
     And the response contains additionalKPIs information
     And the response property "$.additionalKPIs.signalStrength" is one of "excellent", "good", "fair", "poor", "no signal"
     And the response property "$.additionalKPIs.connectivityType" is one of "5G-SA", "5G-NSA", "4G", "3G"
@@ -58,7 +58,7 @@ Feature: CAMARA Connectivity Insights API, vwip - Operations for Network Quality
 
   @connectivity_insights_05_check_network_quality_with_invalid_request_body
   Scenario: Check network quality with invalid request body
-    Given the request body is not compliant with the schema "/components/schemas/NetworkQualityInsightRequest"
+    Given the request body is not compliant with the schema "#/components/schemas/NetworkQualityInsightRequest"
     When the request "checkNetworkQuality" is sent
     Then the response code is 400
     And the response property "$.status" is 400
@@ -119,16 +119,6 @@ Feature: CAMARA Connectivity Insights API, vwip - Operations for Network Quality
     And the response property "$.code" is "PERMISSION_DENIED"
     And the response property "$.message" contains a user friendly text
 
-  @connectivity_insights_13_invalid_token_context
-  Scenario: Token context is invalid
-    Given the header "Authorization" is set to a valid access token
-    And a valid network quality insight request body with inconsistent information compared to the token
-    When the request "checkNetworkQuality" is sent
-    Then the response code is 403
-    And the response property "$.status" is 403
-    And the response property "$.code" is "INVALID_TOKEN_CONTEXT"
-    And the response property "$.message" contains a user friendly text
-
   # 404 Error Scenarios
 
   @connectivity_insights_14_application_profile_id_not_found
@@ -149,6 +139,30 @@ Feature: CAMARA Connectivity Insights API, vwip - Operations for Network Quality
     Then the response code is 404
     And the response property "$.status" is 404
     And the response property "$.code" is "IDENTIFIER_NOT_FOUND"
+    And the response property "$.message" contains a user friendly text
+
+  # 422 Error Scenarios
+
+  @connectivity_insights_16_missing_identifier
+  Scenario: Check network quality without device identifier with two-legged token
+    Given the header "Authorization" is set to a valid two-legged access token
+    And a valid network quality insight request body
+    And the request body property "$.device" is removed
+    When the request "checkNetworkQuality" is sent
+    Then the response code is 422
+    And the response property "$.status" is 422
+    And the response property "$.code" is "MISSING_IDENTIFIER"
+    And the response property "$.message" contains a user friendly text
+
+  @connectivity_insights_17_unnecessary_identifier
+  Scenario: Check network quality with device identifier and three-legged token
+    Given the header "Authorization" is set to a valid three-legged access token
+    And a valid network quality insight request body
+    And the request body property "$.device" is set to a valid device identifier
+    When the request "checkNetworkQuality" is sent
+    Then the response code is 422
+    And the response property "$.status" is 422
+    And the response property "$.code" is "UNNECESSARY_IDENTIFIER"
     And the response property "$.message" contains a user friendly text
 
   # 429 Error Scenarios
