@@ -854,10 +854,6 @@ components:
           description: Collected application ID.
           allOf:
             - $ref: "#/components/schemas/ApplicationId"
-        areaData:
-          description: Collection area.
-          allOf:
-            - $ref: "#/components/schemas/AreaData"
         appSignalingData:
           description: Cellular network information within the data period.
           allOf:
@@ -989,20 +985,6 @@ components:
           maximum: 86400
           description: |
             Initial service buffering duration, in seconds.
-
-    AreaData:
-      type: object
-      description: |
-        Information about the area where a user is located.
-      properties:
-        region:
-          type: string
-          maxLength: 128
-          description: User's region of residence.
-        district:
-          type: string
-          maxLength: 256
-          description: Areas or streets within a region.
 
     AppSignalingData:
       type: object
