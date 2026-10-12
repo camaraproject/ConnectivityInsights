@@ -63,19 +63,24 @@ Changes documented below are compared to version 0.7.0-rc.1.
 
 ### Added
 
-* N/A
+* Added test scenario for `422 UNNECESSARY_IDENTIFIER` by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
 
 ### Changed
 
-* N/A
+* Synced with CAMARA Commonalities r4.4 / 0.9.0: error responses aligned with the r4.4 response catalogue, `info.description` mandatory sections updated by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+* `Config` now extends the common `ConfigBase` schema and `sink` uses the common `Sink` schema by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+* Aligned test definitions with CAMARA r4.4 testing artifacts by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
 
 ### Fixed
 
-* N/A
+* Corrected the device identification sections of the API description, which referred to `phoneNumber` instead of the `device` object by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+* Corrected error handling text: `404 NOT_FOUND` is returned when the subscription identified by `subscriptionId` does not exist by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
 
 ### Removed
 
-* N/A
+* Removed `403 INVALID_TOKEN_CONTEXT` from GET /subscriptions, GET and DELETE /subscriptions/{subscriptionId} by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+* Removed `404 IDENTIFIER_NOT_FOUND` from GET and DELETE /subscriptions/{subscriptionId} by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+* Removed `409 CONFLICT` and `409 INCOMPATIBLE_STATE` from POST /subscriptions by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
 
 ## connectivity-insights 0.7.0-rc.2
 
@@ -94,19 +99,20 @@ Changes documented below are compared to version 0.7.0-rc.1.
 
 ### Added
 
-* N/A
+* Added test scenarios for `422 MISSING_IDENTIFIER` and `422 UNNECESSARY_IDENTIFIER` by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
 
 ### Changed
 
-* N/A
+* Synced with CAMARA Commonalities r4.4 / 0.9.0: error responses aligned with the r4.4 response catalogue, `info.description` mandatory sections updated by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+* Aligned test definitions with CAMARA r4.4 testing artifacts by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
 
 ### Fixed
 
-* N/A
+* Corrected error handling text: `404 NOT_FOUND` is returned for an unknown `applicationProfileId`, `404 IDENTIFIER_NOT_FOUND` when the device cannot be identified by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
 
 ### Removed
 
-* N/A
+* Removed `403 INVALID_TOKEN_CONTEXT` from POST /check-network-quality, with the corresponding test scenario by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
 
 **Full Changelog**: https://github.com/camaraproject/ConnectivityInsights/compare/r4.1...r4.2
 
