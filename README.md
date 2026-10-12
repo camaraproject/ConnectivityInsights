@@ -45,11 +45,11 @@ about network quality through event notifications.
 
 ### Upcoming Release Preview
 
-* Pre-release: [r4.1](https://github.com/camaraproject/ConnectivityInsights/releases/tag/r4.1) (release candidate)
-  * **connectivity-insights-subscriptions 0.7.0-rc.1**
-  [[YAML]](https://github.com/camaraproject/ConnectivityInsights/blob/r4.1/code/API_definitions/connectivity-insights-subscriptions.yaml)  [[ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r4.1/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)  [[Swagger]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r4.1/code/API_definitions/connectivity-insights-subscriptions.yaml)
-  * **connectivity-insights 0.7.0-rc.1**
-  [[YAML]](https://github.com/camaraproject/ConnectivityInsights/blob/r4.1/code/API_definitions/connectivity-insights.yaml)  [[ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r4.1/code/API_definitions/connectivity-insights.yaml&nocors)  [[Swagger]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r4.1/code/API_definitions/connectivity-insights.yaml)
+* Pre-release: [r4.2](https://github.com/camaraproject/ConnectivityInsights/releases/tag/r4.2) (release candidate)
+  * **connectivity-insights-subscriptions 0.7.0-rc.2**
+  [[YAML]](https://github.com/camaraproject/ConnectivityInsights/blob/r4.2/code/API_definitions/connectivity-insights-subscriptions.yaml)  [[ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r4.2/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)  [[Swagger]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r4.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
+  * **connectivity-insights 0.7.0-rc.2**
+  [[YAML]](https://github.com/camaraproject/ConnectivityInsights/blob/r4.2/code/API_definitions/connectivity-insights.yaml)  [[ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r4.2/code/API_definitions/connectivity-insights.yaml&nocors)  [[Swagger]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r4.2/code/API_definitions/connectivity-insights.yaml)
 
 
 _The above section is automatically synchronized by CAMARA project-administration._

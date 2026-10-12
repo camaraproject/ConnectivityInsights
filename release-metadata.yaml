@@ -1,0 +1,16 @@
+repository:
+  repository_name: ConnectivityInsights
+  release_tag: r4.2
+  release_type: pre-release-rc
+  release_date: null
+  src_commit_sha: d940f483382af4d650ef810014f77a267bf32014
+apis:
+- api_name: connectivity-insights-subscriptions
+  api_version: 0.7.0-rc.2
+  api_title: Connectivity Insights Subscriptions
+- api_name: connectivity-insights
+  api_version: 0.7.0-rc.2
+  api_title: Connectivity Insights
+dependencies:
+  commonalities_release: r4.4 (0.9.0)
+  identity_consent_management_release: r4.2 (0.5.0)
