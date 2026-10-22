@@ -2,6 +2,7 @@
 
 <!-- TOC:START -->
 ## Table of Contents
+- [r4.2](#r42)
 - [r4.1](#r41)
 <!-- TOC:END -->
 
@@ -13,6 +14,88 @@ The below sections record the changes for each API version in each release as fo
 * for the first release-candidate, all changes since the last public release
 * for subsequent release-candidate(s), only the delta to the previous release-candidate
 * for a public release, the consolidated changes since the previous public release
+
+# r4.2
+
+## Release Notes
+
+This release candidate contains the definition and documentation of
+* connectivity-insights-subscriptions 0.7.0-rc.2
+* connectivity-insights 0.7.0-rc.2
+
+The API definition(s) are based on
+* Commonalities r4.4 (0.9.0)
+* Identity and Consent Management r4.2 (0.5.0)
+
+## connectivity-insights-subscriptions 0.7.0-rc.2
+
+**connectivity-insights-subscriptions 0.7.0-rc.2 is a release-candidate version of this API.**
+
+Changes documented below are compared to version 0.7.0-rc.1.
+
+- API definition **with inline documentation**:
+  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r4.2/code/API_definitions/connectivity-insights-subscriptions.yaml&nocors)
+  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r4.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
+  - OpenAPI [YAML spec file](https://github.com/camaraproject/ConnectivityInsights/blob/r4.2/code/API_definitions/connectivity-insights-subscriptions.yaml)
+
+### Breaking changes
+
+* N/A
+
+### Added
+
+* Added test scenario for `422 UNNECESSARY_IDENTIFIER` by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+
+### Changed
+
+* Synced with CAMARA Commonalities r4.4 / 0.9.0: error responses aligned with the r4.4 response catalogue, `info.description` mandatory sections updated by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+* `Config` now extends the common `ConfigBase` schema and `sink` uses the common `Sink` schema by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+* Aligned test definitions with CAMARA r4.4 testing artifacts by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+
+### Fixed
+
+* Corrected the device identification sections of the API description, which referred to `phoneNumber` instead of the `device` object by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+* Corrected error handling text: `404 NOT_FOUND` is returned when the subscription identified by `subscriptionId` does not exist by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+
+### Removed
+
+* Removed `403 INVALID_TOKEN_CONTEXT` from GET /subscriptions, GET and DELETE /subscriptions/{subscriptionId} by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+* Removed `404 IDENTIFIER_NOT_FOUND` from GET and DELETE /subscriptions/{subscriptionId} by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+* Removed `409 CONFLICT` and `409 INCOMPATIBLE_STATE` from POST /subscriptions by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+
+## connectivity-insights 0.7.0-rc.2
+
+**connectivity-insights 0.7.0-rc.2 is a release-candidate version of this API.**
+
+Changes documented below are compared to version 0.7.0-rc.1.
+
+- API definition **with inline documentation**:
+  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r4.2/code/API_definitions/connectivity-insights.yaml&nocors)
+  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ConnectivityInsights/r4.2/code/API_definitions/connectivity-insights.yaml)
+  - OpenAPI [YAML spec file](https://github.com/camaraproject/ConnectivityInsights/blob/r4.2/code/API_definitions/connectivity-insights.yaml)
+
+### Breaking changes
+
+* N/A
+
+### Added
+
+* Added test scenarios for `422 MISSING_IDENTIFIER` and `422 UNNECESSARY_IDENTIFIER` by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+
+### Changed
+
+* Synced with CAMARA Commonalities r4.4 / 0.9.0: error responses aligned with the r4.4 response catalogue, `info.description` mandatory sections updated by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+* Aligned test definitions with CAMARA r4.4 testing artifacts by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+
+### Fixed
+
+* Corrected error handling text: `404 NOT_FOUND` is returned for an unknown `applicationProfileId`, `404 IDENTIFIER_NOT_FOUND` when the device cannot be identified by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+
+### Removed
+
+* Removed `403 INVALID_TOKEN_CONTEXT` from POST /check-network-quality, with the corresponding test scenario by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+
+**Full Changelog**: https://github.com/camaraproject/ConnectivityInsights/compare/r4.1...r4.2
 
 # r4.1
 
