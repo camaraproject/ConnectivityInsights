@@ -186,3 +186,170 @@ Feature: CAMARA Connectivity Insights API, vwip - Operations for Network Quality
     And the response property "$.status" is 429
     And the response property "$.code" is "QUOTA_EXCEEDED"
     And the response property "$.message" contains a user friendly text
+
+######### Check User Experience Insights scenarios #################################
+
+  @connectivity_insights_22_read_user_experience_insights
+  Scenario: Read user experience insights for a given device
+    Given a device connected to the network with recorded application experience data
+    And a valid user experience insight request body with that device
+    When the request "checkUserExperienceInsights" is sent
+    Then the response code is 200
+    And the response header "Content-Type" is "application/json"
+    And the response header "x-correlator" has same value as the request header "x-correlator"
+    And the response body complies with the OAS schema at "/components/schemas/UserExperienceInsightsResponse"
+    And the response property "$.userExperienceInsightsRecords" is a non-empty array
+    And each item in the response property "$.userExperienceInsightsRecords" complies with the OAS schema at "/components/schemas/UserExperienceInsightsRecords"
+
+  @connectivity_insights_23_read_user_experience_insights_with_application_id
+  Scenario: Read user experience insights filtered by application ID
+    Given a device connected to the network with recorded application experience data
+    And a valid user experience insight request body with that device
+    And the request body property "$.applicationId" is set to a valid application ID
+    When the request "checkUserExperienceInsights" is sent
+    Then the response code is 200
+    And the response body complies with the OAS schema at "/components/schemas/UserExperienceInsightsResponse"
+    And the response property "$.userExperienceInsightsRecords" is a non-empty array
+
+  @connectivity_insights_24_read_user_experience_insights_with_application_type
+  Scenario: Read user experience insights filtered by application type
+    Given a device connected to the network with recorded application experience data
+    And a valid user experience insight request body with that device
+    And the request body property "$.applicationType" is set to a supported application type
+    When the request "checkUserExperienceInsights" is sent
+    Then the response code is 200
+    And the response body complies with the OAS schema at "/components/schemas/UserExperienceInsightsResponse"
+    And the response property "$.userExperienceInsightsRecords" is a non-empty array
+
+  # 400 Error Scenarios
+
+  @connectivity_insights_25_read_user_experience_insights_invalid_body
+  Scenario: Read user experience insights with invalid request body
+    Given the request body is not compliant with the schema "/components/schemas/UserExperienceInsightRequest"
+    When the request "checkUserExperienceInsights" is sent
+    Then the response code is 400
+    And the response property "$.status" is 400
+    And the response property "$.code" is "INVALID_ARGUMENT"
+    And the response property "$.message" contains a user friendly text
+
+  @connectivity_insights_26_read_user_experience_insights_invalid_application_id
+  Scenario: Read user experience insights with invalid application ID format
+    Given a valid user experience insight request body
+    And the request body property "$.applicationId" is set to an invalid UUID format
+    When the request "checkUserExperienceInsights" is sent
+    Then the response code is 400
+    And the response property "$.status" is 400
+    And the response property "$.code" is "INVALID_ARGUMENT"
+    And the response property "$.message" contains a user friendly text
+
+  # 401 Error Scenarios
+
+  @connectivity_insights_27_read_user_experience_insights_no_authorization_header
+  Scenario: No Authorization header for user experience insights
+    Given the header "Authorization" is removed
+    And a valid user experience insight request body
+    When the request "checkUserExperienceInsights" is sent
+    Then the response code is 401
+    And the response property "$.status" is 401
+    And the response property "$.code" is "UNAUTHENTICATED"
+    And the response property "$.message" contains a user friendly text
+
+  @connectivity_insights_28_read_user_experience_insights_expired_access_token
+  Scenario: Expired access token for user experience insights
+    Given the header "Authorization" is set to an expired access token
+    And a valid user experience insight request body
+    When the request "checkUserExperienceInsights" is sent
+    Then the response code is 401
+    And the response property "$.status" is 401
+    And the response property "$.code" is "UNAUTHENTICATED"
+    And the response property "$.message" contains a user friendly text
+
+  @connectivity_insights_29_read_user_experience_insights_invalid_access_token
+  Scenario: Invalid access token for user experience insights
+    Given the header "Authorization" is set to an invalid access token
+    And a valid user experience insight request body
+    When the request "checkUserExperienceInsights" is sent
+    Then the response code is 401
+    And the response property "$.status" is 401
+    And the response property "$.code" is "UNAUTHENTICATED"
+    And the response property "$.message" contains a user friendly text
+
+  # 403 Error Scenarios
+
+  @connectivity_insights_30_read_user_experience_insights_permission_denied
+  Scenario: Client does not have sufficient permissions for user experience insights
+    Given the header "Authorization" is set to a valid access token without required scope
+    And a valid user experience insight request body
+    When the request "checkUserExperienceInsights" is sent
+    Then the response code is 403
+    And the response property "$.status" is 403
+    And the response property "$.code" is "PERMISSION_DENIED"
+    And the response property "$.message" contains a user friendly text
+
+  @connectivity_insights_31_read_user_experience_insights_invalid_token_context
+  Scenario: Token context is invalid for user experience insights
+    Given the header "Authorization" is set to a valid access token
+    And a valid user experience insight request body with inconsistent information compared to the token
+    When the request "checkUserExperienceInsights" is sent
+    Then the response code is 403
+    And the response property "$.status" is 403
+    And the response property "$.code" is "INVALID_TOKEN_CONTEXT"
+    And the response property "$.message" contains a user friendly text
+
+  # 404 Error Scenarios
+
+  @connectivity_insights_32_read_user_experience_insights_device_identifier_not_found
+  Scenario: Device identifier not found for user experience insights
+    Given a valid user experience insight request body
+    And the request body property "$.device" contains identifiers not matching any device in the system
+    When the request "checkUserExperienceInsights" is sent
+    Then the response code is 404
+    And the response property "$.status" is 404
+    And the response property "$.code" is "IDENTIFIER_NOT_FOUND"
+    And the response property "$.message" contains a user friendly text
+
+  # 422 Error Scenarios
+
+  @connectivity_insights_33_read_user_experience_insights_missing_identifier
+  Scenario: Read user experience insights without device identifier with two-legged token
+    Given the header "Authorization" is set to a valid two-legged access token
+    And a valid user experience insight request body
+    And the request body property "$.device" is removed
+    When the request "checkUserExperienceInsights" is sent
+    Then the response code is 422
+    And the response property "$.status" is 422
+    And the response property "$.code" is "MISSING_IDENTIFIER"
+    And the response property "$.message" contains a user friendly text
+
+  @connectivity_insights_34_read_user_experience_insights_unnecessary_identifier
+  Scenario: Read user experience insights with device identifier with three-legged token
+    Given the header "Authorization" is set to a valid three-legged access token
+    And a valid user experience insight request body
+    And the request body property "$.device" is set to a valid device
+    When the request "checkUserExperienceInsights" is sent
+    Then the response code is 422
+    And the response property "$.status" is 422
+    And the response property "$.code" is "UNNECESSARY_IDENTIFIER"
+    And the response property "$.message" contains a user friendly text
+
+  # 429 Error Scenarios
+
+  @connectivity_insights_35_read_user_experience_insights_too_many_requests
+  Scenario: Too many requests (rate limit) for user experience insights
+    Given the client has exceeded the rate limit
+    And a valid user experience insight request body
+    When the request "checkUserExperienceInsights" is sent
+    Then the response code is 429
+    And the response property "$.status" is 429
+    And the response property "$.code" is "TOO_MANY_REQUESTS"
+    And the response property "$.message" contains a user friendly text
+
+  @connectivity_insights_36_read_user_experience_insights_quota_exceeded
+  Scenario: Quota exceeded for user experience insights
+    Given the client has exceeded their quota
+    And a valid user experience insight request body
+    When the request "checkUserExperienceInsights" is sent
+    Then the response code is 429
+    And the response property "$.status" is 429
+    And the response property "$.code" is "QUOTA_EXCEEDED"
+    And the response property "$.message" contains a user friendly text
