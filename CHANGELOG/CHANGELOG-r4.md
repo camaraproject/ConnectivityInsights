@@ -75,23 +75,41 @@ Changes documented below are compared to version 0.6.0.
 
 ### Breaking changes
 
-* N/A
+* `GET /subscriptions` returns a paginated object with the required properties `subscriptions` and `pagination`, instead of an array of subscriptions, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* The subscription identifier in subscription responses (`POST /subscriptions`, `GET /subscriptions`, `GET /subscriptions/{subscriptionId}`) and in the `202` responses of `POST /subscriptions` and `DELETE /subscriptions/{subscriptionId}` is now `id` instead of `subscriptionId`, as in the Commonalities event subscription template; the `subscriptionId` path parameter is unchanged, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* Subscription `status` value `DEACTIVE` replaced by `INACTIVE`, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* In the `network-quality` event, the `data` property `papplicationProfileId` is corrected to `applicationProfileId`, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* In `config.subscriptionDetail`, `applicationServer` is now required and `device` is no longer required, by @Kevsy in https://github.com/camaraproject/ConnectivityInsights/pull/209
+* New input limits on the `POST /subscriptions` request body, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198 and https://github.com/camaraproject/ConnectivityInsights/pull/224, and @Kevsy in https://github.com/camaraproject/ConnectivityInsights/pull/214
+  * `sink` must be an `https` URL of at most 2048 characters
+  * `applicationServerPorts.ports` and `applicationServerPorts.ranges` accept at most 100 entries, and port values (including `device.ipv4Address.publicPort`) must be between 1 and 65535 (previously 0 was accepted)
+  * `applicationServer.ipv4Address` and `applicationServer.ipv6Address` must be valid IPv4 / IPv6 addresses, optionally with a mask, of at most 18 and 49 characters
+  * `config.subscriptionMaxEvents` is `int32` with a maximum of 1000000
 
 ### Added
 
-* N/A
+* Pagination for `GET /subscriptions`: optional `page` and `perPage` query parameters, `X-Total-Count`, `X-Total-Pages` and `Link` response headers, and the `400 OUT_OF_RANGE` error code, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* `subscription-started` and `subscription-updated` subscription lifecycle events, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* `PRIVATE_KEY_JWT` as `sinkCredential.credentialType`, and the `422` error codes `PRIVATE_KEY_JWT_NOT_CONFIGURED`, `UNSUPPORTED_IDENTIFIER`, `MULTIEVENT_SUBSCRIPTION_NOT_SUPPORTED` and `MULTIEVENT_COMBINATION_TEMPORARILY_NOT_SUPPORTED` for `POST /subscriptions`, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* Test scenario for `422 UNNECESSARY_IDENTIFIER`, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
 
 ### Changed
 
-* N/A
+* Aligned with Commonalities r4.4 (0.9.0): event schemas, `Config`, `sink`, `Device` and the error responses are now referenced from `CAMARA_common.yaml` and `CAMARA_event_common.yaml`, and the mandatory `info.description` sections are added, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198 and https://github.com/camaraproject/ConnectivityInsights/pull/224
+* Adopted the request body strictness rule: requests with JSON bodies containing properties not declared in the specification are rejected with `400 INVALID_ARGUMENT`, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* Added `maxLength`, `format` and `pattern` constraints to string fields (see Breaking changes for the limits that affect request bodies), by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* Test definitions aligned with the Commonalities r4.4 testing artifacts, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
 
 ### Fixed
 
-* N/A
+* Typo `papplicationProfileId` in the `network-quality` event corrected (see Breaking changes), by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* Required properties of `config.subscriptionDetail` corrected (see Breaking changes), by @Kevsy in https://github.com/camaraproject/ConnectivityInsights/pull/209
+* Corrected the device identification sections of the API description, which referred to `phoneNumber` instead of the `device` object, and the error handling text: `404 NOT_FOUND` is returned when the subscription identified by `subscriptionId` does not exist, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+* Fixed `externalDocs.url` trailing slash and `externalDocs.description` trailing period, by @Kevsy in https://github.com/camaraproject/ConnectivityInsights/pull/214
 
 ### Removed
 
-* N/A
+* `protocol` values `AMQP`, `KAFKA`, `MQTT3`, `MQTT5` and `NATS`, and `sinkCredential.credentialType` values `PLAIN` and `REFRESHTOKEN`, which were already not allowed by the 0.6.0 descriptions ("Only HTTP is allowed for now", "MUST be set to ACCESSTOKEN for now"), by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
 
 ## connectivity-insights 0.7.0
 
@@ -106,23 +124,31 @@ Changes documented below are compared to version 0.6.0.
 
 ### Breaking changes
 
-* N/A
+* `applicationProfileId` and `applicationServer` are now required in the `POST /check-network-quality` request body, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* New input limits on the `POST /check-network-quality` request body, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198 and @Kevsy in https://github.com/camaraproject/ConnectivityInsights/pull/214
+  * `applicationServerPorts.ports` and `applicationServerPorts.ranges` accept at most 100 entries, and port values (including `device.ipv4Address.publicPort`) must be between 1 and 65535 (previously 0 was accepted)
+  * `applicationServer.ipv4Address` and `applicationServer.ipv6Address` must be valid IPv4 / IPv6 addresses, optionally with a mask, of at most 18 and 49 characters
 
 ### Added
 
-* N/A
+* Error codes `422 UNSUPPORTED_IDENTIFIER` and `422 UNNECESSARY_IDENTIFIER` declared for `POST /check-network-quality`, with test scenarios for `422 MISSING_IDENTIFIER` and `422 UNNECESSARY_IDENTIFIER`, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198 and https://github.com/camaraproject/ConnectivityInsights/pull/224
 
 ### Changed
 
-* N/A
+* Aligned with Commonalities r4.4 (0.9.0): `Device`, `DeviceResponse`, `Port`, `XCorrelator` and the error responses are now referenced from `CAMARA_common.yaml`, and the mandatory `info.description` sections are added, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198 and https://github.com/camaraproject/ConnectivityInsights/pull/224
+* Adopted the request body strictness rule: requests with JSON bodies containing properties not declared in the specification are rejected with `400 INVALID_ARGUMENT`, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* Added `maxLength`, `format`, `minimum` and `maximum` constraints (see Breaking changes for the limits that affect request bodies), by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
+* Test definitions aligned with the Commonalities r4.4 testing artifacts, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
 
 ### Fixed
 
-* N/A
+* Fixed missing `type: object` declarations in schema definitions, by @hdamker in https://github.com/camaraproject/ConnectivityInsights/pull/193
+* Corrected the error handling text: `404 NOT_FOUND` is returned for an unknown `applicationProfileId`, `404 IDENTIFIER_NOT_FOUND` when the device cannot be identified, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+* Fixed `externalDocs.description` trailing period, by @Kevsy in https://github.com/camaraproject/ConnectivityInsights/pull/214
 
 ### Removed
 
-* N/A
+* Error code `403 INVALID_TOKEN_CONTEXT` removed from `POST /check-network-quality`, with the corresponding test scenario, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
 
 **Full Changelog**: https://github.com/camaraproject/ConnectivityInsights/compare/r3.2...r4.3
 
