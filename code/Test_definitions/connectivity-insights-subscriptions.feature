@@ -23,7 +23,6 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has same value as the request header "x-correlator"
     And the response body complies with the OAS schema at "#/components/schemas/Subscription"
-    And the response contains a valid "subscriptionId"
 
   @connectivity_insights_subscriptions_02_create_subscription_async
   Scenario: Create subscription asynchronously
@@ -37,7 +36,6 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has same value as the request header "x-correlator"
     And the response body complies with the OAS schema at "#/components/schemas/SubscriptionAsync"
-    And the response contains a valid "subscriptionId"
 
   @connectivity_insights_subscriptions_03_retrieve_empty_subscription_list
   Scenario: Retrieve a list of subscriptions when no subscriptions available
@@ -46,7 +44,8 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     Then the response code is 200
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has same value as the request header "x-correlator"
-    And the response body is an empty array
+    And the response body complies with the OAS schema at "#/components/schemas/SubscriptionList"
+    And the response body property "$.subscriptions" is an empty array
 
   @connectivity_insights_subscriptions_04_retrieve_subscription_list
   Scenario: Retrieve a list of subscriptions
@@ -55,7 +54,8 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     Then the response code is 200
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has same value as the request header "x-correlator"
-    And the response body has an array of items and each item complies with the OAS schema at "#/components/schemas/Subscription"
+    And the response body complies with the OAS schema at "#/components/schemas/SubscriptionList"
+    And each item in the response body property "$.subscriptions" complies with the OAS schema at "#/components/schemas/Subscription"
 
   @connectivity_insights_subscriptions_05_retrieve_subscription_by_id
   Scenario: Retrieve a subscription based on existing subscription-id
@@ -70,8 +70,22 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
   Scenario: Delete a subscription based on existing subscription-id
     Given the path parameter "subscriptionId" is set to the identifier of an existing subscription
     When the request "deleteSubscription" is sent
-    Then the response code is 204
+    Then the response code is 202 or 204
     And the response header "x-correlator" has same value as the request header "x-correlator"
+    And if the response code is 202 then the response body complies with the OAS schema at "#/components/schemas/SubscriptionAsync"
+
+  @connectivity_insights_subscriptions_07_create_subscription_with_private_key_jwt_sink_credential
+  Scenario: Create subscription synchronously with PRIVATE_KEY_JWT sinkCredential
+  # Applies to implementations that support PRIVATE_KEY_JWT, with the key mechanism provisioned out of band
+    Given that subscriptions are created synchronously
+    And the Private JWT key mechanism is pre-configured in the environment
+    And a valid subscription request body with network quality event type
+    And the request body property "$.sinkCredential.credentialType" is set to "PRIVATE_KEY_JWT"
+    When the request "createSubscription" is sent
+    Then the response code is 201
+    And the response header "Content-Type" is "application/json"
+    And the response header "x-correlator" has same value as the request header "x-correlator"
+    And the response body complies with the OAS schema at "#/components/schemas/Subscription"
 
   @connectivity_insights_subscriptions_08_receive_network_quality_notification
   Scenario: Receive network quality notification
@@ -115,16 +129,13 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
 
   @connectivity_insights_subscriptions_11_subscription_ends_on_delete
   Scenario: Receive notification for subscription-ended event on deletion
-    Given that subscriptions are created synchronously
-    And a valid subscription request body with network quality event type
-    And the request "createSubscription" is sent
-    And the response code is 201
-    When the request "deleteSubscription" is sent with the created subscription ID
-    Then the response code is 204
+    Given the path parameter "subscriptionId" is set to the identifier of an existing subscription
+    When the request "deleteSubscription" is sent
+    Then the response code is 202 or 204
     And event notification "subscription-ended" is received on callback-url
     And notification body complies with the OAS schema at "#/components/schemas/EventSubscriptionEnded"
     And type="org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended"
-    And the response property "$.data.terminationReason" is "NETWORK_TERMINATED"
+    And the response property "$.data.terminationReason" is "SUBSCRIPTION_DELETED"
 
   @connectivity_insights_subscriptions_12_initial_event
   Scenario: Receive initial event when requested
@@ -173,7 +184,8 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
   @connectivity_insights_subscriptions_16_invalid_credential_type
   Scenario: Create subscription with invalid credential type
     Given a valid subscription request body with network quality event type
-    And the request body property "$.sinkCredential.credentialType" is not "ACCESSTOKEN"
+    And the request body property "$.protocol" is set to "HTTP"
+    And the request body property "$.sinkCredential.credentialType" is not set to "ACCESSTOKEN" and is not set to "PRIVATE_KEY_JWT"
     When the request "createSubscription" is sent
     Then the response code is 400
     And the response property "$.status" is 400
@@ -183,11 +195,22 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
   @connectivity_insights_subscriptions_17_invalid_access_token_type
   Scenario: Create subscription with invalid access token type
     Given a valid subscription request body with network quality event type
+    And the request body property "$.sinkCredential.credentialType" is set to "ACCESSTOKEN"
     And the request body property "$.sinkCredential.accessTokenType" is not "bearer"
     When the request "createSubscription" is sent
     Then the response code is 400
     And the response property "$.status" is 400
     And the response property "$.code" is "INVALID_TOKEN"
+    And the response property "$.message" contains a user friendly text
+
+  @connectivity_insights_subscriptions_23_invalid_event_type
+  Scenario: Create subscription with invalid event type
+    Given a valid subscription request body with network quality event type
+    And the request body property "$.types" is set to invalid value
+    When the request "createSubscription" is sent
+    Then the response code is 400
+    And the response property "$.status" is 400
+    And the response property "$.code" is "INVALID_ARGUMENT"
     And the response property "$.message" contains a user friendly text
 
   @connectivity_insights_subscriptions_18_invalid_subscription_id_format
@@ -243,16 +266,6 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response property "$.code" is "PERMISSION_DENIED"
     And the response property "$.message" contains a user friendly text
 
-  @connectivity_insights_subscriptions_23_subscription_mismatch
-  Scenario: Inconsistent access token for requested events subscription
-    Given a valid subscription request body with network quality event type
-    And the request body property "$.types" contains an event type not supported by the API
-    When the request "createSubscription" is sent
-    Then the response code is 403
-    And the response property "$.status" is 403
-    And the response property "$.code" is "SUBSCRIPTION_MISMATCH"
-    And the response property "$.message" contains a user friendly text
-
   # 404 Error Scenarios
 
   @connectivity_insights_subscriptions_24_subscription_id_not_found
@@ -274,6 +287,18 @@ Feature: CAMARA Connectivity Insights Subscriptions API, vwip - Operations for S
     And the response property "$.message" contains a user friendly text
 
   # 422 Error Scenarios
+
+  @connectivity_insights_subscriptions_26_private_key_jwt_not_configured
+  Scenario: Create subscription with PRIVATE_KEY_JWT sinkCredential when the key mechanism is not configured
+    Given the API provider requires the use of a Private JWT key mechanism for subscription creation authentication
+    And the Private JWT key mechanism is not pre-configured in the environment
+    And a valid subscription request body with network quality event type
+    And the request body property "$.sinkCredential.credentialType" is set to "PRIVATE_KEY_JWT"
+    When the request "createSubscription" is sent
+    Then the response code is 422
+    And the response property "$.status" is 422
+    And the response property "$.code" is "PRIVATE_KEY_JWT_NOT_CONFIGURED"
+    And the response property "$.message" contains a user friendly text
 
   @connectivity_insights_subscriptions_27_service_not_applicable
   Scenario: Create subscription for a device not supported by the service
