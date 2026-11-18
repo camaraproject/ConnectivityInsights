@@ -43,14 +43,17 @@ Feature: CAMARA Connectivity Insights API, vwip - Operations for Network Quality
 
   @connectivity_insights_03_check_network_quality_with_additional_kpis
   Scenario: Check network quality with additional KPIs in response
-    Given a valid application profile exists with ID in the system
+  # additionalKPIs is optional in the response; this scenario only applies to implementations that return it
+    Given the implementation returns additional KPIs in the response
+    And a valid application profile exists with ID in the system
     And a valid network quality insight request body with that application profile ID
     When the request "checkNetworkQuality" is sent
     Then the response code is 200
+    And the response header "Content-Type" is "application/json"
+    And the response header "x-correlator" has same value as the request header "x-correlator"
     And the response body complies with the OAS schema at "#/components/schemas/NetworkQualityInsightResponse"
-    And the response contains additionalKPIs information
-    And the response property "$.additionalKPIs.signalStrength" is one of "excellent", "good", "fair", "poor", "no signal"
-    And the response property "$.additionalKPIs.connectivityType" is one of "5G-SA", "5G-NSA", "4G", "3G"
+    And the response property "$.additionalKPIs.signalStrength", if present, is one of "excellent", "good", "fair", "poor", "no signal"
+    And the response property "$.additionalKPIs.connectivityType", if present, is one of "5G-SA", "5G-NSA", "4G", "3G"
 
 ############### Error response scenarios ###########################
 
@@ -73,6 +76,16 @@ Feature: CAMARA Connectivity Insights API, vwip - Operations for Network Quality
     Then the response code is 400
     And the response property "$.status" is 400
     And the response property "$.code" is "INVALID_ARGUMENT"
+    And the response property "$.message" contains a user friendly text
+
+  @connectivity_insights_07_application_server_port_range_out_of_range
+  Scenario: Check network quality with an application server port range whose start is greater than its end
+    Given a valid network quality insight request body
+    And the request body property "$.applicationServerPorts.ranges[0].from" is set to a value greater than "$.applicationServerPorts.ranges[0].to"
+    When the request "checkNetworkQuality" is sent
+    Then the response code is 400
+    And the response property "$.status" is 400
+    And the response property "$.code" is "OUT_OF_RANGE"
     And the response property "$.message" contains a user friendly text
 
   # 401 Error Scenarios
@@ -163,6 +176,30 @@ Feature: CAMARA Connectivity Insights API, vwip - Operations for Network Quality
     Then the response code is 422
     And the response property "$.status" is 422
     And the response property "$.code" is "UNNECESSARY_IDENTIFIER"
+    And the response property "$.message" contains a user friendly text
+
+  @connectivity_insights_18_unsupported_identifier
+  Scenario: None of the provided device identifiers is supported by the implementation
+    Given that some types of device identifiers are not supported by the implementation
+    And the header "Authorization" is set to a valid access token which does not identify a single device
+    And a valid network quality insight request body
+    And the request body property "$.device" only includes device identifiers not supported by the implementation
+    When the request "checkNetworkQuality" is sent
+    Then the response code is 422
+    And the response property "$.status" is 422
+    And the response property "$.code" is "UNSUPPORTED_IDENTIFIER"
+    And the response property "$.message" contains a user friendly text
+
+  # When the service is only offered to certain types of devices or subscriptions, e.g. IoT, B2C, etc.
+  @connectivity_insights_19_service_not_applicable
+  Scenario: Service not available for the device
+    Given that the service is not available for all devices commercialized by the operator
+    And a valid network quality insight request body
+    And a valid device, identified by the token or provided in the request body, for which the service is not applicable
+    When the request "checkNetworkQuality" is sent
+    Then the response code is 422
+    And the response property "$.status" is 422
+    And the response property "$.code" is "SERVICE_NOT_APPLICABLE"
     And the response property "$.message" contains a user friendly text
 
   # 429 Error Scenarios
