@@ -138,7 +138,7 @@ Changes documented below are compared to version 0.6.0.
 * Aligned with Commonalities r4.4 (0.9.0): `Device`, `DeviceResponse`, `Port`, `XCorrelator` and the error responses are now referenced from `CAMARA_common.yaml`, and the mandatory `info.description` sections are added, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198 and https://github.com/camaraproject/ConnectivityInsights/pull/224
 * Adopted the request body strictness rule: requests with JSON bodies containing properties not declared in the specification are rejected with `400 INVALID_ARGUMENT`, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
 * Added `maxLength`, `format`, `minimum` and `maximum` constraints (see Breaking changes for the limits that affect request bodies), by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
-* Test definitions aligned with the Commonalities r4.4 testing artifacts, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
+* Test definitions: OAS schema references now use the `#/components/schemas/...` form, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
 
 ### Fixed
 
