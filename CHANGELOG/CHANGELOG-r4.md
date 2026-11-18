@@ -144,7 +144,6 @@ Changes documented below are compared to version 0.6.0.
 
 * Fixed missing `type: object` declarations in schema definitions, by @hdamker in https://github.com/camaraproject/ConnectivityInsights/pull/193
 * Corrected the error handling text: `404 NOT_FOUND` is returned for an unknown `applicationProfileId`, `404 IDENTIFIER_NOT_FOUND` when the device cannot be identified, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
-* Fixed `externalDocs.description` trailing period, by @Kevsy in https://github.com/camaraproject/ConnectivityInsights/pull/214
 
 ### Removed
 
