@@ -105,7 +105,7 @@ Changes documented below are compared to version 0.6.0.
 * Typo `papplicationProfileId` in the `network-quality` event corrected (see Breaking changes), by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
 * Required properties of `config.subscriptionDetail` corrected (see Breaking changes), by @Kevsy in https://github.com/camaraproject/ConnectivityInsights/pull/209
 * Corrected the device identification sections of the API description, which referred to `phoneNumber` instead of the `device` object, and the error handling text: `404 NOT_FOUND` is returned when the subscription identified by `subscriptionId` does not exist, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/224
-* Fixed `externalDocs.url` trailing slash and `externalDocs.description` trailing period, by @Kevsy in https://github.com/camaraproject/ConnectivityInsights/pull/214
+* The `subscription-ended` event is now mapped in the event discriminator under its event type `org.camaraproject.connectivity-insights-subscriptions.v0.subscription-ended`; 0.6.0 mapped it under `org.camaraproject.connectivityinsights.v0.eventSubscriptionEnded`, by @maheshc01 in https://github.com/camaraproject/ConnectivityInsights/pull/198
 
 ### Removed
 
